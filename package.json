@@ -12,6 +12,6 @@
   },
   "scripts": {
     "test": "node_modules/jasmine/bin/jasmine.js",
-    "jsdoc": "node_modules/.bin/jsdoc -c jsdoc.json"
+    "doc": "node_modules/.bin/jsdoc -c jsdoc.json"
   }
 }
