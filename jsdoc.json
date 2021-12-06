@@ -1,6 +1,7 @@
 {
   "source": {
-    "include": ["lib/index.js" ]
+    "include": ["lib/index.mjs" ],
+    "includePattern": ".+\\.(m|c)?js(doc|x)?$"
   },
   "opts": {
     "destination": "./docs",
