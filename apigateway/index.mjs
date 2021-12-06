@@ -7,7 +7,6 @@ class Index extends Page {
   }
   
   get() {
-    console.log('res', this.res);
     this.res.statusCode = 200;
     this.res.done(); 
   }

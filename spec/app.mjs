@@ -27,7 +27,6 @@ describe('#App', () => {
     };
     const { App } = await import('./../lib/app.mjs');
     let app = await new App(event, context);
-    console.log(app);
     expect(app).toEqual({
       'statusCode': 404, 
       'body': undefined, 
