@@ -4,7 +4,7 @@ describe('#App', () => {
   
   it('creates a new App and returns a resolved promise', async () => {
     const event = {
-      "routeKey": "GET /index",
+      "routeKey": "GET /",
       "requestContext": {
         "http": {
           "method": "GET"
@@ -27,6 +27,7 @@ describe('#App', () => {
     };
     const { App } = await import('./../lib/app.mjs');
     let app = await new App(event, context);
+    console.log(app);
     expect(app).toEqual({
       'statusCode': 404, 
       'body': undefined, 
