@@ -207,6 +207,63 @@ initiator (eg API Gateway, S3)</p>
 
         
             
+<h4 class="name" id="cacheHeader"><span class="type-signature"></span>cacheHeader<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <p>Get and Set the Cache-Control header</p>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
 <h4 class="name" id="contentType"><span class="type-signature"></span>contentType<span class="type-signature"> :string</span></h4>
 
 
@@ -343,6 +400,235 @@ initiator (eg API Gateway, S3)</p>
 
 <div class="description">
     <p>Cookies that have been set</p>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="csrf"><span class="type-signature"></span>csrf<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <p>Set a csrf cookie</p>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="endTimer"><span class="type-signature"></span>endTimer<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <p>End a timer. Used in conjunction with startTimer. If set,
+Response will include a header server-timing</p>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="header"><span class="type-signature"></span>header<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <p>Set a header</p>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="headers"><span class="type-signature">(readonly) </span>headers<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <p>headers that have been set</p>
 </div>
 
 
@@ -533,6 +819,64 @@ set to 3xx.</p>
 
         
             
+<h4 class="name" id="startTimer"><span class="type-signature"></span>startTimer<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <p>Start a timer. Used in conjunction with endTimer. If set,
+Response will include a header server-timing</p>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
 <h4 class="name" id="statusCode"><span class="type-signature"></span>statusCode<span class="type-signature"> :number</span></h4>
 
 
@@ -605,8 +949,175 @@ initiator (eg API Gateway, S3)</p>
 
 
         
+            
+<h4 class="name" id="timers"><span class="type-signature">(readonly) </span>timers<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <p>timers that have been set</p>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
     
 
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="done"><span class="type-signature"></span>done<span class="signature">()</span><span class="type-signature"> &rarr; {object}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Called when the request is done. The resolve of the Promise
+passed in to the constructor will be called with JSON</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>{statusCode, body, headers}</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
     
 
     
@@ -859,6 +1370,63 @@ initiator (eg API Gateway, S3)</p>
 
         
             
+<h4 class="name" id="cacheHeader"><span class="type-signature"></span>cacheHeader<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <p>Get and Set the Cache-Control header</p>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
 <h4 class="name" id="contentType"><span class="type-signature"></span>contentType<span class="type-signature"> :string</span></h4>
 
 
@@ -995,6 +1563,235 @@ initiator (eg API Gateway, S3)</p>
 
 <div class="description">
     <p>Cookies that have been set</p>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="csrf"><span class="type-signature"></span>csrf<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <p>Set a csrf cookie</p>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="endTimer"><span class="type-signature"></span>endTimer<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <p>End a timer. Used in conjunction with startTimer. If set,
+Response will include a header server-timing</p>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="header"><span class="type-signature"></span>header<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <p>Set a header</p>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="headers"><span class="type-signature">(readonly) </span>headers<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <p>headers that have been set</p>
 </div>
 
 
@@ -1185,6 +1982,64 @@ set to 3xx.</p>
 
         
             
+<h4 class="name" id="startTimer"><span class="type-signature"></span>startTimer<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <p>Start a timer. Used in conjunction with endTimer. If set,
+Response will include a header server-timing</p>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
 <h4 class="name" id="statusCode"><span class="type-signature"></span>statusCode<span class="type-signature"> :number</span></h4>
 
 
@@ -1257,8 +2112,175 @@ initiator (eg API Gateway, S3)</p>
 
 
         
+            
+<h4 class="name" id="timers"><span class="type-signature">(readonly) </span>timers<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <p>timers that have been set</p>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
     
 
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="done"><span class="type-signature"></span>done<span class="signature">()</span><span class="type-signature"> &rarr; {object}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Called when the request is done. The resolve of the Promise
+passed in to the constructor will be called with JSON</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>{statusCode, body, headers}</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
     
 
     
@@ -1280,7 +2302,7 @@ initiator (eg API Gateway, S3)</p>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Wed Dec 08 2021 16:06:37 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Wed Dec 08 2021 18:38:01 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
