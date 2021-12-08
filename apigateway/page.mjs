@@ -12,6 +12,11 @@ class Index extends Page {
     this.res.done(); 
   }
   
+  post() {
+    this.res.statusCode = 200;
+    this.res.done();
+  }
+  
   
 }
 

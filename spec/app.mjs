@@ -34,4 +34,22 @@ describe('#App', () => {
     });
   });
   
+  it('returns a status code of 200 for a POST request', async () => {
+    const event = {
+      "routeKey": "POST /page",
+      "requestContext": {
+        "http": {
+          "method": "POST"
+        }
+      }
+    };
+    const { App } = await import('./../lib/app.mjs');
+    let app = await new App(event, context);
+    expect(app).toEqual({
+      'statusCode': 200, 
+      'body': undefined, 
+      'headers': {'Content-Type': 'application/json'} 
+    });
+  });
+  
 })
