@@ -6,6 +6,7 @@ class Index extends Page {
     super(req, res);
   }
   
+  // set reponse status code to 200 and terminate connection
   get() {
     this.res.statusCode = 200;
     this.res.done(); 

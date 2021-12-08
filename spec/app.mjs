@@ -4,7 +4,7 @@ describe('#App', () => {
   
   it('creates a new App and returns a resolved promise', async () => {
     const event = {
-      "routeKey": "GET /",
+      "routeKey": "GET /page",
       "requestContext": {
         "http": {
           "method": "GET"
