@@ -15,7 +15,6 @@ class Index extends Html {
     this.css = ['/static/style.css'];
     this.themeColor = '#ffffff';
     this.webAppTitle = 'Some webapp title';
-    this.scripts = ['/static/index.js','/static/home.js'];
     this.scriptModules = ['/static/module.js','/static/component.js'];
     this.csrf = true;
     this.res.statusCode = 200;
@@ -41,6 +40,13 @@ class Index extends Html {
         'size': 180,
         'href': '/static/icon-180.png'
       }
+    ];
+  }
+  
+  get scripts() {
+    return [
+      '/static/index.js',
+      '/static/home.js'
     ];
   }
 
