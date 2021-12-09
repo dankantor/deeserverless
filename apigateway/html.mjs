@@ -2,8 +2,6 @@ import {Html} from './../lib/html.mjs';
 
 class Index extends Html {
   
-  #themeColor;
-  
   constructor(req, res) {
     super(req, res);
   }
