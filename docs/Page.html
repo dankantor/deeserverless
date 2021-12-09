@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: App</title>
+    <title>JSDoc: Class: Page</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: App</h1>
+    <h1 class="page-title">Class: Page</h1>
 
     
 
@@ -28,7 +28,7 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>App<span class="signature">(event, context)</span><span class="type-signature"> &rarr; {Promise}</span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>Page<span class="signature">(request, response)</span><span class="type-signature"></span></h2>
         
     
 </header>
@@ -41,17 +41,18 @@
     
 
     
-    <h4 class="name" id="App"><span class="type-signature"></span>new App<span class="signature">(event, context)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+    <h4 class="name" id="Page"><span class="type-signature"></span>new Page<span class="signature">(request, response)</span><span class="type-signature"></span></h4>
     
 
-    
-    <p class="summary"><p>App entry point</p></p>
     
 
 
 
 <div class="description">
-    <p>Creates new Request and Response objects.</p>
+    <p>Create a new Page object. This will call the Request method as a instance method
+(eg GET /index -&gt; [FILE SYSTEM]/apigateway/index get(..)) and set Request -&gt; this.req
+and Response -&gt; this.res. If no file is found it will set the Response statusCode to 404 and
+terminate the request.</p>
 </div>
 
 
@@ -87,13 +88,13 @@
 
         <tr>
             
-                <td class="name"><code>event</code></td>
+                <td class="name"><code>request</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type"><a href="Request.html">Request</a></span>
 
 
             
@@ -103,20 +104,20 @@
 
             
 
-            <td class="description last"><p>AWS event</p></td>
+            <td class="description last"><p>The Request object passed to your Class</p></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>context</code></td>
+                <td class="name"><code>response</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type"><a href="Response.html">Response</a></span>
 
 
             
@@ -126,7 +127,7 @@
 
             
 
-            <td class="description last"><p>AWS context</p></td>
+            <td class="description last"><p>The Response object passed to your Class</p></td>
         </tr>
 
     
@@ -187,39 +188,8 @@
 
 
 
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>Promise object with statusCode, body and headers</p>
-</div>
 
 
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>// Lambda in AWS SAM templte
-exports.lambdaHandler = async (event, context) => {
-  const { App } = await import('app.mjs');
-  return new App(event, context);
-}</code></pre>
 
 
 
