@@ -5,6 +5,7 @@
   "repository": "https://github.com/dankantor/deeserverless",
   "author": "Dan Kantor",
   "license": "MIT",
+  "main": "lib/index.mjs",
   "dependencies": {},
   "devDependencies": {
     "jasmine": "3.10.0",
