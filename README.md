@@ -3,6 +3,12 @@
 A simple framework to make working with [AWS Serverless Application Model (SAM)](https://aws.amazon.com/serverless/sam/)
 a little easier.
 
+It will turn AWS Events into an easier to use Request object and provide a Response object to easily
+return to the event initiator (eg API Gateway, S3, etc).
+
+It will also route requests to files on your filesystem 
+(eg GET /index -> `${process.cwd()}/apigateway/index.mjs`)
+
 View documentation - [https://dankantor.github.io/deeserverless/](https://dankantor.github.io/deeserverless/)
 
 For examples, check out the apigateway, ses, s3, etc folders. 
@@ -13,6 +19,8 @@ For examples, check out the apigateway, ses, s3, etc folders.
 
 ## Usage
 
+
+
 app.mjs 
 
 ```
@@ -22,7 +30,7 @@ exports.lambdaHandler = async (event, context) => {
 }
 ```
 
-/api/me.mjs
+/apigateway/api/me.mjs
 
 ```
 import {Page} from 'deeserverless';
@@ -33,9 +41,10 @@ class Me extends Page {
     super(req, res);
   }
   
-  // set reponse status code to 200 and terminate connection
+  // set response status code to 200 and terminate connection
   get() {
     this.res.statusCode = 200;
+    this.res.json = {"status": "ok"};
     this.res.done(); 
   }
   
@@ -50,7 +59,7 @@ class Me extends Page {
 export { Me as default };
 ```
 
-/index.mjs
+/apigateway/index.mjs
 ```
 import {Html} from 'deeserverless';
 
