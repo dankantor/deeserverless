@@ -154,4 +154,14 @@ describe('#Request', () => {
     expect(promise.headers['Set-Cookie']).toEqual('foo=bar;Secure;HttpOnly;Max-Age=604800;SameSite=lax;Path=/foo');
   });
   
+  it('sets and returns the isBase64Encoded response promise', async () => {
+    let promise = await new Promise((resolve, reject) => {
+      let response = new Response(resolve);
+      response.isBase64Encoded = true;
+      expect(response.isBase64Encoded).toEqual(true);
+      response.done();
+    });
+    expect(promise.isBase64Encoded).toEqual(true);
+  });
+  
 });
