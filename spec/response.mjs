@@ -164,4 +164,44 @@ describe('#Request', () => {
     expect(promise.isBase64Encoded).toEqual(true);
   });
   
+  it('sets and returns the csp Content-Security-Header with default-src object', async () => {
+    let promise = await new Promise((resolve, reject) => {
+      let response = new Response(resolve);
+      response.csp = {'default-src': ['self']};
+      expect(response.csp).toEqual("default-src 'self'");
+      response.done();
+    });
+    expect(promise.headers['Content-Security-Policy']).toEqual("default-src 'self'");
+  });
+  
+  it('sets and returns the csp Content-Security-Header with default-src and img-src object', async () => {
+    let promise = await new Promise((resolve, reject) => {
+      let response = new Response(resolve);
+      response.csp = {'default-src': ['self'], 'img-src': ['self', 'example.com']};
+      expect(response.csp).toEqual("default-src 'self'; img-src 'self' example.com");
+      response.done();
+    });
+    expect(promise.headers['Content-Security-Policy']).toEqual("default-src 'self'; img-src 'self' example.com");
+  });
+  
+  it('sets and returns the csp Content-Security-Header with style-src unsafe-inline object', async () => {
+    let promise = await new Promise((resolve, reject) => {
+      let response = new Response(resolve);
+      response.csp = {'style-src': ['unsafe-inline']};
+      expect(response.csp).toEqual("style-src 'unsafe-inline'");
+      response.done();
+    });
+    expect(promise.headers['Content-Security-Policy']).toEqual("style-src 'unsafe-inline'");
+  });
+  
+  it('sets and returns the csp Content-Security-Header with default-src string', async () => {
+    let promise = await new Promise((resolve, reject) => {
+      let response = new Response(resolve);
+      response.csp = "default-src 'self'";
+      expect(response.csp).toEqual("default-src 'self'");
+      response.done();
+    });
+    expect(promise.headers['Content-Security-Policy']).toEqual("default-src 'self'");
+  });
+  
 });
