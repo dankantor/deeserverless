@@ -164,4 +164,24 @@ describe('#Request', () => {
     expect(promise.isBase64Encoded).toEqual(true);
   });
   
+  it('sets and returns the csp Content-Security-Header with deafult-src', async () => {
+    let promise = await new Promise((resolve, reject) => {
+      let response = new Response(resolve);
+      response.csp = {'default-src': ['self']};
+      expect(response.csp).toEqual("default-src 'self'");
+      response.done();
+    });
+    expect(promise.headers['Content-Security-Policy']).toEqual("default-src 'self'");
+  });
+  
+  it('sets and returns the csp Content-Security-Header with deafult-src and img-src', async () => {
+    let promise = await new Promise((resolve, reject) => {
+      let response = new Response(resolve);
+      response.csp = {'default-src': ['self'], 'img-src': ['self', 'example.com']};
+      expect(response.csp).toEqual("default-src 'self'; img-src 'self' example.com");
+      response.done();
+    });
+    expect(promise.headers['Content-Security-Policy']).toEqual("default-src 'self'; img-src 'self' example.com");
+  });
+  
 });
