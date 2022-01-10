@@ -200,6 +200,51 @@ describe('#Html', () => {
     let idx3 = app.body.indexOf(`localStorage.setItem('csrf',`);
     expect(idx3).not.toBe(-1);
   });
+  
+  it('returns a canonical href = "https://example.com"', async () => {
+    const event = {
+      "routeKey": "GET /html",
+      "requestContext": {
+        "http": {
+          "method": "GET"
+        }
+      }
+    };
+    const { App } = await import('./../lib/app.mjs');
+    let app = await new App(event, context);
+    let idx = app.body.indexOf(`<link rel="canonical" href="https://example.com">`);
+    expect(idx).not.toBe(-1);
+  });
+  
+  it('returns headBottom content = `<script type="text/javascript">const HEAD_BOTTOM_FOO = "bar";</script>`', async () => {
+    const event = {
+      "routeKey": "GET /html",
+      "requestContext": {
+        "http": {
+          "method": "GET"
+        }
+      }
+    };
+    const { App } = await import('./../lib/app.mjs');
+    let app = await new App(event, context);
+    let idx = app.body.indexOf(`<script type="text/javascript">const HEAD_BOTTOM_FOO = "bar";</script>`);
+    expect(idx).not.toBe(-1);
+  });
+  
+  it('returns bodyBottom content = `<script type="text/javascript">const BODY_BOTTOM_FOO = "bar";</script>`', async () => {
+    const event = {
+      "routeKey": "GET /html",
+      "requestContext": {
+        "http": {
+          "method": "GET"
+        }
+      }
+    };
+    const { App } = await import('./../lib/app.mjs');
+    let app = await new App(event, context);
+    let idx = app.body.indexOf(`<script type="text/javascript">const BODY_BOTTOM_FOO = "bar";</script>`);
+    expect(idx).not.toBe(-1);
+  });
 
   
 })

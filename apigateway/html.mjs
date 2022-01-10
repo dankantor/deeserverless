@@ -13,9 +13,12 @@ class Index extends Html {
     this.css = ['/static/style.css'];
     this.themeColor = '#ffffff';
     this.webAppTitle = 'Some webapp title';
+    this.canonicalUrl = 'https://example.com';
+    this.headBottom = `<script type="text/javascript">const HEAD_BOTTOM_FOO = "bar";</script>`;
     this.scriptModules = ['/static/module.js','/static/component.js'];
     this.csrf = true;
     this.res.statusCode = 200;
+    this.bodyBottom = `<script type="text/javascript">const BODY_BOTTOM_FOO = "bar";</script>`;
     this.res.body = this.document;
     this.res.done(); 
   }
