@@ -97,9 +97,50 @@ class MyRule {
   // do something and then finish by resolving res promise
   constructor(req, res) {
     console.log('cron running');
-    this.res.resolve();
+    res.resolve(null, 'Finished');
   }
   
 }
+
+export { MyRule as default };
+```
+
+### S3 Events
+
+/s3/bucket-name.mjs
+
+```
+
+class Bucket {
+  
+  // do something and then finish by resolving res promise
+  constructor(req, res) {
+    console.log('received s3 event', req.event);
+    res.resolve();
+  }
+  
+}
+
+export { Bucket as default };
+```
+
+### SES Incoming Event
+
+/ses/incoming.mjs
+
+```
+
+class Incoming {
+  
+  // do something and then finish by resolving res promise
+  constructor(req, res) {
+    console.log('received ses event', req.event);
+    res.resolve(null, { 'disposition' : 'CONTINUE' });
+  }
+  
+}
+
+export { Incoming as default };
+```
 
 
