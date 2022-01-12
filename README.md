@@ -4,7 +4,7 @@ A simple framework to make working with [AWS Serverless Application Model (SAM)]
 a little easier.
 
 It will turn AWS Events into an easier to use Request object and provide a Response object to easily
-return to the event initiator (eg API Gateway, S3, etc).
+return to the event initiator (eg API Gateway, S3, Cloudwatch scheduled events, etc).
 
 It will also route requests to files on your filesystem 
 (eg GET /index -> `${process.cwd()}/apigateway/index.mjs`)
@@ -19,7 +19,7 @@ For examples, check out the apigateway, ses, s3, etc folders.
 
 ## Usage
 
-
+### API Gateway
 
 app.mjs 
 
@@ -85,4 +85,21 @@ class Index extends Html {
 
 export { Index as default };
 ```
+
+### Cloudwatch Scheduled Events
+
+/crons/my-rule.mjs
+
+```
+
+class MyRule {
+  
+  // do something and then finish by resolving res promise
+  constructor(req, res) {
+    console.log('cron running');
+    this.res.resolve();
+  }
+  
+}
+
 
