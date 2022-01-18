@@ -184,7 +184,7 @@ describe('#Request', () => {
       "time": "2015-10-08T16:53:06Z",
       "region": "us-east-1",
       "resources": [
-          "arn:aws:events:us-east-1:123456789012:rule/my-scheduled-rule"
+          "arn:aws:events:us-east-1:123456789012:rule/MyScheduledRule"
       ],
       "detail": {}
     };
@@ -202,7 +202,7 @@ describe('#Request', () => {
       "time": "2015-10-08T16:53:06Z",
       "region": "us-east-1",
       "resources": [
-          "arn:aws:events:us-east-1:123456789012:rule/my-scheduled-rule"
+          "arn:aws:events:us-east-1:123456789012:rule/MyScheduledRule"
       ],
       "detail": {}
     };
