@@ -8,7 +8,7 @@
   "main": "lib/index.mjs",
   "dependencies": {},
   "devDependencies": {
-    "jasmine": "3.10.0",
+    "jasmine": "4.0.2",
     "jsdoc": "3.6.7"
   },
   "scripts": {
