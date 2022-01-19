@@ -50,6 +50,13 @@ class Index extends Html {
       '/static/home.js'
     ];
   }
+  
+  get metaTags() {
+    return [
+      {'name': 'title', 'content': 'Some Title'},
+      {'property': 'og:description', 'content': 'Some Description'}
+    ];
+  }
 
 }
 

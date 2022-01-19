@@ -41,7 +41,7 @@ describe('#Html', () => {
     };
     const { App } = await import('./../lib/app.mjs');
     let app = await new App(event, context);
-    let idx = app.body.indexOf(`<meta name="description" content="Some description">`);
+    let idx = app.body.indexOf(`<meta name="description" content="Some description" />`);
     expect(idx).not.toBe(-1);
   });
   
@@ -56,7 +56,7 @@ describe('#Html', () => {
     };
     const { App } = await import('./../lib/app.mjs');
     let app = await new App(event, context);
-    let idx = app.body.indexOf(`<link rel="shortcut icon" href="favicon.jpg">`);
+    let idx = app.body.indexOf(`<link rel="shortcut icon" href="favicon.jpg" />`);
     expect(idx).not.toBe(-1);
   });
   
@@ -86,7 +86,7 @@ describe('#Html', () => {
     };
     const { App } = await import('./../lib/app.mjs');
     let app = await new App(event, context);
-    let idx = app.body.indexOf(`<link rel="stylesheet" type='text/css' href="/static/style.css">`);
+    let idx = app.body.indexOf(`<link rel="stylesheet" type='text/css' href="/static/style.css" />`);
     expect(idx).not.toBe(-1);
   });
   
@@ -101,7 +101,7 @@ describe('#Html', () => {
     };
     const { App } = await import('./../lib/app.mjs');
     let app = await new App(event, context);
-    let idx = app.body.indexOf(`<meta name="theme-color" content="#ffffff" id="theme-color">`);
+    let idx = app.body.indexOf(`<meta name="theme-color" content="#ffffff" id="theme-color" />`);
     expect(idx).not.toBe(-1);
   });
   
@@ -116,9 +116,9 @@ describe('#Html', () => {
     };
     const { App } = await import('./../lib/app.mjs');
     let app = await new App(event, context);
-    let idx = app.body.indexOf(`<meta name="apple-mobile-web-app-title" content="Some webapp title">`);
+    let idx = app.body.indexOf(`<meta name="apple-mobile-web-app-title" content="Some webapp title" />`);
     expect(idx).not.toBe(-1);
-    let idx2 = app.body.indexOf(`<meta name="apple-mobile-web-app-capable" content="yes">`);
+    let idx2 = app.body.indexOf(`<meta name="apple-mobile-web-app-capable" content="yes" />`);
     expect(idx2).not.toBe(-1);
   });
   
@@ -133,7 +133,7 @@ describe('#Html', () => {
     };
     const { App } = await import('./../lib/app.mjs');
     let app = await new App(event, context);
-    let idx = app.body.indexOf(`<link rel="apple-touch-icon" sizes="152x152" href="/static/icon-152.png"><link rel="apple-touch-icon" sizes="167x167" href="/static/icon-167.png"><link rel="apple-touch-icon" sizes="180x180" href="/static/icon-180.png">`);
+    let idx = app.body.indexOf(`<link rel="apple-touch-icon" sizes="152x152" href="/static/icon-152.png" /><link rel="apple-touch-icon" sizes="167x167" href="/static/icon-167.png" /><link rel="apple-touch-icon" sizes="180x180" href="/static/icon-180.png" />`);
     expect(idx).not.toBe(-1);
   });
   
@@ -212,7 +212,7 @@ describe('#Html', () => {
     };
     const { App } = await import('./../lib/app.mjs');
     let app = await new App(event, context);
-    let idx = app.body.indexOf(`<link rel="canonical" href="https://example.com">`);
+    let idx = app.body.indexOf(`<link rel="canonical" href="https://example.com" />`);
     expect(idx).not.toBe(-1);
   });
   
@@ -244,6 +244,23 @@ describe('#Html', () => {
     let app = await new App(event, context);
     let idx = app.body.indexOf(`<script type="text/javascript">const BODY_BOTTOM_FOO = "bar";</script>`);
     expect(idx).not.toBe(-1);
+  });
+  
+  it('returns correct meta tags', async () => {
+    const event = {
+      "routeKey": "GET /html",
+      "requestContext": {
+        "http": {
+          "method": "GET"
+        }
+      }
+    };
+    const { App } = await import('./../lib/app.mjs');
+    let app = await new App(event, context);
+    let idx = app.body.indexOf(`<meta name="title" content="Some Title" />`);
+    expect(idx).not.toBe(-1);
+    let idx1 = app.body.indexOf(`<meta property="og:description" content="Some Description" />`);
+    expect(idx1).not.toBe(-1);
   });
 
   
