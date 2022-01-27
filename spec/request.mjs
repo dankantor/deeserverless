@@ -184,9 +184,11 @@ describe('#Request', () => {
       "time": "2015-10-08T16:53:06Z",
       "region": "us-east-1",
       "resources": [
-          "arn:aws:events:us-east-1:123456789012:rule/MyScheduledRule"
+        "arn:aws:events:us-east-1:123456789012:rule/project-nameFunctionNameMyScheduledRule-asdfjkl"
       ],
-      "detail": {}
+      "detail": {
+        "cronFileName": "my-scheduled-rule"
+      }
     };
     let request = new Request(event);
     expect(request.type).toEqual('aws:cloudwatch:events');
@@ -202,9 +204,11 @@ describe('#Request', () => {
       "time": "2015-10-08T16:53:06Z",
       "region": "us-east-1",
       "resources": [
-          "arn:aws:events:us-east-1:123456789012:rule/MyScheduledRule"
+        "arn:aws:events:us-east-1:123456789012:rule/project-nameFunctionNameMyScheduledRule-asdfjkl"
       ],
-      "detail": {}
+      "detail": {
+        "cronFileName": "my-scheduled-rule"
+      }
     };
     let request = new Request(event);
     expect(request.file).toEqual('crons/my-scheduled-rule');
