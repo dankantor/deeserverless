@@ -88,6 +88,14 @@ export { Index as default };
 
 ### Cloudwatch Scheduled Events
 
+Event Rule should define constant JSON payload of
+```
+{
+  "source": "aws.events",
+  "cronFileName": "my-rule"
+}
+```
+
 /crons/my-rule.mjs
 
 ```
