@@ -152,7 +152,7 @@ export { Incoming as default };
 ```
 
 
-### SES Incoming Event
+### DynamoDB Stream Event
 
 /streams/table-name.mjs
 
