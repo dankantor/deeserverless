@@ -191,5 +191,79 @@ describe('#Request', () => {
     let request = new Request(event);
     expect(request.file).toEqual('crons/my-scheduled-rule');
   });
+
+  it('creates a new DynamoDB event Request', async () => {
+    const event = {
+      "Records": [
+        {
+          "eventID": "c4ca4238a0b923820dcc509a6f75849b",
+          "eventName": "INSERT",
+          "eventVersion": "1.1",
+          "eventSource": "aws:dynamodb",
+          "awsRegion": "us-east-1",
+          "dynamodb": {
+            "Keys": {
+              "Id": {
+                "N": "101"
+              }
+            },
+            "NewImage": {
+              "Message": {
+                "S": "New item!"
+              },
+              "Id": {
+                "N": "101"
+              }
+            },
+            "ApproximateCreationDateTime": 1428537600,
+            "SequenceNumber": "4421584500000000017450439091",
+            "SizeBytes": 26,
+            "StreamViewType": "NEW_AND_OLD_IMAGES"
+          },
+          "eventSourceARN": "arn:aws:dynamodb:us-east-1:123456789012:table/example-table/stream/2015-06-27T00:48:05.899"
+        }
+      ]
+    };
+
+    let request = new Request(event);
+    expect(request.type).toEqual('aws:dynamodb');
+  });
+
+  it('sets DynamoDB event file correctly', async () => {
+    const event = {
+      "Records": [
+        {
+          "eventID": "c4ca4238a0b923820dcc509a6f75849b",
+          "eventName": "INSERT",
+          "eventVersion": "1.1",
+          "eventSource": "aws:dynamodb",
+          "awsRegion": "us-east-1",
+          "dynamodb": {
+            "Keys": {
+              "Id": {
+                "N": "101"
+              }
+            },
+            "NewImage": {
+              "Message": {
+                "S": "New item!"
+              },
+              "Id": {
+                "N": "101"
+              }
+            },
+            "ApproximateCreationDateTime": 1428537600,
+            "SequenceNumber": "4421584500000000017450439091",
+            "SizeBytes": 26,
+            "StreamViewType": "NEW_AND_OLD_IMAGES"
+          },
+          "eventSourceARN": "arn:aws:dynamodb:us-east-1:123456789012:table/example-table/stream/2015-06-27T00:48:05.899"
+        }
+      ]
+    };
+
+    let request = new Request(event);
+    expect(request.file).toEqual('streams/example-table');
+  });
   
 })
