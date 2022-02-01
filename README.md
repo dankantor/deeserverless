@@ -157,13 +157,23 @@ export { Incoming as default };
 /streams/table-name.mjs
 
 ```
+import {Stream} from 'deeserverless';
 
-class TableName {
+class TableName exends Stream {
   
-  // do something and then finish by resolving res promise
-  constructor(req, res) {
-    console.log('received dynamodb stream event', req.event);
-    res.resolve();
+  // called once per inserted record
+  insert(record) {
+    // do work
+  }
+
+  // called once per modified record
+  modify(record) {
+    // do work
+  }
+
+  // called once per removed record
+  remove(record) {
+    // do work
   }
   
 }
