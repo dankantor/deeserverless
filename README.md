@@ -152,3 +152,23 @@ export { Incoming as default };
 ```
 
 
+### SES Incoming Event
+
+/streams/table-name.mjs
+
+```
+
+class TableName {
+  
+  // do something and then finish by resolving res promise
+  constructor(req, res) {
+    console.log('received dynamodb stream event', req.event);
+    res.resolve();
+  }
+  
+}
+
+export { TableName as default };
+```
+
+
