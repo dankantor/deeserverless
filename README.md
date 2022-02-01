@@ -162,17 +162,17 @@ import {Stream} from 'deeserverless';
 class TableName exends Stream {
   
   // called once per inserted record
-  insert(record) {
+  async insert(record) {
     // do work
   }
 
   // called once per modified record
-  modify(record) {
+  async modify(record) {
     // do work
   }
 
   // called once per removed record
-  remove(record) {
+  async remove(record) {
     // do work
   }
   
