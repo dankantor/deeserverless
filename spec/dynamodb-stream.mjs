@@ -1,8 +1,8 @@
-import {Stream} from './../lib/stream.mjs';
+import {DynamoDBStream} from '../lib/dynamodb-stream.mjs';
 import {Request} from './../lib/request.mjs';
 import {Response} from './../lib/response.mjs';
 
-describe('#Stream', () => {
+describe('#DynamoDBStream', () => {
   const event = {
     "Records": [
       {
@@ -101,7 +101,7 @@ describe('#Stream', () => {
     const request = new Request(event);
     const promise = await new Promise((resolve, _) => {
       const response = new Response(resolve);
-      const stream = new Stream(request, response);
+      const stream = new DynamoDBStream(request, response);
 
       expect(stream.req).toEqual(request);
       expect(stream.res).toEqual(response);
@@ -109,29 +109,28 @@ describe('#Stream', () => {
   });
 
   it('expect record eventName methods to be called with record', async () => {
-    spyOn(Stream.prototype, 'insert');
-    spyOn(Stream.prototype, 'modify');
-    spyOn(Stream.prototype, 'remove');
+    spyOn(DynamoDBStream.prototype, 'insert');
+    spyOn(DynamoDBStream.prototype, 'modify');
+    spyOn(DynamoDBStream.prototype, 'remove');
 
     const request = new Request(event);
     const promise = await new Promise((resolve, _) => {
       const response = new Response(resolve);
-      new Stream(request, response);
+      new DynamoDBStream(request, response);
     });
 
-    expect(Stream.prototype.insert).toHaveBeenCalledOnceWith(jasmine.objectContaining({
+    expect(DynamoDBStream.prototype.insert).toHaveBeenCalledOnceWith(jasmine.objectContaining({
       eventName: 'INSERT',
       eventID: 'c4ca4238a0b923820dcc509a6f75849b'
     }));
-    expect(Stream.prototype.modify).toHaveBeenCalledOnceWith(jasmine.objectContaining({
+    expect(DynamoDBStream.prototype.modify).toHaveBeenCalledOnceWith(jasmine.objectContaining({
       eventName: 'MODIFY',
       eventID: 'c81e728d9d4c2f636f067f89cc14862c'
     }));
-    expect(Stream.prototype.remove).toHaveBeenCalledOnceWith(jasmine.objectContaining({
+    expect(DynamoDBStream.prototype.remove).toHaveBeenCalledOnceWith(jasmine.objectContaining({
       eventName: 'REMOVE',
       eventID: 'eccbc87e4b5ce2fe28308fd9f2a7baf3'
     }));
-    expect(promise.statusCode).toEqual(200);
   });
   
 });

@@ -157,9 +157,9 @@ export { Incoming as default };
 /streams/table-name.mjs
 
 ```
-import {Stream} from 'deeserverless';
+import {DynamoDBStream} from 'deeserverless';
 
-class TableName exends Stream {
+class TableName exends DynamoDBStream {
   
   // called once per inserted record
   async insert(record) {
