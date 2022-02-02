@@ -152,3 +152,33 @@ export { Incoming as default };
 ```
 
 
+### DynamoDB Stream Event
+
+/streams/table-name.mjs
+
+```
+import {DynamoDBStream} from 'deeserverless';
+
+class TableName exends DynamoDBStream {
+  
+  // called once per inserted record
+  async insert(record) {
+    // do work
+  }
+
+  // called once per modified record
+  async modify(record) {
+    // do work
+  }
+
+  // called once per removed record
+  async remove(record) {
+    // do work
+  }
+  
+}
+
+export { TableName as default };
+```
+
+
