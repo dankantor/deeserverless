@@ -7,7 +7,7 @@ It will turn AWS Events into an easier to use Request object and provide a Respo
 return to the event initiator (eg API Gateway, S3, Cloudwatch scheduled events, etc).
 
 It will also route requests to files on your filesystem 
-(eg GET /index -> `${process.cwd()}/apigateway/index.mjs`)
+(eg GET /index -> `${process.cwd()}/apigateway/index.js`)
 
 View documentation - [https://dankantor.github.io/deeserverless/](https://dankantor.github.io/deeserverless/)
 
@@ -21,16 +21,18 @@ For examples, check out the apigateway, ses, s3, etc folders.
 
 ### API Gateway
 
-app.mjs 
+app.js 
 
 ```
+
+import { App } from 'deeserverless';
+
 exports.lambdaHandler = async (event, context) => {
-  const { App } = await import('deeserverless');
   return new App(event, context);
 }
 ```
 
-/apigateway/api/me.mjs
+/apigateway/api/me.js
 
 ```
 import {Page} from 'deeserverless';
@@ -59,7 +61,7 @@ class Me extends Page {
 export { Me as default };
 ```
 
-/apigateway/users_userid.mjs
+/apigateway/users_userid.js
 ```
 import {Html} from 'deeserverless';
 
@@ -96,7 +98,7 @@ Event Rule should define constant JSON payload of
 }
 ```
 
-/crons/my-rule.mjs
+/crons/my-rule.js
 
 ```
 
@@ -115,7 +117,7 @@ export { MyRule as default };
 
 ### S3 Events
 
-/s3/bucket-name.mjs
+/s3/bucket-name.js
 
 ```
 
@@ -134,7 +136,7 @@ export { Bucket as default };
 
 ### SES Incoming Event
 
-/ses/incoming.mjs
+/ses/incoming.js
 
 ```
 
@@ -154,7 +156,7 @@ export { Incoming as default };
 
 ### DynamoDB Stream Event
 
-/streams/table-name.mjs
+/streams/table-name.js
 
 ```
 import {DynamoDBStream} from 'deeserverless';
