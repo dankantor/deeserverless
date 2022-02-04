@@ -204,6 +204,20 @@ describe('#Request', () => {
     expect(request.fileExtension).toEqual('json');
   });
   
+  it('sets API Gateway empty fileExtension to undefined', async () => {
+    const event = {
+      "routeKey": "GET /page/foo",
+      "requestContext": {
+        "http": {
+          "method": "GET"
+        }
+      },
+      "rawPath": "/page/foo"
+    };
+    let request = new Request(event);
+    expect(request.fileExtension).toBeUndefined();
+  });
+  
   it('creates a new Cloudwatch scheduled event Request', async () => {
     const event = {
       "source": "aws.events",
