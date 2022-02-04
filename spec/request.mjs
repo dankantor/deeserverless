@@ -43,7 +43,7 @@ describe('#Request', () => {
   
   it('sets API Gateway Request quertStringParameters correctly', async () => {
     const event = {
-      "routeKey": "GET /page",
+      "routeKey": "GET /page?foo=bar",
       "requestContext": {
         "http": {
           "method": "GET"
@@ -59,7 +59,7 @@ describe('#Request', () => {
   
   it('sets API Gateway Request pathParameters correctly', async () => {
     const event = {
-      "routeKey": "GET /page",
+      "routeKey": "GET /page/{foo}",
       "requestContext": {
         "http": {
           "method": "GET"
@@ -67,6 +67,22 @@ describe('#Request', () => {
       },
       "pathParameters": {
         "foo": "bar"
+      }
+    };
+    let request = new Request(event);
+    expect(request.pathParameters).toEqual({ foo: 'bar' });
+  });
+  
+  it('sets API Gateway Request pathParameters correctly when last path has file extension', async () => {
+    const event = {
+      "routeKey": "GET /page/{foo}",
+      "requestContext": {
+        "http": {
+          "method": "GET"
+        }
+      },
+      "pathParameters": {
+        "foo": "bar.json"
       }
     };
     let request = new Request(event);
@@ -172,6 +188,34 @@ describe('#Request', () => {
     };
     let request = new Request(event);
     expect(request.body).toEqual({ foo: 'bar' });
+  });
+  
+  it('sets API Gateway fileExtension properly', async () => {
+    const event = {
+      "routeKey": "GET /page/foo.json",
+      "requestContext": {
+        "http": {
+          "method": "GET"
+        }
+      },
+      "rawPath": "/page/foo.json"
+    };
+    let request = new Request(event);
+    expect(request.fileExtension).toEqual('json');
+  });
+  
+  it('sets API Gateway empty fileExtension to undefined', async () => {
+    const event = {
+      "routeKey": "GET /page/foo",
+      "requestContext": {
+        "http": {
+          "method": "GET"
+        }
+      },
+      "rawPath": "/page/foo"
+    };
+    let request = new Request(event);
+    expect(request.fileExtension).toBeUndefined();
   });
   
   it('creates a new Cloudwatch scheduled event Request', async () => {
