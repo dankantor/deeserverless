@@ -16,6 +16,23 @@ describe('#Html', () => {
     expect(app.statusCode).toEqual(200);
   });
   
+  it('returns a 200 when page is not found', async () => {
+    const event = {
+      "routeKey": "GET /users/{userId}",
+      "requestContext": {
+        "http": {
+          "method": "GET"
+        }
+      },
+      "pathParameters": {
+        "userId": "abc"
+      }
+    };
+    const { App } = await import('./../lib/app.mjs');
+    let app = await new App(event, context);
+    expect(app.statusCode).toEqual(200);
+  });
+  
   it('returns a Content-Type of text/html', async () => {
     const event = {
       "routeKey": "GET /html",
@@ -262,6 +279,5 @@ describe('#Html', () => {
     let idx1 = app.body.indexOf(`<meta property="og:description" content="Some Description" />`);
     expect(idx1).not.toBe(-1);
   });
-
-  
+ 
 })

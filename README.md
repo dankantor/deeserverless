@@ -59,7 +59,7 @@ class Me extends Page {
 export { Me as default };
 ```
 
-/apigateway/index.mjs
+/apigateway/users_userid.mjs
 ```
 import {Html} from 'deeserverless';
 
