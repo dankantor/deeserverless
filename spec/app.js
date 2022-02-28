@@ -1,3 +1,4 @@
+import { App } from './../lib/app.js';
 const context = {};
 
 describe('#App', () => {
@@ -11,7 +12,6 @@ describe('#App', () => {
         }
       }
     };
-    const { App } = await import('./../lib/app.mjs');
     let app = new App(event, context);
     await expectAsync(app).toBeResolved();
   });
@@ -25,7 +25,6 @@ describe('#App', () => {
         }
       }
     };
-    const { App } = await import('./../lib/app.mjs');
     let app = await new App(event, context);
     expect(app.statusCode).toEqual(200);
   });
@@ -42,7 +41,6 @@ describe('#App', () => {
         "userId": "abc"
       }
     };
-    const { App } = await import('./../lib/app.mjs');
     let app = await new App(event, context);
     expect(app.statusCode).toEqual(200);
   });
@@ -56,7 +54,6 @@ describe('#App', () => {
         }
       }
     };
-    const { App } = await import('./../lib/app.mjs');
     let app = await new App(event, context);
     expect(app).toEqual({
       'statusCode': 404,
@@ -74,7 +71,6 @@ describe('#App', () => {
         }
       }
     };
-    const { App } = await import('./../lib/app.mjs');
     let app = await new App(event, context);
     expect(app).toEqual({
       'statusCode': 200,

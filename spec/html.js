@@ -1,3 +1,4 @@
+import { App } from './../lib/app.js';
 const context = {};
 
 describe('#Html', () => {
@@ -11,7 +12,6 @@ describe('#Html', () => {
         }
       }
     };
-    const { App } = await import('./../lib/app.mjs');
     let app = await new App(event, context);
     expect(app.headers['Content-Type']).toEqual('text/html');
   });
@@ -25,7 +25,6 @@ describe('#Html', () => {
         }
       }
     };
-    const { App } = await import('./../lib/app.mjs');
     let app = await new App(event, context);
     let idx = app.body.indexOf(`<meta name="description" content="Some description" />`);
     expect(idx).not.toBe(-1);
@@ -40,7 +39,6 @@ describe('#Html', () => {
         }
       }
     };
-    const { App } = await import('./../lib/app.mjs');
     let app = await new App(event, context);
     let idx = app.body.indexOf(`<link rel="shortcut icon" href="favicon.jpg" />`);
     expect(idx).not.toBe(-1);
@@ -55,7 +53,6 @@ describe('#Html', () => {
         }
       }
     };
-    const { App } = await import('./../lib/app.mjs');
     let app = await new App(event, context);
     let idx = app.body.indexOf(`<title>Some title</title>`);
     expect(idx).not.toBe(-1);
@@ -70,7 +67,6 @@ describe('#Html', () => {
         }
       }
     };
-    const { App } = await import('./../lib/app.mjs');
     let app = await new App(event, context);
     let idx = app.body.indexOf(`<link rel="stylesheet" type='text/css' href="/static/style.css" />`);
     expect(idx).not.toBe(-1);
@@ -85,7 +81,6 @@ describe('#Html', () => {
         }
       }
     };
-    const { App } = await import('./../lib/app.mjs');
     let app = await new App(event, context);
     let idx = app.body.indexOf(`<meta name="theme-color" content="#ffffff" id="theme-color" />`);
     expect(idx).not.toBe(-1);
@@ -100,7 +95,6 @@ describe('#Html', () => {
         }
       }
     };
-    const { App } = await import('./../lib/app.mjs');
     let app = await new App(event, context);
     let idx = app.body.indexOf(`<meta name="apple-mobile-web-app-title" content="Some webapp title" />`);
     expect(idx).not.toBe(-1);
@@ -117,7 +111,6 @@ describe('#Html', () => {
         }
       }
     };
-    const { App } = await import('./../lib/app.mjs');
     let app = await new App(event, context);
     let idx = app.body.indexOf(`<link rel="apple-touch-icon" sizes="152x152" href="/static/icon-152.png" /><link rel="apple-touch-icon" sizes="167x167" href="/static/icon-167.png" /><link rel="apple-touch-icon" sizes="180x180" href="/static/icon-180.png" />`);
     expect(idx).not.toBe(-1);
@@ -132,7 +125,6 @@ describe('#Html', () => {
         }
       }
     };
-    const { App } = await import('./../lib/app.mjs');
     let app = await new App(event, context);
     let idx = app.body.indexOf(`<div>Hello World</div>`);
     expect(idx).not.toBe(-1);
@@ -147,7 +139,6 @@ describe('#Html', () => {
         }
       }
     };
-    const { App } = await import('./../lib/app.mjs');
     let app = await new App(event, context);
     let idx = app.body.indexOf(`<script type="text/javascript" src="/static/index.js"></script><script type="text/javascript" src="/static/home.js"></script>`);
     expect(idx).not.toBe(-1);
@@ -162,7 +153,6 @@ describe('#Html', () => {
         }
       }
     };
-    const { App } = await import('./../lib/app.mjs');
     let app = await new App(event, context);
     let idx = app.body.indexOf(`<script type="module" src="/static/module.js"></script><script type="module" src="/static/component.js">`);
     expect(idx).not.toBe(-1);
@@ -177,7 +167,6 @@ describe('#Html', () => {
         }
       }
     };
-    const { App } = await import('./../lib/app.mjs');
     let app = await new App(event, context);
     let idx = app.headers['Set-Cookie'].indexOf('csrf=');
     expect(idx).not.toBe(-1);
@@ -196,7 +185,6 @@ describe('#Html', () => {
         }
       }
     };
-    const { App } = await import('./../lib/app.mjs');
     let app = await new App(event, context);
     let idx = app.body.indexOf(`<link rel="canonical" href="https://example.com" />`);
     expect(idx).not.toBe(-1);
@@ -211,7 +199,6 @@ describe('#Html', () => {
         }
       }
     };
-    const { App } = await import('./../lib/app.mjs');
     let app = await new App(event, context);
     let idx = app.body.indexOf(`<script type="text/javascript">const HEAD_BOTTOM_FOO = "bar";</script>`);
     expect(idx).not.toBe(-1);
@@ -226,7 +213,6 @@ describe('#Html', () => {
         }
       }
     };
-    const { App } = await import('./../lib/app.mjs');
     let app = await new App(event, context);
     let idx = app.body.indexOf(`<script type="text/javascript">const BODY_BOTTOM_FOO = "bar";</script>`);
     expect(idx).not.toBe(-1);
@@ -241,7 +227,6 @@ describe('#Html', () => {
         }
       }
     };
-    const { App } = await import('./../lib/app.mjs');
     let app = await new App(event, context);
     let idx = app.body.indexOf(`<meta name="title" content="Some Title" />`);
     expect(idx).not.toBe(-1);

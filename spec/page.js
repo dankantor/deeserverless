@@ -1,9 +1,9 @@
-import {Page} from './../lib/page.mjs';
-import {Request} from './../lib/request.mjs';
-import {Response} from './../lib/response.mjs';
+import {Page} from './../lib/page.js';
+import {Request} from './../lib/request.js';
+import {Response} from './../lib/response.js';
 
 describe('#Page', () => {
-  
+
   it('sets req and res on itself', async () => {
     const event = {
       "routeKey": "GET /page",
@@ -21,7 +21,7 @@ describe('#Page', () => {
       expect(page.res).toEqual(response);
     });
   });
-  
+
   it('returns a 404 when page is not found', async () => {
     const event = {
       "routeKey": "GET /page",
@@ -38,5 +38,5 @@ describe('#Page', () => {
     });
     expect(promise.statusCode).toEqual(404);
   });
-  
+
 });

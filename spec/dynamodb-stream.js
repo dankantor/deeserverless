@@ -1,6 +1,6 @@
-import {DynamoDBStream} from '../lib/dynamodb-stream.mjs';
-import {Request} from './../lib/request.mjs';
-import {Response} from './../lib/response.mjs';
+import {DynamoDBStream} from '../lib/dynamodb-stream.js';
+import {Request} from './../lib/request.js';
+import {Response} from './../lib/response.js';
 
 describe('#DynamoDBStream', () => {
   const event = {
@@ -96,7 +96,7 @@ describe('#DynamoDBStream', () => {
       }
     ]
   };
-  
+
   it('sets req and res on itself', async () => {
     const request = new Request(event);
     const promise = await new Promise((resolve, _) => {
@@ -132,5 +132,5 @@ describe('#DynamoDBStream', () => {
       eventID: 'eccbc87e4b5ce2fe28308fd9f2a7baf3'
     }));
   });
-  
+
 });
