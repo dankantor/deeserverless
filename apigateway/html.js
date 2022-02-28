@@ -1,11 +1,11 @@
-import {Html} from './../lib/html.mjs';
+import {Html} from './../lib/html.js';
 
 class Index extends Html {
-  
+
   constructor(req, res) {
     super(req, res);
   }
-  
+
   get() {
     this.favIcon = 'favicon.jpg';
     this.description = 'Some description';
@@ -20,13 +20,13 @@ class Index extends Html {
     this.res.statusCode = 200;
     this.bodyBottom = `<script type="text/javascript">const BODY_BOTTOM_FOO = "bar";</script>`;
     this.res.body = this.document;
-    this.res.done(); 
+    this.res.done();
   }
-  
+
   get body() {
     return `<div>Hello World</div>`;
   }
-  
+
   get appleTouchIcons() {
     return [
       {
@@ -43,14 +43,14 @@ class Index extends Html {
       }
     ];
   }
-  
+
   get scripts() {
     return [
       '/static/index.js',
       '/static/home.js'
     ];
   }
-  
+
   get metaTags() {
     return [
       {'name': 'title', 'content': 'Some Title'},

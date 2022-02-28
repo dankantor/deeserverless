@@ -1,7 +1,7 @@
-import {Request} from './../lib/request.mjs';
+import {Request} from './../lib/request.js';
 
 describe('#Request', () => {
-  
+
   it('creates a new API Gateway Request', async () => {
     const event = {
       "routeKey": "GET /page",
@@ -14,7 +14,7 @@ describe('#Request', () => {
     let request = new Request(event);
     expect(request.type).toEqual('aws:apigateway');
   });
-  
+
   it('sets API Gateway Request file correctly', async () => {
     const event = {
       "routeKey": "GET /page",
@@ -27,7 +27,7 @@ describe('#Request', () => {
     let request = new Request(event);
     expect(request.file).toEqual('apigateway/page');
   });
-  
+
   it('sets API Gateway Request method correctly', async () => {
     const event = {
       "routeKey": "GET /page",
@@ -40,7 +40,7 @@ describe('#Request', () => {
     let request = new Request(event);
     expect(request.method).toEqual('GET');
   });
-  
+
   it('sets API Gateway Request quertStringParameters correctly', async () => {
     const event = {
       "routeKey": "GET /page?foo=bar",
@@ -56,7 +56,7 @@ describe('#Request', () => {
     let request = new Request(event);
     expect(request.queryStringParameters).toEqual({ foo: 'bar' });
   });
-  
+
   it('sets API Gateway Request pathParameters correctly', async () => {
     const event = {
       "routeKey": "GET /page/{foo}",
@@ -72,7 +72,7 @@ describe('#Request', () => {
     let request = new Request(event);
     expect(request.pathParameters).toEqual({ foo: 'bar' });
   });
-  
+
   it('sets API Gateway Request pathParameters correctly when last path has file extension', async () => {
     const event = {
       "routeKey": "GET /page/{foo}",
@@ -88,7 +88,7 @@ describe('#Request', () => {
     let request = new Request(event);
     expect(request.pathParameters).toEqual({ foo: 'bar' });
   });
-  
+
   it('sets API Gateway Request cookies correctly', async () => {
     const event = {
       "routeKey": "GET /page",
@@ -104,7 +104,7 @@ describe('#Request', () => {
     let request = new Request(event);
     expect(request.cookies).toEqual({ foo: 'bar' });
   });
-  
+
   it('sets API Gateway Request headers correctly', async () => {
     const event = {
       "routeKey": "GET /page",
@@ -120,7 +120,7 @@ describe('#Request', () => {
     let request = new Request(event);
     expect(request.headers).toEqual({ 'content-type': 'application/json' });
   });
-  
+
   it('checks for API Gateway Request valid csrf correctly', async () => {
     const event = {
       "routeKey": "GET /page",
@@ -139,7 +139,7 @@ describe('#Request', () => {
     let request = new Request(event);
     expect(request.isValidCsrf).toEqual(true);
   });
-  
+
   it('rejects API Gateway Request invalid csrf correctly', async () => {
     const event = {
       "routeKey": "GET /page",
@@ -158,7 +158,7 @@ describe('#Request', () => {
     let request = new Request(event);
     expect(request.isValidCsrf).toEqual(false);
   });
-  
+
   it('sets API Gateway Request body correctly', async () => {
     const event = {
       "routeKey": "GET /page",
@@ -172,7 +172,7 @@ describe('#Request', () => {
     let request = new Request(event);
     expect(request.body).toEqual('foo');
   });
-  
+
   it('sets API Gateway Request body application/json correctly', async () => {
     const event = {
       "routeKey": "GET /page",
@@ -189,7 +189,7 @@ describe('#Request', () => {
     let request = new Request(event);
     expect(request.body).toEqual({ foo: 'bar' });
   });
-  
+
   it('sets API Gateway fileExtension properly', async () => {
     const event = {
       "routeKey": "GET /page/foo.json",
@@ -203,7 +203,7 @@ describe('#Request', () => {
     let request = new Request(event);
     expect(request.fileExtension).toEqual('json');
   });
-  
+
   it('sets API Gateway empty fileExtension to undefined', async () => {
     const event = {
       "routeKey": "GET /page/foo",
@@ -217,7 +217,7 @@ describe('#Request', () => {
     let request = new Request(event);
     expect(request.fileExtension).toBeUndefined();
   });
-  
+
   it('creates a new Cloudwatch scheduled event Request', async () => {
     const event = {
       "source": "aws.events",
@@ -226,7 +226,7 @@ describe('#Request', () => {
     let request = new Request(event);
     expect(request.type).toEqual('aws:cloudwatch:events');
   });
-  
+
   it('sets Cloudwatch scheduled event file correctly', async () => {
     const event = {
       "source": "aws.events",
@@ -309,5 +309,5 @@ describe('#Request', () => {
     let request = new Request(event);
     expect(request.file).toEqual('streams/example-table');
   });
-  
+
 })

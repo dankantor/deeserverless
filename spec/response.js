@@ -1,11 +1,11 @@
-import {Response} from './../lib/response.mjs';
+import {Response} from './../lib/response.js';
 
 const promise = () => {
   return new Promise((resolve, reject) => {});
 }
 
 describe('#Request', () => {
-  
+
   it('returns the Response statusCode of 500', async () => {
     let promise = await new Promise((resolve, reject) => {
       let response = new Response(resolve);
@@ -14,7 +14,7 @@ describe('#Request', () => {
     });
     expect(promise.statusCode).toEqual(500);
   });
-  
+
   it('sets and returns the Response statusCode of 200', async () => {
     let promise = await new Promise((resolve, reject) => {
       let response = new Response(resolve);
@@ -24,7 +24,7 @@ describe('#Request', () => {
     });
     expect(promise.statusCode).toEqual(200);
   });
-  
+
   it('sets and returns the Response body to "foo"', async () => {
     let promise = await new Promise((resolve, reject) => {
       let response = new Response(resolve);
@@ -34,7 +34,7 @@ describe('#Request', () => {
     });
     expect(promise.body).toEqual("foo");
   });
-  
+
   it('sets and returns the Response body to "{foo: bar}" from json object', async () => {
     let promise = await new Promise((resolve, reject) => {
       let response = new Response(resolve);
@@ -44,7 +44,7 @@ describe('#Request', () => {
     });
     expect(promise.body).toEqual('{"foo":"bar"}');
   });
-  
+
   it('returns the Response contentType of application/json', async () => {
     let promise = await new Promise((resolve, reject) => {
       let response = new Response(resolve);
@@ -53,7 +53,7 @@ describe('#Request', () => {
     });
     expect(promise.headers['Content-Type']).toEqual('application/json');
   });
-  
+
   it('sets and returns the Response contentType of text/html', async () => {
     let promise = await new Promise((resolve, reject) => {
       let response = new Response(resolve);
@@ -63,7 +63,7 @@ describe('#Request', () => {
     });
     expect(promise.headers['Content-Type']).toEqual('text/html');
   });
-  
+
   it('sets and returns the Response location to https://example.com', async () => {
     let promise = await new Promise((resolve, reject) => {
       let response = new Response(resolve);
@@ -73,7 +73,7 @@ describe('#Request', () => {
     });
     expect(promise.headers['Location']).toEqual("https://example.com");
   });
-  
+
   it('sets and returns the Response cookie to foo=bar', async () => {
     let promise = await new Promise((resolve, reject) => {
       let response = new Response(resolve);
@@ -83,7 +83,7 @@ describe('#Request', () => {
     });
     expect(promise.headers['Set-Cookie']).toEqual('foo=bar;Secure;HttpOnly;Max-Age=604800;SameSite=lax;Path=/;');
   });
-  
+
   it('sets and returns the Response cookie to foo=bar with custom max-age', async () => {
     let promise = await new Promise((resolve, reject) => {
       let response = new Response(resolve);
@@ -93,7 +93,7 @@ describe('#Request', () => {
     });
     expect(promise.headers['Set-Cookie']).toEqual('foo=bar;Secure;HttpOnly;Max-Age=2;SameSite=lax;Path=/;');
   });
-  
+
   it('sets and returns the Response cookie to foo=bar with custom expires', async () => {
     let promise = await new Promise((resolve, reject) => {
       let response = new Response(resolve);
@@ -103,7 +103,7 @@ describe('#Request', () => {
     });
     expect(promise.headers['Set-Cookie']).toEqual('foo=bar;Secure;HttpOnly;Expires=Wed, 08 Dec 2021 15:51:28 GMT;SameSite=lax;Path=/;');
   });
-  
+
   it('sets and returns the Response cookie to foo=bar without Secure', async () => {
     let promise = await new Promise((resolve, reject) => {
       let response = new Response(resolve);
@@ -113,7 +113,7 @@ describe('#Request', () => {
     });
     expect(promise.headers['Set-Cookie']).toEqual('foo=bar;HttpOnly;Max-Age=604800;SameSite=lax;Path=/;');
   });
-  
+
   it('sets and returns the Response cookie to foo=bar without HttpOnly', async () => {
     let promise = await new Promise((resolve, reject) => {
       let response = new Response(resolve);
@@ -123,7 +123,7 @@ describe('#Request', () => {
     });
     expect(promise.headers['Set-Cookie']).toEqual('foo=bar;Secure;Max-Age=604800;SameSite=lax;Path=/;');
   });
-  
+
   it('sets and returns the Response cookie to foo=bar with custom domain', async () => {
     let promise = await new Promise((resolve, reject) => {
       let response = new Response(resolve);
@@ -133,7 +133,7 @@ describe('#Request', () => {
     });
     expect(promise.headers['Set-Cookie']).toEqual('foo=bar;Secure;foo.com;HttpOnly;Max-Age=604800;SameSite=lax;Path=/;');
   });
-  
+
   it('sets and returns the Response cookie to foo=bar with custom SameSite', async () => {
     let promise = await new Promise((resolve, reject) => {
       let response = new Response(resolve);
@@ -143,7 +143,7 @@ describe('#Request', () => {
     });
     expect(promise.headers['Set-Cookie']).toEqual('foo=bar;Secure;HttpOnly;Max-Age=604800;SameSite=strict;Path=/;');
   });
-  
+
   it('sets and returns the Response cookie to foo=bar with custom Path', async () => {
     let promise = await new Promise((resolve, reject) => {
       let response = new Response(resolve);
@@ -153,7 +153,7 @@ describe('#Request', () => {
     });
     expect(promise.headers['Set-Cookie']).toEqual('foo=bar;Secure;HttpOnly;Max-Age=604800;SameSite=lax;Path=/foo');
   });
-  
+
   it('sets and returns the isBase64Encoded response promise', async () => {
     let promise = await new Promise((resolve, reject) => {
       let response = new Response(resolve);
@@ -163,7 +163,7 @@ describe('#Request', () => {
     });
     expect(promise.isBase64Encoded).toEqual(true);
   });
-  
+
   it('sets and returns the csp Content-Security-Header with default-src object', async () => {
     let promise = await new Promise((resolve, reject) => {
       let response = new Response(resolve);
@@ -173,7 +173,7 @@ describe('#Request', () => {
     });
     expect(promise.headers['Content-Security-Policy']).toEqual("default-src 'self'");
   });
-  
+
   it('sets and returns the csp Content-Security-Header with default-src and img-src object', async () => {
     let promise = await new Promise((resolve, reject) => {
       let response = new Response(resolve);
@@ -183,7 +183,7 @@ describe('#Request', () => {
     });
     expect(promise.headers['Content-Security-Policy']).toEqual("default-src 'self'; img-src 'self' example.com");
   });
-  
+
   it('sets and returns the csp Content-Security-Header with style-src unsafe-inline object', async () => {
     let promise = await new Promise((resolve, reject) => {
       let response = new Response(resolve);
@@ -193,7 +193,7 @@ describe('#Request', () => {
     });
     expect(promise.headers['Content-Security-Policy']).toEqual("style-src 'unsafe-inline'");
   });
-  
+
   it('sets and returns the csp Content-Security-Header with default-src string', async () => {
     let promise = await new Promise((resolve, reject) => {
       let response = new Response(resolve);
@@ -203,5 +203,5 @@ describe('#Request', () => {
     });
     expect(promise.headers['Content-Security-Policy']).toEqual("default-src 'self'");
   });
-  
+
 });
