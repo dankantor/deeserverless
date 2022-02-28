@@ -1,7 +1,7 @@
 const context = {};
 
 describe('#App', () => {
-  
+
   it('creates a new App and returns a resolved promise', async () => {
     const event = {
       "routeKey": "GET /page",
@@ -15,7 +15,38 @@ describe('#App', () => {
     let app = new App(event, context);
     await expectAsync(app).toBeResolved();
   });
-  
+
+  it('returns a status code of 200', async () => {
+    const event = {
+      "routeKey": "GET /html",
+      "requestContext": {
+        "http": {
+          "method": "GET"
+        }
+      }
+    };
+    const { App } = await import('./../lib/app.mjs');
+    let app = await new App(event, context);
+    expect(app.statusCode).toEqual(200);
+  });
+
+  it('returns a 200 for dynamic route', async () => {
+    const event = {
+      "routeKey": "GET /users/{userId}",
+      "requestContext": {
+        "http": {
+          "method": "GET"
+        }
+      },
+      "pathParameters": {
+        "userId": "abc"
+      }
+    };
+    const { App } = await import('./../lib/app.mjs');
+    let app = await new App(event, context);
+    expect(app.statusCode).toEqual(200);
+  });
+
   it('returns a status code of 404 when a file is not found', async () => {
     const event = {
       "routeKey": "GET /foo",
@@ -28,12 +59,12 @@ describe('#App', () => {
     const { App } = await import('./../lib/app.mjs');
     let app = await new App(event, context);
     expect(app).toEqual({
-      'statusCode': 404, 
-      'body': undefined, 
-      'headers': {'Content-Type': 'application/json'} 
+      'statusCode': 404,
+      'body': undefined,
+      'headers': {'Content-Type': 'application/json'}
     });
   });
-  
+
   it('returns a status code of 200 for a POST request', async () => {
     const event = {
       "routeKey": "POST /page",
@@ -46,10 +77,10 @@ describe('#App', () => {
     const { App } = await import('./../lib/app.mjs');
     let app = await new App(event, context);
     expect(app).toEqual({
-      'statusCode': 200, 
-      'body': undefined, 
-      'headers': {'Content-Type': 'application/json'} 
+      'statusCode': 200,
+      'body': undefined,
+      'headers': {'Content-Type': 'application/json'}
     });
   });
-  
+
 })
