@@ -25,9 +25,10 @@ app.js
 
 ```
 import { App } from 'deeserverless';
-exports.lambdaHandler = async (event, context) => {
+
+export const lambdaHandler = (event, context) => {
   return new App(event, context);
-}
+};
 ```
 
 /apigateway/api/me.js
