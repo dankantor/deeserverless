@@ -28,6 +28,19 @@ describe('#Request', () => {
     expect(request.file).toEqual('apigateway/page');
   });
 
+  it('sets API Gateway Request file correctly when there is a file extension', async () => {
+    const event = {
+      "routeKey": "GET /page.json",
+      "requestContext": {
+        "http": {
+          "method": "GET"
+        }
+      }
+    };
+    let request = new Request(event);
+    expect(request.file).toEqual('apigateway/page');
+  });
+
   it('sets API Gateway Request method correctly', async () => {
     const event = {
       "routeKey": "GET /page",
@@ -41,7 +54,7 @@ describe('#Request', () => {
     expect(request.method).toEqual('GET');
   });
 
-  it('sets API Gateway Request quertStringParameters correctly', async () => {
+  it('sets API Gateway Request queryStringParameters correctly', async () => {
     const event = {
       "routeKey": "GET /page?foo=bar",
       "requestContext": {
