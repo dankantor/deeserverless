@@ -73,6 +73,22 @@ describe('#Request', () => {
     expect(request.pathParameters).toEqual({ foo: 'bar' });
   });
 
+  it('sets API Gateway Request pathParameters correctly when last path has file extension with top level path param', async () => {
+    const event = {
+      "routeKey": "GET /{foo}",
+      "requestContext": {
+        "http": {
+          "method": "GET"
+        }
+      },
+      "pathParameters": {
+        "foo": "bar.json"
+      }
+    };
+    let request = new Request(event);
+    expect(request.pathParameters).toEqual({ foo: 'bar' });
+  });
+
   it('sets API Gateway Request pathParameters correctly when last path has file extension', async () => {
     const event = {
       "routeKey": "GET /page/{foo}",
