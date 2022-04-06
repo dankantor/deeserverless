@@ -38,7 +38,6 @@ describe('#Request', () => {
       }
     };
     let request = new Request(event);
-    console.log(request.queryStringParameters);
     expect(request.file).toEqual('apigateway/page');
   });
 
