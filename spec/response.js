@@ -204,4 +204,15 @@ describe('#Request', () => {
     expect(promise.headers['Content-Security-Policy']).toEqual("default-src 'self'");
   });
 
+  it('rejects a promise with a specific error', async () => {
+    try {
+      let promise = await new Promise((resolve, reject) => {
+        let response = new Response(resolve, reject);
+        response.reject("There was an error");
+      });
+    } catch (err) {
+      expect(err).toEqual("There was an error");
+    }
+  });
+
 });

@@ -1,6 +1,6 @@
 {
   "name": "deeserverless",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "A simple framework for AWS SAM",
   "repository": "https://github.com/dankantor/deeserverless",
   "author": "Dan Kantor",
@@ -9,8 +9,8 @@
   "type": "module",
   "dependencies": {},
   "devDependencies": {
-    "jasmine": "4.0.2",
-    "jsdoc": "3.6.10"
+    "jasmine": "4.5.0",
+    "jsdoc": "4.0.1"
   },
   "scripts": {
     "test": "node_modules/jasmine/bin/jasmine.js",
