@@ -339,4 +339,56 @@ describe('#Request', () => {
     expect(request.file).toEqual('streams/example-table');
   });
 
+  it('creates a new Cognito event Request', async () => {
+    const event = {
+      "version": "1",
+      "region": "us-east-1",
+      "userPoolId": "abcd",
+      "callerContext": {
+          "awsSdkVersion": "aws-sdk-unknown-unknown",
+          "clientId": "abcd"
+      },
+      "triggerSource": "PreSignUp_SignUp",
+      "request": {
+          "userAttributes": {
+              "email": "abcd"
+          },
+          "validationData": null
+      },
+      "response": {
+          "autoConfirmUser": false,
+          "autoVerifyEmail": false,
+          "autoVerifyPhone": false
+      }
+    }
+    let request = new Request(event);
+    expect(request.type).toEqual('aws:cognito');
+  });
+
+  it('sets Cloudwatch scheduled event file correctly', async () => {
+    const event = {
+      "version": "1",
+      "region": "us-east-1",
+      "userPoolId": "abcd",
+      "callerContext": {
+          "awsSdkVersion": "aws-sdk-unknown-unknown",
+          "clientId": "abcd"
+      },
+      "triggerSource": "PreSignUp_SignUp",
+      "request": {
+          "userAttributes": {
+              "email": "abcd"
+          },
+          "validationData": null
+      },
+      "response": {
+          "autoConfirmUser": false,
+          "autoVerifyEmail": false,
+          "autoVerifyPhone": false
+      }
+    }
+    let request = new Request(event);
+    expect(request.file).toEqual('cognito/presignup_signup');
+  });
+
 })
