@@ -52,7 +52,7 @@ describe('#Model', () => {
     expect(true).toEqual(true);
   });
 
-  it('Throws an error when validateString is given a null string', () => {
+  it('Throws an error when validateString is given a null input', () => {
     try {
       let model = new Model();
       model.validateString(null);
@@ -62,7 +62,7 @@ describe('#Model', () => {
     }
   });
 
-  it('Throws an error when validateString is given an undefined string', () => {
+  it('Throws an error when validateString is given an undefined input', () => {
     try {
       let model = new Model();
       model.validateString(undefined);
@@ -135,6 +135,82 @@ describe('#Model', () => {
       model.validateString("foo", {maxLength: 2});
     } catch (error) {
       expect(error.message).toEqual("Model variable must not exceed 2 characters.");
+      expect(error.$metadata.httpStatusCode).toEqual(400);
+    }
+  });
+
+  it('Validates a valid number', () => {
+    let model = new Model();
+    model.validateNumber(5);
+    expect(true).toEqual(true);
+  });
+
+  it('Throws an error when validateNumber is given a null input', () => {
+    try {
+      let model = new Model();
+      model.validateNumber(null);
+    } catch (error) {
+      expect(error.message).toEqual("Model variable is required.");
+      expect(error.$metadata.httpStatusCode).toEqual(400);
+    }
+  });
+
+  it('Throws an error when validateString is given an undefined input', () => {
+    try {
+      let model = new Model();
+      model.validateNumber(undefined);
+    } catch (error) {
+      expect(error.message).toEqual("Model variable is required.");
+      expect(error.$metadata.httpStatusCode).toEqual(400);
+    }
+  });
+
+  it('Throws an error when validateNumber is given a string', () => {
+    try {
+      let model = new Model();
+      model.validateNumber("5");
+    } catch (error) {
+      expect(error.message).toEqual("Model variable must be a number.");
+      expect(error.$metadata.httpStatusCode).toEqual(400);
+    }
+  });
+
+  it('Throws an error when validateNumber is given a number that is less than default minValue', () => {
+    try {
+      let model = new Model();
+      model.validateNumber(Number.MIN_SAFE_INTEGER - 1);
+    } catch (error) {
+      expect(error.message).toEqual(`Model variable must not be less than ${Number.MIN_SAFE_INTEGER}.`);
+      expect(error.$metadata.httpStatusCode).toEqual(400);
+    }
+  });
+
+  it('Throws an error when validateNumber is given a number that is less than given minValue', () => {
+    try {
+      let model = new Model();
+      model.validateNumber(5, {minValue: 10});
+    } catch (error) {
+      expect(error.message).toEqual(`Model variable must not be less than 10.`);
+      expect(error.$metadata.httpStatusCode).toEqual(400);
+    }
+  });
+
+  it('Throws an error when validateNumber is given a number that is greater than default maxValue', () => {
+    try {
+      let model = new Model();
+      model.validateNumber(Number.MAX_SAFE_INTEGER + 1);
+    } catch (error) {
+      expect(error.message).toEqual(`Model variable must not be greater than ${Number.MAX_SAFE_INTEGER}.`);
+      expect(error.$metadata.httpStatusCode).toEqual(400);
+    }
+  });
+
+  it('Throws an error when validateNumber is given a number that is greater than given maxValue', () => {
+    try {
+      let model = new Model();
+      model.validateNumber(5, {maxValue: 2});
+    } catch (error) {
+      expect(error.message).toEqual(`Model variable must not be greater than 2.`);
       expect(error.$metadata.httpStatusCode).toEqual(400);
     }
   });
