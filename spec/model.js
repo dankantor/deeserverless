@@ -7,9 +7,15 @@ describe('#Model', () => {
     expect(model.data.id).toEqual("foo");
   });
 
-  it('Creates a new Model and sets the modelName ', () => {
+  it('Creates a new Model and sets the modelName', () => {
     let model = new Model({id: "foo"});
     expect(model.modelName).toEqual("Model");
+  });
+
+  it('Is a No-op when modelName is set', () => {
+    let model = new Model({id: "foo"});
+    model.modelName = "test";
+    expect(true).toEqual(true);
   });
 
   it('Creates a new extended Model and sets data to vars correctly', () => {
@@ -42,8 +48,18 @@ describe('#Model', () => {
     class UserModel extends Model {}
     let userModel = new UserModel({id: "foo"});
     userModel.setVarsFromData();
-    let insertJSON = userModel.getObjectFromKeys(["id"]);
+    let insertJSON = userModel.getObjectFromKeys(["id", "deep"]);
     expect(insertJSON.id).toEqual("foo");
+  });
+
+  it('Returns the correct object from getObjectFromKeys when a value is null or undefined', () => {
+    class UserModel extends Model {}
+    let userModel = new UserModel({id: "foo", count: null});
+    userModel.setVarsFromData();
+    let insertJSON = userModel.getObjectFromKeys(["id", "count", "nothing"]);
+    expect(insertJSON.id).toEqual("foo");
+    expect(insertJSON.count).toBeUndefined();
+    expect(insertJSON.nothing).toBeUndefined();
   });
 
   it('Validates a valid string', () => {
@@ -92,9 +108,21 @@ describe('#Model', () => {
     }
   });
 
-  it('Does not throws an error when validateString is given an empty string but is not required', () => {
+  it('Does not throw an error when validateString is given an empty string but is not required', () => {
     let model = new Model();
     model.validateString("", {required: false});
+    expect(true).toEqual(true);
+  });
+
+  it('Does not throw an error when validateString is given a null input but is not required', () => {
+    let model = new Model();
+    model.validateString(null, {required: false});
+    expect(true).toEqual(true);
+  });
+
+  it('Does not throw an error when validateString is given an undefined input but is not required', () => {
+    let model = new Model();
+    model.validateString(undefined, {required: false});
     expect(true).toEqual(true);
   });
 
@@ -211,6 +239,163 @@ describe('#Model', () => {
       model.validateNumber(5, {maxValue: 2});
     } catch (error) {
       expect(error.message).toEqual(`Model variable must not be greater than 2.`);
+      expect(error.$metadata.httpStatusCode).toEqual(400);
+    }
+  });
+
+  it('Does not throw an error when validateNumber is given a null input but is not required', () => {
+    let model = new Model();
+    model.validateNumber(null, {required: false});
+    expect(true).toEqual(true);
+  });
+
+  it('Does not throw an error when validateNumber is given an undefined input but is not required', () => {
+    let model = new Model();
+    model.validateNumber(undefined, {required: false});
+    expect(true).toEqual(true);
+  });
+
+  it('Validates a valid url', () => {
+    let model = new Model();
+    model.validateUrl("https://example.com");
+    expect(true).toEqual(true);
+  });
+
+  it('Throws an error when validateUrl is given a non url', () => {
+    try {
+      let model = new Model();
+      model.validateUrl("foo");
+    } catch (error) {
+      expect(error.message).toEqual("Model variable must be a url.");
+      expect(error.$metadata.httpStatusCode).toEqual(400);
+    }
+  });
+
+  it('Throws an error when validateUrl is given a null input', () => {
+    try {
+      let model = new Model();
+      model.validateUrl(null);
+    } catch (error) {
+      expect(error.message).toEqual("Model variable is required.");
+      expect(error.$metadata.httpStatusCode).toEqual(400);
+    }
+  });
+
+  it('Throws an error when validateUrl is given an undefined input', () => {
+    try {
+      let model = new Model();
+      model.validateUrl(undefined);
+    } catch (error) {
+      expect(error.message).toEqual("Model variable is required.");
+      expect(error.$metadata.httpStatusCode).toEqual(400);
+    }
+  });
+
+  it('Does not throw an error when validateUrl is given a null input but is not required', () => {
+    let model = new Model();
+    model.validateUrl(null, {required: false});
+    expect(true).toEqual(true);
+  });
+
+  it('Does not throw an error when validateUrl is given an undefined input but is not required', () => {
+    let model = new Model();
+    model.validateUrl(undefined, {required: false});
+    expect(true).toEqual(true);
+  });
+
+  it('Throws an error when validateUrl is given a non http, https url', () => {
+    try {
+      let model = new Model();
+      model.validateUrl("ftp://example.com");
+    } catch (error) {
+      expect(error.message).toEqual("Model variable protocol must be http:,https:.");
+      expect(error.$metadata.httpStatusCode).toEqual(400);
+    }
+  });
+
+  it('Does not throw an error when validateUrl is given a url with a protocol that is contained in provided protocols', () => {
+    let model = new Model();
+    model.validateUrl("ftp://example.com", {protocols: ["https", "https:", "ftp:"]});
+    expect(true).toEqual(true);
+  });
+
+  it('Validates a valid email address', () => {
+    let model = new Model();
+    model.validateEmail("dan@example.com");
+    expect(true).toEqual(true);
+  });
+
+  it('Throws an error when validateEmail is given a non email address', () => {
+    try {
+      let model = new Model();
+      model.validateEmail("foo");
+    } catch (error) {
+      expect(error.message).toEqual("Model variable must be a valid email address.");
+      expect(error.$metadata.httpStatusCode).toEqual(400);
+    }
+  });
+
+  it('Throws an error when validateEmail is given a null input', () => {
+    try {
+      let model = new Model();
+      model.validateEmail(null);
+    } catch (error) {
+      expect(error.message).toEqual("Model variable is required.");
+      expect(error.$metadata.httpStatusCode).toEqual(400);
+    }
+  });
+
+  it('Throws an error when validateEmail is given an undefined input', () => {
+    try {
+      let model = new Model();
+      model.validateEmail(undefined);
+    } catch (error) {
+      expect(error.message).toEqual("Model variable is required.");
+      expect(error.$metadata.httpStatusCode).toEqual(400);
+    }
+  });
+
+  it('Does not throw an error when validateEmail is given a null input but is not required', () => {
+    let model = new Model();
+    model.validateEmail(null, {required: false});
+    expect(true).toEqual(true);
+  });
+
+  it('Does not throw an error when validateEmail is given an undefined input but is not required', () => {
+    let model = new Model();
+    model.validateEmail(undefined, {required: false});
+    expect(true).toEqual(true);
+  });
+
+  it('Throws an error when validateEmail is given an email address longer than 254 chars', () => {
+    try {
+      let longString = ''.padStart(255, "a");
+      let model = new Model();
+      model.validateEmail(`${longString}@example.com`);
+    } catch (error) {
+      expect(error.message).toEqual("Model variable must be a valid email address (less than 254 chars).");
+      expect(error.$metadata.httpStatusCode).toEqual(400);
+    }
+  });
+
+  it('Throws an error when validateEmail is given a first part larger than 64 chars', () => {
+    try {
+      let longString = ''.padStart(65, "#");
+      let model = new Model();
+      model.validateEmail(`${longString}@example.com`);
+    } catch (error) {
+      expect(error.message).toEqual("Model variable must be a valid email address (first part less than 65 chars).");
+      expect(error.$metadata.httpStatusCode).toEqual(400);
+    }
+  });
+
+  it('Throws an error when validateEmail is given a domain part larger than 63 chars', () => {
+    try {
+      let longString = ''.padStart(64, "a");
+      let model = new Model();
+      model.validateEmail(`dan@${longString}.com`);
+    } catch (error) {
+      expect(error.message).toEqual("Model variable must be a valid email address (domain part less than 64 chars).");
       expect(error.$metadata.httpStatusCode).toEqual(400);
     }
   });
