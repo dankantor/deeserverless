@@ -52,14 +52,31 @@ describe('#Model', () => {
     expect(insertJSON.id).toEqual("foo");
   });
 
-  it('Returns the correct object from getObjectFromKeys when a value is null or undefined', () => {
+  it('Returns the correct object from getObjectFromKeys when a value is null', () => {
     class UserModel extends Model {}
-    let userModel = new UserModel({id: "foo", count: null});
+    let userModel = new UserModel({id: "foo", nullProp: null});
     userModel.setVarsFromData();
-    let insertJSON = userModel.getObjectFromKeys(["id", "count", "nothing"]);
+    let insertJSON = userModel.getObjectFromKeys(["id", "nullProp"]);
     expect(insertJSON.id).toEqual("foo");
-    expect(insertJSON.count).toBeUndefined();
-    expect(insertJSON.nothing).toBeUndefined();
+    expect(insertJSON.nullProp).toBe(null);
+  });
+
+  it('Returns the correct object from getObjectFromKeys when a value is undefined', () => {
+    class UserModel extends Model {}
+    let userModel = new UserModel({id: "foo", undefinedProp: undefined});
+    userModel.setVarsFromData();
+    let insertJSON = userModel.getObjectFromKeys(["id", "undefinedProp"]);
+    expect(insertJSON.id).toEqual("foo");
+    expect(insertJSON.undefinedProp).toBeUndefined();
+  });
+
+  it('Returns the correct object from getObjectFromKeys when a value is false', () => {
+    class UserModel extends Model {}
+    let userModel = new UserModel({id: "foo", falseProp: false});
+    userModel.setVarsFromData();
+    let insertJSON = userModel.getObjectFromKeys(["id", "falseProp"]);
+    expect(insertJSON.id).toEqual("foo");
+    expect(insertJSON.falseProp).toBe(false);
   });
 
   it('Validates a valid string', () => {
