@@ -23,7 +23,7 @@ describe('#Model', () => {
   it('Creates a new extended Model and sets data to vars correctly', () => {
     class UserModel extends Model {}
     let userModel = new UserModel({id: "foo"});
-    userModel.setVarsFromData();
+    //userModel.setVarsFromData();
     expect(userModel.id).toEqual("foo");
   });
 
@@ -31,7 +31,7 @@ describe('#Model', () => {
     class UserModel extends Model {}
     let userModel = new UserModel();
     userModel.id = "foo";
-    userModel.setVarsFromData();
+    //userModel.setVarsFromData();
     expect(userModel.id).toEqual("foo");
   });
 
@@ -51,7 +51,7 @@ describe('#Model', () => {
   it('Returns the correct object from getObjectFromKeys', () => {
     class UserModel extends Model {}
     let userModel = new UserModel({id: "foo"});
-    userModel.setVarsFromData();
+    //userModel.setVarsFromData();
     let insertJSON = userModel.getObjectFromKeys(["id", "deep"]);
     expect(insertJSON.id).toEqual("foo");
   });
@@ -59,7 +59,7 @@ describe('#Model', () => {
   it('Returns the correct object from getObjectFromKeys when a value is null', () => {
     class UserModel extends Model {}
     let userModel = new UserModel({id: "foo", nullProp: null});
-    userModel.setVarsFromData();
+    //userModel.setVarsFromData();
     let insertJSON = userModel.getObjectFromKeys(["id", "nullProp"]);
     expect(insertJSON.id).toEqual("foo");
     expect(insertJSON.nullProp).toBe(null);
@@ -68,7 +68,7 @@ describe('#Model', () => {
   it('Returns the correct object from getObjectFromKeys when a value is undefined', () => {
     class UserModel extends Model {}
     let userModel = new UserModel({id: "foo", undefinedProp: undefined});
-    userModel.setVarsFromData();
+    //userModel.setVarsFromData();
     let insertJSON = userModel.getObjectFromKeys(["id", "undefinedProp"]);
     expect(insertJSON.id).toEqual("foo");
     expect(insertJSON.undefinedProp).toBeUndefined();
@@ -77,7 +77,7 @@ describe('#Model', () => {
   it('Returns the correct object from getObjectFromKeys when a value is false', () => {
     class UserModel extends Model {}
     let userModel = new UserModel({id: "foo", falseProp: false});
-    userModel.setVarsFromData();
+    //userModel.setVarsFromData();
     let insertJSON = userModel.getObjectFromKeys(["id", "falseProp"]);
     expect(insertJSON.id).toEqual("foo");
     expect(insertJSON.falseProp).toBe(false);
@@ -85,7 +85,7 @@ describe('#Model', () => {
 
   it('Validates required properties correctly', () => {
     let model = new Model({id: "foo"});
-    model.setVarsFromData();
+    //model.setVarsFromData();
     model.validateRequiredProperties(["id"]);
     expect(true).toBe(true);
   });
