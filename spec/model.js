@@ -12,10 +12,12 @@ describe('#Model', () => {
     expect(model.modelName).toEqual("Model");
   });
 
-  it('Is a No-op when modelName is set', () => {
+  it('It does not set modelName when it is different from the constructor name', () => {
     let model = new Model({id: "foo"});
+    console.warn = jasmine.createSpy("warn");
     model.modelName = "test";
-    expect(true).toEqual(true);
+    expect(console.warn).toHaveBeenCalledWith('Attempt to set modelName to anything other than Model is disallowed.');
+    expect(model.modelName).toEqual("Model");
   });
 
   it('Creates a new extended Model and sets data to vars correctly', () => {
@@ -33,14 +35,16 @@ describe('#Model', () => {
     expect(userModel.id).toEqual("foo");
   });
 
-  it('Creates a new extended Model and sets data to vars correctly with required vars', () => {
+  it('Creates a new extended Model and sets vars to properties correctly', () => {
     class UserModel extends Model {
       get count() {return 1}
       set count(n) {}
     }
     let userModel = new UserModel();
     let spy = spyOnProperty(userModel, "count", "set");
-    userModel.setVarsFromData({required: ["count"]});
+    userModel.setVarsFromObject({
+      count: 2
+    });
     expect(spy).toHaveBeenCalled();
   });
 
@@ -77,6 +81,41 @@ describe('#Model', () => {
     let insertJSON = userModel.getObjectFromKeys(["id", "falseProp"]);
     expect(insertJSON.id).toEqual("foo");
     expect(insertJSON.falseProp).toBe(false);
+  });
+
+  it('Validates required properties correctly', () => {
+    let model = new Model({id: "foo"});
+    model.setVarsFromData();
+    model.validateRequiredProperties(["id"]);
+    expect(true).toBe(true);
+  });
+
+  it('Throws a validation error when validateRequiredProperties is given an undefined property', () => {
+    try {
+      let model = new Model();
+      model.validateRequiredProperties(["id"]);
+    } catch (error) {
+      expect(error.message).toEqual("Model id is required.");
+      expect(error.$metadata.httpStatusCode).toEqual(400);
+    }
+  });
+
+  it('Throws a validation error when validateRequiredProperties is given a null property', () => {
+    try {
+      let model = new Model();
+      model.id = null;
+      model.validateRequiredProperties(["id"]);
+    } catch (error) {
+      expect(error.message).toEqual("Model id is required.");
+      expect(error.$metadata.httpStatusCode).toEqual(400);
+    }
+  });
+
+  it('Validates required properties correctly when checkForNull is false', () => {
+    let model = new Model();
+    model.id = null;
+    model.validateRequiredProperties(["id"], false);
+    expect(true).toBe(true);
   });
 
   it('Validates a valid string', () => {

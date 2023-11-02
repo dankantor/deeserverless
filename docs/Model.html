@@ -512,7 +512,7 @@ console.log(userModel.getObjectFromKeys(["id", "count"]) // {id: "foo", count: 4
     
 
     
-    <h4 class="name" id="setVarsFromData"><span class="type-signature"></span>setVarsFromData<span class="signature">(options)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="setVarsFromData"><span class="type-signature"></span>setVarsFromData<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
@@ -521,7 +521,7 @@ console.log(userModel.getObjectFromKeys(["id", "count"]) // {id: "foo", count: 4
 
 <div class="description">
     <p>Will set class members from all keys and values of the data
-member. If required keys are passed in, will try and set those as well.</p>
+member.</p>
 </div>
 
 
@@ -530,104 +530,6 @@ member. If required keys are passed in, will try and set those as well.</p>
 
 
 
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>options</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">
-                <h6>Properties</h6>
-                
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>required</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array.&lt;String></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-            </td>
-        </tr>
-
-    
-    </tbody>
-</table>
 
 
 
@@ -690,7 +592,7 @@ member. If required keys are passed in, will try and set those as well.</p>
     <h5>Example</h5>
     
     <pre class="prettyprint"><code>let userModel = new UserModel({id: "foo"})
-userModel.setVarsFromData({required: ["id"]}); // userModel.id has now been set</code></pre>
+userModel.setVarsFromData(); // userModel.id has now been set</code></pre>
 
 
 
@@ -1452,6 +1354,218 @@ error.message = &quot;UserModel id is required.&quot;</p></td>
     
 
     
+    <h4 class="name" id="validateRequiredProperties"><span class="type-signature"></span>validateRequiredProperties<span class="signature">(keys, checkForNull<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Validate that certain properties are set on the model. By
+default will check for undefined and null.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>keys</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;String></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>List of keys</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>checkForNull</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    true
+                
+                </td>
+            
+
+            <td class="description last"><p>If set to false will only check for
+undefined (not null)</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Throws:</h5>
+
+        
+
+    <div class="param-desc">
+    
+        
+<span class="param-type"><a href="ValidationError.html">ValidationError</a></span>
+
+
+    
+    </div>
+
+
+    
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>let userModel = new UserModel({id: "foo"})
+userModel.setVarsFromData();
+userModel.validateRequiredProperties(["id", "count"]); // will throw an
+error because 'count' is undefined.</code></pre>
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="validateString"><span class="type-signature"></span>validateString<span class="signature">(string, options)</span><span class="type-signature"></span></h4>
     
 
@@ -2124,7 +2238,7 @@ have an http: or https: protocol. Pass in a list of protocols to override this.<
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.1</a> on Thu Nov 02 2023 12:34:00 GMT-0400 (Eastern Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.1</a> on Thu Nov 02 2023 18:30:40 GMT-0400 (Eastern Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>
