@@ -29,14 +29,12 @@ class UserModel extends Model {
   }
 
   async fetch() {
-    //this.setVarsFromData({required: ["id"]});
     this.validateRequiredProperties(["id"]);
     this.count = 19;
     console.log("fetched", JSON.stringify(this));
   }
 
   async save() {
-  //  this.setVarsFromData({required: ["id", "count"]});
     this.validateRequiredProperties(["id", "count"]);
     let insertJSON = this.getObjectFromKeys(["modelName", "id", "count"]);
     console.log("inserting", insertJSON);
