@@ -521,7 +521,7 @@ describe('#Collection', () => {
     }
   });
 
-  it('Throws an error when validateString is given an undefined input', () => {
+  it('Throws an error when validateNumber is given an undefined input', () => {
     try {
       let collection = new Collection();
       collection.validateNumber(undefined);
