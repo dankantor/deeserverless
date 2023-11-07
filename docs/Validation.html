@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Model</title>
+    <title>JSDoc: Class: Validation</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: Model</h1>
+    <h1 class="page-title">Class: Validation</h1>
 
     
 
@@ -28,7 +28,7 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>Model<span class="signature">(data)</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>Validation<span class="signature">()</span><span class="type-signature"></span></h2>
         
     
 </header>
@@ -41,7 +41,7 @@
     
 
     
-    <h4 class="name" id="Model"><span class="type-signature"></span>new Model<span class="signature">(data)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Validation"><span class="type-signature"></span>new Validation<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
@@ -49,7 +49,8 @@
 
 
 <div class="description">
-    <p>Create a new Model object</p>
+    <p>Create a new Validation object. All methods on this class are
+static.</p>
 </div>
 
 
@@ -58,55 +59,6 @@
 
 
 
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>data</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>An object that can later be used to set instance variables</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
 
 
 
@@ -168,8 +120,7 @@
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>let model = new Model({id: "foo", count: 5})
- model.setVarsFromData();</code></pre>
+    <pre class="prettyprint"><code>Validation.validateString("foo")</code></pre>
 
 
 
@@ -177,15 +128,6 @@
     </div>
 
     
-        <h3 class="subsection-title">Extends</h3>
-
-        
-
-
-    <ul>
-        <li><a href="ModelCollectionBase.html">ModelCollectionBase</a></li>
-    </ul>
-
 
     
 
@@ -197,161 +139,6 @@
 
     
 
-    
-
-    
-        <h3 class="subsection-title">Members</h3>
-
-        
-            
-<h4 class="name" id="data"><span class="type-signature"></span>data<span class="type-signature"> :Object</span></h4>
-
-
-
-
-<div class="description">
-    <p>Get and Set the data property. Can be set by passing into
-constructor or any time after.</p>
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">Object</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>model.data = {id: "foo", count: 5};</code></pre>
-
-
-
-        
-            
-<h4 class="name" id="modelName"><span class="type-signature"></span>modelName<span class="type-signature"> :String</span></h4>
-
-
-
-
-<div class="description">
-    <p>Convenience function to get the constructor name of the class
-that is extending this Model.</p>
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">String</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>class UserModel extends Model {...}
-
-let userModel = new UserModel();
-console.log(userModel.modelName) // UserModel</code></pre>
-
-
-
-        
     
 
     
@@ -363,412 +150,7 @@ console.log(userModel.modelName) // UserModel</code></pre>
     
 
     
-    <h4 class="name" id="getObjectFromKeys"><span class="type-signature"></span>getObjectFromKeys<span class="signature">(keys)</span><span class="type-signature"> &rarr; {object}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    <p>Returns an object with keys and values picked from class members.
-Will not return a key/value pair if value is undefined.</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>keys</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array.&lt;String></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>List of keys</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="ModelCollectionBase.html#getObjectFromKeys">ModelCollectionBase#getObjectFromKeys</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>Object with keys and values picked from class members.</p>
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">object</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>let userModel = new UserModel({id: "foo", count: 4, email: "private@example.com"})
-console.log(userModel.getObjectFromKeys(["id", "count"]) // {id: "foo", count: 4}</code></pre>
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="setVarsFromData"><span class="type-signature"></span>setVarsFromData<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    <p>Will set class members from all keys and values of the data
-member.</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="ModelCollectionBase.html#setVarsFromData">ModelCollectionBase#setVarsFromData</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>let model = new Model({id: "foo"});
-model.setVarsFromData(); // model.id now set to "foo"</code></pre>
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="setVarsFromObject"><span class="type-signature"></span>setVarsFromObject<span class="signature">(object)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    <p>Will set class members from all keys and values of the object
-provided.</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>object</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="ModelCollectionBase.html#setVarsFromObject">ModelCollectionBase#setVarsFromObject</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>let userModel = new UserModel({id: "foo"})
-userModel.setVarsFromObject({count: 1}); // userModel.count has now been set</code></pre>
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="validateEmail"><span class="type-signature"></span>validateEmail<span class="signature">(emailAddress, options)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".validateEmail"><span class="type-signature">(static) </span>validateEmail<span class="signature">(email, options, thisName<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
     
 
     
@@ -800,7 +182,11 @@ userModel.setVarsFromObject({count: 1}); // userModel.count has now been set</co
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -812,7 +198,7 @@ userModel.setVarsFromObject({count: 1}); // userModel.count has now been set</co
 
         <tr>
             
-                <td class="name"><code>emailAddress</code></td>
+                <td class="name"><code>email</code></td>
             
 
             <td class="type">
@@ -825,7 +211,19 @@ userModel.setVarsFromObject({count: 1}); // userModel.count has now been set</co
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last"><p>The email address to be validated</p></td>
@@ -848,7 +246,19 @@ userModel.setVarsFromObject({count: 1}); // userModel.count has now been set</co
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">
@@ -924,6 +334,46 @@ userModel.setVarsFromObject({count: 1}); // userModel.count has now been set</co
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>thisName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    "validateUrl"
+                
+                </td>
+            
+
+            <td class="description last"><p>Set to have better error messaging, ie
+error.message = &quot;UserModel imageUrl is required.&quot;</p></td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -938,11 +388,6 @@ userModel.setVarsFromObject({count: 1}); // userModel.count has now been set</co
 
     
 
-    
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="ModelCollectionBase.html#validateEmail">ModelCollectionBase#validateEmail</a>
-    </li></ul></dd>
     
 
     
@@ -1020,7 +465,7 @@ userModel.setVarsFromObject({count: 1}); // userModel.count has now been set</co
     
 
     
-    <h4 class="name" id="validateNumber"><span class="type-signature"></span>validateNumber<span class="signature">(number, options)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".validateNumber"><span class="type-signature">(static) </span>validateNumber<span class="signature">(number, options, thisName<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
     
 
     
@@ -1052,7 +497,11 @@ userModel.setVarsFromObject({count: 1}); // userModel.count has now been set</co
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -1077,7 +526,19 @@ userModel.setVarsFromObject({count: 1}); // userModel.count has now been set</co
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last"><p>The number to be validated</p></td>
@@ -1100,7 +561,19 @@ userModel.setVarsFromObject({count: 1}); // userModel.count has now been set</co
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">
@@ -1284,7 +757,7 @@ check the number for a maximum value.</p></td>
             
 
             <td class="description last"><p>Set to have better error messaging, ie
-error.message = &quot;UserModel id is required.&quot;</p></td>
+error.message = &quot;UserModel count is required.&quot;</p></td>
         </tr>
 
     
@@ -1292,6 +765,46 @@ error.message = &quot;UserModel id is required.&quot;</p></td>
 </table>
 
             </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>thisName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    "validateNumber"
+                
+                </td>
+            
+
+            <td class="description last"><p>Set to have better error messaging, ie
+error.message = &quot;UserModel count is required.&quot;</p></td>
         </tr>
 
     
@@ -1309,11 +822,6 @@ error.message = &quot;UserModel id is required.&quot;</p></td>
 
     
 
-    
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="ModelCollectionBase.html#validateNumber">ModelCollectionBase#validateNumber</a>
-    </li></ul></dd>
     
 
     
@@ -1391,7 +899,7 @@ error.message = &quot;UserModel id is required.&quot;</p></td>
     
 
     
-    <h4 class="name" id="validateRequiredProperties"><span class="type-signature"></span>validateRequiredProperties<span class="signature">(keys, checkForNull<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".validateString"><span class="type-signature">(static) </span>validateString<span class="signature">(string, options, thisName<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
     
 
     
@@ -1399,8 +907,7 @@ error.message = &quot;UserModel id is required.&quot;</p></td>
 
 
 <div class="description">
-    <p>Validate that certain properties are set on the model. By
-default will check for undefined and null.</p>
+    <p>Validate a string</p>
 </div>
 
 
@@ -1440,218 +947,6 @@ default will check for undefined and null.</p>
 
         <tr>
             
-                <td class="name"><code>keys</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array.&lt;String></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last"><p>List of keys</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>checkForNull</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    true
-                
-                </td>
-            
-
-            <td class="description last"><p>If set to false will only check for
-undefined (not null)</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="ModelCollectionBase.html#validateRequiredProperties">ModelCollectionBase#validateRequiredProperties</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Throws:</h5>
-
-        
-
-    <div class="param-desc">
-    
-        
-<span class="param-type"><a href="ValidationError.html">ValidationError</a></span>
-
-
-    
-    </div>
-
-
-    
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>let userModel = new UserModel({id: "foo"})
-userModel.setVarsFromData();
-userModel.validateRequiredProperties(["id", "count"]); // will throw an
-error because 'count' is undefined.</code></pre>
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="validateString"><span class="type-signature"></span>validateString<span class="signature">(string, options)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    <p>Validate a string</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
                 <td class="name"><code>string</code></td>
             
 
@@ -1665,7 +960,19 @@ error because 'count' is undefined.</code></pre>
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last"><p>The string to be validated</p></td>
@@ -1688,7 +995,19 @@ error because 'count' is undefined.</code></pre>
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">
@@ -1881,6 +1200,46 @@ error.message = &quot;UserModel id is required.&quot;</p></td>
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>thisName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    "validateString"
+                
+                </td>
+            
+
+            <td class="description last"><p>Set to have better error messaging, ie
+error.message = &quot;UserModel id is required.&quot;</p></td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -1895,11 +1254,6 @@ error.message = &quot;UserModel id is required.&quot;</p></td>
 
     
 
-    
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="ModelCollectionBase.html#validateString">ModelCollectionBase#validateString</a>
-    </li></ul></dd>
     
 
     
@@ -1977,7 +1331,7 @@ error.message = &quot;UserModel id is required.&quot;</p></td>
     
 
     
-    <h4 class="name" id="validateUrl"><span class="type-signature"></span>validateUrl<span class="signature">(url, options)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".validateUrl"><span class="type-signature">(static) </span>validateUrl<span class="signature">(url, options, thisName<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
     
 
     
@@ -2009,7 +1363,11 @@ error.message = &quot;UserModel id is required.&quot;</p></td>
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -2034,7 +1392,19 @@ error.message = &quot;UserModel id is required.&quot;</p></td>
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last"><p>The url to be validated</p></td>
@@ -2057,7 +1427,19 @@ error.message = &quot;UserModel id is required.&quot;</p></td>
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">
@@ -2166,10 +1548,88 @@ have an http: or https: protocol. Pass in a list of protocols to override this.<
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>Set to have better error messaging, ie
+error.message = &quot;UserModel imageUrl is required.&quot;</p></td>
+        </tr>
+
+    
     </tbody>
 </table>
 
             </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>thisName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    "validateUrl"
+                
+                </td>
+            
+
+            <td class="description last"><p>Set to have better error messaging, ie
+error.message = &quot;UserModel imageUrl is required.&quot;</p></td>
         </tr>
 
     
@@ -2187,11 +1647,6 @@ have an http: or https: protocol. Pass in a list of protocols to override this.<
 
     
 
-    
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="ModelCollectionBase.html#validateUrl">ModelCollectionBase#validateUrl</a>
-    </li></ul></dd>
     
 
     

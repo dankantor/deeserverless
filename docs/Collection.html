@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Model</title>
+    <title>JSDoc: Class: Collection</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: Model</h1>
+    <h1 class="page-title">Class: Collection</h1>
 
     
 
@@ -28,7 +28,7 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>Model<span class="signature">(data)</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>Collection<span class="signature">(data)</span><span class="type-signature"></span></h2>
         
     
 </header>
@@ -41,7 +41,7 @@
     
 
     
-    <h4 class="name" id="Model"><span class="type-signature"></span>new Model<span class="signature">(data)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Collection"><span class="type-signature"></span>new Collection<span class="signature">(data)</span><span class="type-signature"></span></h4>
     
 
     
@@ -49,7 +49,7 @@
 
 
 <div class="description">
-    <p>Create a new Model object</p>
+    <p>Create a new Collection object</p>
 </div>
 
 
@@ -168,8 +168,8 @@
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>let model = new Model({id: "foo", count: 5})
- model.setVarsFromData();</code></pre>
+    <pre class="prettyprint"><code>let collection = new Collection({id: "foo"})
+collection.setVarsFromData();</code></pre>
 
 
 
@@ -201,6 +201,81 @@
 
     
         <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id="collectionName"><span class="type-signature"></span>collectionName<span class="type-signature"> :String</span></h4>
+
+
+
+
+<div class="description">
+    <p>Convenience function to get the constructor name of the class
+that is extending this Collection.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">String</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>class UserCollection extends Collection {...}
+let userCollection = new UserCollection();
+console.log(userCollection.collectionName) // UserCollection</code></pre>
+
+
 
         
             
@@ -271,20 +346,20 @@ constructor or any time after.</p>
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>model.data = {id: "foo", count: 5};</code></pre>
+    <pre class="prettyprint"><code>collection.data = {id: "foo", count: 5};</code></pre>
 
 
 
         
             
-<h4 class="name" id="modelName"><span class="type-signature"></span>modelName<span class="type-signature"> :String</span></h4>
+<h4 class="name" id="model"><span class="type-signature"></span>model<span class="type-signature"> :Object</span></h4>
 
 
 
 
 <div class="description">
-    <p>Convenience function to get the constructor name of the class
-that is extending this Model.</p>
+    <p>Get and Set the model property. If set, any plain objects
+pushed to models will be converted to this type.</p>
 </div>
 
 
@@ -293,7 +368,7 @@ that is extending this Model.</p>
     <ul>
         <li>
             
-<span class="param-type">String</span>
+<span class="param-type">Object</span>
 
 
         </li>
@@ -344,10 +419,235 @@ that is extending this Model.</p>
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>class UserModel extends Model {...}
+    <pre class="prettyprint"><code>class UserModel {...}
+let userCollection = new UserCollection();
+userCollection.model = UserModel;</code></pre>
 
-let userModel = new UserModel();
-console.log(userModel.modelName) // UserModel</code></pre>
+
+
+        
+            
+<h4 class="name" id="model"><span class="type-signature"></span>model<span class="type-signature"> :Array.&lt;Object></span></h4>
+
+
+
+
+<div class="description">
+    <p>List of models that the collection contains.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Array.&lt;Object></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>class UserModel {...}
+let userModel1 = new UserModel();
+let userModel2 = new UserModel();
+let userCollection = new UserCollection();
+userCollection.model = UserModel;
+userCollection.models = [userModel1, userModel2];</code></pre>
+
+
+
+        
+            
+<h4 class="name" id="modelIds"><span class="type-signature"></span>modelIds<span class="type-signature"> :Array.&lt;Object></span></h4>
+
+
+
+
+<div class="description">
+    <p>Returns a list of ids from 'models'.
+class UserModel {...}
+let userModel1 = new UserModel({id: 1});
+let userModel2 = new UserModel({id: 2});
+let userCollection = new UserCollection();
+userCollection.model = UserModel;
+userCollection.models = [userModel1, userModel2];
+userCollection.modelIds // [1,2]</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Array.&lt;Object></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="uniqueModelIds"><span class="type-signature"></span>uniqueModelIds<span class="type-signature"> :Array.&lt;Object></span></h4>
+
+
+
+
+<div class="description">
+    <p>Returns a list of unique ids from 'models'.
+class UserModel {...}
+let userModel1 = new UserModel({id: 1});
+let userModel2 = new UserModel({id: 2});
+let userModel3 = new UserModel({id: 2});
+let userCollection = new UserCollection();
+userCollection.model = UserModel;
+userCollection.models = [userModel1, userModel2, userModel3];
+userCollection.modelIds // [1,2]</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Array.&lt;Object></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
 
 
 
@@ -529,7 +829,7 @@ console.log(userModel.getObjectFromKeys(["id", "count"]) // {id: "foo", count: 4
     
 
     
-    <h4 class="name" id="setVarsFromData"><span class="type-signature"></span>setVarsFromData<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="matchModelsAndObjects"><span class="type-signature"></span>matchModelsAndObjects<span class="signature">(objects, objectProp, modelProp, callbackFn)</span><span class="type-signature"></span></h4>
     
 
     
@@ -537,8 +837,8 @@ console.log(userModel.getObjectFromKeys(["id", "count"]) // {id: "foo", count: 4
 
 
 <div class="description">
-    <p>Will set class members from all keys and values of the data
-member.</p>
+    <p>Given a list of objects and properties to find, will return
+the first model that matches thoe properties.</p>
 </div>
 
 
@@ -547,6 +847,126 @@ member.</p>
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>objects</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;Object></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>A list of objects.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>objectProp</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The property name of the given objects
+to match against</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>modelProp</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The property name to search for in models</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callbackFn</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Collection.html#~matchModelsAndObjectsCallback">Collection~matchModelsAndObjectsCallback</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The callback function
+that will be called when an object and model are matched.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -559,11 +979,6 @@ member.</p>
 
     
 
-    
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="ModelCollectionBase.html#setVarsFromData">ModelCollectionBase#setVarsFromData</a>
-    </li></ul></dd>
     
 
     
@@ -613,8 +1028,255 @@ member.</p>
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>let model = new Model({id: "foo"});
-model.setVarsFromData(); // model.id now set to "foo"</code></pre>
+    <pre class="prettyprint"><code>let collection = new Collection({
+  models: [{id: 1, actorId: 1}, {id:2, actorId: 2}]
+});
+collection.setVarsFromData();
+let objects = [{id: 1, name: "Dan"}, {id: 2, name: "Jon"}];
+collection.matchModelsAndObjects(objects, "id", "actorId", (model, object) => {
+ model.name = object.name;
+});</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="pushModels"><span class="type-signature"></span>pushModels<span class="signature">(list)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Push models or objects to the 'models' property. If given
+models that match 'model' they will be added. If given plain objects
+they will be converted to models (assuming 'model' is set). If 'model' is
+not set, they will be added as plain objects.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>list</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;Object></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>A list of models or plain objects.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>let collection = new Collection({model: UserModel});
+collection.pushModels([model1, model2]);
+collection.pushModels([obj1, obj2]);</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="setVarsFromData"><span class="type-signature"></span>setVarsFromData<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Will set class members from all keys and values of the data
+member. If you pass in 'model' as a key and the Model as a value,
+that will be used to create models when a 'models' array is also passed in.
+The 'models' array can be plain objects that will be turned into models,
+or can be fully formed models.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="ModelCollectionBase.html#setVarsFromData">ModelCollectionBase#setVarsFromData</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>let collection = new Collection({model: Model, models: [model, model, ...]});
+collection.setVarsFromData(); // collection.model now set to Model models
+passed in will now be set on collection.models.</code></pre>
 
 
 
@@ -759,6 +1421,108 @@ provided.</p>
     
     <pre class="prettyprint"><code>let userModel = new UserModel({id: "foo"})
 userModel.setVarsFromObject({count: 1}); // userModel.count has now been set</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="toJSON"><span class="type-signature"></span>toJSON<span class="signature">()</span><span class="type-signature"> &rarr; {Array.&lt;Object>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Method that will allow JSON.stringify(collection) to return
+a list of models.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;Object></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
 
 
 
@@ -2271,6 +3035,165 @@ have an http: or https: protocol. Pass in a list of protocols to override this.<
         
     
 
+    
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        
+                
+
+    
+
+    
+    <h4 class="name" id="~matchModelsAndObjectsCallback"><span class="type-signature"></span>matchModelsAndObjectsCallback<span class="signature">(model, foundObject)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>This callback is displayed as a global member.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>model</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>model that was matched.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>foundObject</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>object that was matched.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
     
 
     
