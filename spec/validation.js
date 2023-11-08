@@ -178,6 +178,11 @@ describe('#Validation', () => {
     expect(true).toEqual(true);
   });
 
+  it('Validates a valid url with a path', () => {
+    Validation.validateUrl("https://example.com/foo");
+    expect(true).toEqual(true);
+  });
+
   it('Throws an error when validateUrl is given a non url', () => {
     try {
       Validation.validateUrl("foo");
