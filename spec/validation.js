@@ -306,4 +306,115 @@ describe('#Validation', () => {
     }
   });
 
+  it('Validates a valid true boolean', () => {
+    Validation.validateBoolean(true);
+    expect(true).toEqual(true);
+  });
+
+  it('Validates a valid false boolean', () => {
+    Validation.validateBoolean(false);
+    expect(true).toEqual(true);
+  });
+
+  it('Throws an error when validateBoolean is given a string', () => {
+    try {
+      Validation.validateBoolean("foo");
+    } catch (error) {
+      expect(error.message).toEqual("validateBoolean variable must be a boolean.");
+      expect(error.$metadata.httpStatusCode).toEqual(400);
+    }
+  });
+
+  it('Throws an error when validateBoolean is given a number', () => {
+    try {
+      Validation.validateBoolean(5);
+    } catch (error) {
+      expect(error.message).toEqual("validateBoolean variable must be a boolean.");
+      expect(error.$metadata.httpStatusCode).toEqual(400);
+    }
+  });
+
+  it('Throws an error when validateBoolean is given a null input', () => {
+    try {
+      Validation.validateBoolean(null);
+    } catch (error) {
+      expect(error.message).toEqual("validateBoolean variable is required.");
+      expect(error.$metadata.httpStatusCode).toEqual(400);
+    }
+  });
+
+  it('Throws an error when validateBoolean is given an undefined input', () => {
+    try {
+      Validation.validateBoolean(undefined);
+    } catch (error) {
+      expect(error.message).toEqual("validateBoolean variable is required.");
+      expect(error.$metadata.httpStatusCode).toEqual(400);
+    }
+  });
+
+  it('Does not throw an error when validateBoolean is given a null input but is not required', () => {
+    Validation.validateBoolean(null, {required: false});
+    expect(true).toEqual(true);
+  });
+
+  it('Does not throw an error when validateBoolean is given an undefined input but is not required', () => {
+    Validation.validateBoolean(undefined, {required: false});
+    expect(true).toEqual(true);
+  });
+
+  it('Validates a valid instanceof', () => {
+    class Model{}
+    let model = new Model();
+    Validation.validateInstanceOf(model, Model);
+    expect(true).toEqual(true);
+  });
+
+  it('Throws an error when validateInstanceOf is not given a constructor to validate against', () => {
+    try {
+      class Model{}
+      let model = new Model();
+      Validation.validateInstanceOf(model);
+    } catch (error) {
+      expect(error.message).toEqual("validateInstanceOf variable must have a constructor to test instanceof.");
+      expect(error.$metadata.httpStatusCode).toEqual(400);
+    }
+  });
+
+  it('Throws an error when validateInstanceOf is given a null input', () => {
+    try {
+      class Model{}
+      Validation.validateInstanceOf(null, Model);
+    } catch (error) {
+      expect(error.message).toEqual("validateInstanceOf variable is required.");
+      expect(error.$metadata.httpStatusCode).toEqual(400);
+    }
+  });
+
+  it('Throws an error when validateInstanceOf is given an undefined input', () => {
+    try {
+      class Model{}
+      Validation.validateInstanceOf(undefined, Model);
+    } catch (error) {
+      expect(error.message).toEqual("validateInstanceOf variable is required.");
+      expect(error.$metadata.httpStatusCode).toEqual(400);
+    }
+  });
+
+  it('Throws an error when validateInstanceOf is given a wrong constructor', () => {
+    try {
+      class Model{}
+      class Model2{}
+      let model = new Model();
+      Validation.validateInstanceOf(model, Model2, {name: "Model"});
+    } catch (error) {
+      expect(error.message).toEqual("validateInstanceOf Model must be an instanceof Model2.");
+      expect(error.$metadata.httpStatusCode).toEqual(400);
+    }
+  });
+
+  it('Does not throw an error when validateInstanceOf is given a null input but is not required', () => {
+    Validation.validateBoolean(null, {required: false});
+    expect(true).toEqual(true);
+  });
+
 });

@@ -82,6 +82,22 @@ describe('#Model', () => {
     expect(insertJSON.falseProp).toBe(false);
   });
 
+  it('Returns the correct object ordered by alpha from getObjectFromKeys', () => {
+    class UserModel extends Model {}
+    let userModel = new UserModel({b: 1, a: 2});
+    userModel.setVarsFromData();
+    let insertJSON = userModel.getObjectFromKeys(["b", "a"]);
+    expect(JSON.stringify(insertJSON)).toEqual('{"a":2,"b":1}');
+  });
+
+  it('Returns the correct object not ordered by alpha from getObjectFromKeys', () => {
+    class UserModel extends Model {}
+    let userModel = new UserModel({b: 1, a: 2});
+    userModel.setVarsFromData();
+    let insertJSON = userModel.getObjectFromKeys(["b", "a"], false);
+    expect(JSON.stringify(insertJSON)).toEqual('{"b":1,"a":2}');
+  });
+
   it('Validates required properties correctly', () => {
     let model = new Model({id: "foo"});
     model.setVarsFromData();
