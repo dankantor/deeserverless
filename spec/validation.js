@@ -413,7 +413,16 @@ describe('#Validation', () => {
   });
 
   it('Does not throw an error when validateInstanceOf is given a null input but is not required', () => {
-    Validation.validateBoolean(null, {required: false});
+    class Model{}
+    let model = new Model();
+    Validation.validateInstanceOf(null, Model, {required: false});
+    expect(true).toEqual(true);
+  });
+
+  it('Does not throw an error when validateInstanceOf is given an undefined input but is not required', () => {
+    class Model{}
+    let model = new Model();
+    Validation.validateInstanceOf(undefined, Model, {required: false});
     expect(true).toEqual(true);
   });
 

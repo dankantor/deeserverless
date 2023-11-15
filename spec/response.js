@@ -215,4 +215,41 @@ describe('#Request', () => {
     }
   });
 
+  it('sets and returns the server-timing header correctly with startTimer and endTimer', async () => {
+    let promise = await new Promise((resolve, reject) => {
+      let response = new Response(resolve);
+      response.startTimer = "database";
+      response.endTimer = "database";
+      response.done();
+    });
+    expect(promise.headers['server-timing']).toContain(`a0;dur=`);
+    expect(promise.headers['server-timing']).toContain(`;desc="database",`);
+  });
+
+  it('sets and returns the server-timing header correctly when setting timer directly', async () => {
+    let promise = await new Promise((resolve, reject) => {
+      let response = new Response(resolve);
+      response.timer = {key: "database", value: 250};
+      response.done();
+    });
+    expect(promise.headers['server-timing']).toContain(`a0;dur=250;desc="database",`);
+  });
+
+  it('sets and returns the server-timing header correctly when setting multiple timers', async () => {
+    let promise = await new Promise((resolve, reject) => {
+      let response = new Response(resolve);
+      response.startTimer = "database";
+      response.endTimer = "database";
+      response.startTimer = "api";
+      response.endTimer = "api";
+      response.timer = {key: "api2", value: 250};
+      response.done();
+    });
+    expect(promise.headers['server-timing']).toContain(`a0;dur=`);
+    expect(promise.headers['server-timing']).toContain(`;desc="database",`);
+    expect(promise.headers['server-timing']).toContain(`a1;dur=`);
+    expect(promise.headers['server-timing']).toContain(`;desc="api",`);
+    expect(promise.headers['server-timing']).toContain(`a2;dur=250;desc="api2",`);
+  });
+
 });
