@@ -663,6 +663,341 @@ userCollection.modelIds // [1,2]</p>
     
 
     
+    <h4 class="name" id="chunk"><span class="type-signature"></span>chunk<span class="signature">(list, size)</span><span class="type-signature"> &rarr; {Array.&lt;Array>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Splits an array into chunks of a specified size.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>list</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The array to be split into chunks.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>size</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The size of each chunk.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="ModelCollectionBase.html#chunk">ModelCollectionBase#chunk</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>An array containing the chunks of the original array.</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;Array></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Examples</h5>
+    
+    <pre class="prettyprint"><code>// returns [[1, 2], [3, 4], [5]]
+chunk([1, 2, 3, 4, 5], 2);</code></pre>
+
+    <pre class="prettyprint"><code>// returns [[1, 2, 3], [4, 5]]
+chunk([1, 2, 3, 4, 5], 3);</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="delay"><span class="type-signature"></span>delay<span class="signature">(milliseconds)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Add an async execution delay</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>milliseconds</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="ModelCollectionBase.html#delay">ModelCollectionBase#delay</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>let userModel = new UserModel({id: "foo"})
+await userModel.delay(5000); // delay execution by 5000ms
+userModel.doSomething();</code></pre>
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="getObjectFromKeys"><span class="type-signature"></span>getObjectFromKeys<span class="signature">(keys, orderByAlpha<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
 
@@ -3790,13 +4125,13 @@ have an http: or https: protocol. Pass in a list of protocols to override this.<
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="App.html">App</a></li><li><a href="AuthenticationError.html">AuthenticationError</a></li><li><a href="Collection.html">Collection</a></li><li><a href="DynamoDBStream.html">DynamoDBStream</a></li><li><a href="Html.html">Html</a></li><li><a href="Model.html">Model</a></li><li><a href="ModelCollectionBase.html">ModelCollectionBase</a></li><li><a href="NotFoundError.html">NotFoundError</a></li><li><a href="Page.html">Page</a></li><li><a href="Request.html">Request</a></li><li><a href="Response.html">Response</a></li><li><a href="Validation.html">Validation</a></li><li><a href="ValidationError.html">ValidationError</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="App.html">App</a></li><li><a href="AuthenticationError.html">AuthenticationError</a></li><li><a href="Collection.html">Collection</a></li><li><a href="DynamoDBStream.html">DynamoDBStream</a></li><li><a href="Html.html">Html</a></li><li><a href="Model.html">Model</a></li><li><a href="ModelCollectionBase.html">ModelCollectionBase</a></li><li><a href="NotFoundError.html">NotFoundError</a></li><li><a href="Page.html">Page</a></li><li><a href="PermissionError.html">PermissionError</a></li><li><a href="Request.html">Request</a></li><li><a href="Response.html">Response</a></li><li><a href="Validation.html">Validation</a></li><li><a href="ValidationError.html">ValidationError</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.1</a> on Wed Nov 15 2023 12:08:12 GMT-0500 (Eastern Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.1</a> on Thu May 23 2024 11:37:11 GMT-0400 (Eastern Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>

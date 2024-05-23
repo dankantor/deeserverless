@@ -738,4 +738,52 @@ describe('#Collection', () => {
     }
   });
 
+  it('Delays execution correctly', async () => {
+    let collection = new Collection();
+    let start = new Date().getTime();
+    await collection.delay(10);
+    let end = new Date().getTime();
+    expect(end - start).toBeGreaterThan(5);
+  });
+
+  it("should split an array into chunks of specified size", function() {
+    const input = [1, 2, 3, 4, 5];
+    const size = 2;
+    const expectedOutput = [[1, 2], [3, 4], [5]];
+    let collection = new Collection();
+    expect(collection.chunk(input, size)).toEqual(expectedOutput);
+  });
+
+  it("should handle chunk sizes larger than the array length", function() {
+    const input = [1, 2, 3];
+    const size = 5;
+    const expectedOutput = [[1, 2, 3]];
+    let collection = new Collection();
+    expect(collection.chunk(input, size)).toEqual(expectedOutput);
+  });
+
+  it("should handle chunk sizes equal to the array length", function() {
+    const input = [1, 2, 3];
+    const size = 3;
+    const expectedOutput = [[1, 2, 3]];
+    let collection = new Collection();
+    expect(collection.chunk(input, size)).toEqual(expectedOutput);
+  });
+
+  it("should handle chunk sizes of 1", function() {
+    const input = [1, 2, 3];
+    const size = 1;
+    const expectedOutput = [[1], [2], [3]];
+    let collection = new Collection();
+    expect(collection.chunk(input, size)).toEqual(expectedOutput);
+  });
+
+  it("should handle empty arrays", function() {
+    const input = [];
+    const size = 3;
+    const expectedOutput = [];
+    let collection = new Collection();
+    expect(collection.chunk(input, size)).toEqual(expectedOutput);
+  });
+
 });
