@@ -1,4 +1,4 @@
-import {ValidationError, AuthenticationError, NotFoundError} from './../lib/error.js';
+import {ValidationError, AuthenticationError, NotFoundError, PermissionError} from './../lib/error.js';
 
 describe('#Error', () => {
 
@@ -71,6 +71,26 @@ describe('#Error', () => {
     } catch (err) {
       expect(err.message).toEqual("Here is a custom not found error message");
       expect(err.$metadata.httpStatusCode).toEqual(404);
+    }
+  });
+
+  it('returns the correct PermissionError output', () => {
+    try {
+      throw new PermissionError();
+    } catch (err) {
+      expect(err.message).toEqual("Permission Error");
+      expect(err.$metadata.httpStatusCode).toEqual(403);
+    }
+  });
+
+  it('returns the correct PermissionError output when a custom message is set', () => {
+    try {
+      throw new PermissionError({
+        message: "Here is a custom permission error message",
+      });
+    } catch (err) {
+      expect(err.message).toEqual("Here is a custom permission error message");
+      expect(err.$metadata.httpStatusCode).toEqual(403);
     }
   });
 
