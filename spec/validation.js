@@ -145,13 +145,16 @@ describe('#Validation', () => {
     }
   });
 
+  it('Throws an error when validateNumber is given a number that is less than given minValue and minValue is 0', () => {
+    expect(() => {
+      Validation.validateNumber(-1, { minValue: 0 });
+    }).toThrowError('validateNumber variable must not be less than 0.');
+  });
+
   it('Throws an error when validateNumber is given a number that is greater than default maxValue', () => {
-    try {
-      Validation.validateNumber(Number.MAX_SAFE_INTEGER + 1);
-    } catch (error) {
-      expect(error.message).toEqual(`validateNumber variable must not be greater than ${Number.MAX_SAFE_INTEGER}.`);
-      expect(error.$metadata.httpStatusCode).toEqual(400);
-    }
+    expect(() => {
+      Validation.validateNumber(Number.MAX_SAFE_INTEGER + 1)
+    }).toThrowError(`validateNumber variable must not be greater than ${Number.MAX_SAFE_INTEGER}.`);
   });
 
   it('Throws an error when validateNumber is given a number that is greater than given maxValue', () => {
