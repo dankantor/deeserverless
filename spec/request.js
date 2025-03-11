@@ -41,6 +41,19 @@ describe('#Request', () => {
     expect(request.file).toEqual('apigateway/page');
   });
 
+  it('gets apiGatewayRouteKey correctly from the provided request', async () => {
+    const event = {
+      "routeKey": "GET /index",
+      "requestContext": {
+        "http": {
+          "method": "GET"
+        }
+      }
+    };
+    let request = new Request(event);
+    expect(request.apiGatewayRouteKey).toEqual('index');
+  });
+
   it('sets API Gateway Request method correctly', async () => {
     const event = {
       "routeKey": "GET /page",
