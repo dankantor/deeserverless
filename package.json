@@ -1,6 +1,6 @@
 {
   "name": "deeserverless",
-  "version": "2.1.5",
+  "version": "2.1.6",
   "description": "A simple framework for AWS SAM",
   "repository": "https://github.com/dankantor/deeserverless",
   "author": "Dan Kantor",
