@@ -41,6 +41,19 @@ describe('#Request', () => {
     expect(request.file).toEqual('apigateway/page');
   });
 
+  it('sets API Gateway Request file correctly when there is a file extension that is not an acceptable file extension', async () => {
+    const event = {
+      "routeKey": "GET /page.badextension",
+      "requestContext": {
+        "http": {
+          "method": "GET"
+        }
+      }
+    };
+    let request = new Request(event);
+    expect(request.file).toEqual('apigateway/page');
+  });
+
   it('gets apiGatewayRouteKey correctly from the provided request', async () => {
     const event = {
       "routeKey": "GET /index",
@@ -115,6 +128,22 @@ describe('#Request', () => {
     expect(request.pathParameters).toEqual({ foo: 'bar' });
   });
 
+  it('sets API Gateway Request pathParameters correctly when last path has file extension with top level path param that is not an acceptable file extension', async () => {
+    const event = {
+      "routeKey": "GET /{foo}",
+      "requestContext": {
+        "http": {
+          "method": "GET"
+        }
+      },
+      "pathParameters": {
+        "foo": "bar.test"
+      }
+    };
+    let request = new Request(event);
+    expect(request.pathParameters).toEqual({ foo: 'bar.test' });
+  });
+
   it('sets API Gateway Request pathParameters correctly when last path has file extension', async () => {
     const event = {
       "routeKey": "GET /page/{foo}",
@@ -129,6 +158,22 @@ describe('#Request', () => {
     };
     let request = new Request(event);
     expect(request.pathParameters).toEqual({ foo: 'bar' });
+  });
+
+  it('sets API Gateway Request pathParameters correctly when last path has file extension that is not an acceptable file extension', async () => {
+    const event = {
+      "routeKey": "GET /page/{foo}",
+      "requestContext": {
+        "http": {
+          "method": "GET"
+        }
+      },
+      "pathParameters": {
+        "foo": "bar.badextension"
+      }
+    };
+    let request = new Request(event);
+    expect(request.pathParameters).toEqual({ foo: 'bar.badextension' });
   });
 
   it('sets API Gateway Request cookies correctly', async () => {
@@ -244,6 +289,20 @@ describe('#Request', () => {
     };
     let request = new Request(event);
     expect(request.fileExtension).toEqual('json');
+  });
+
+  it('sets API Gateway fileExtension properly when there is a file extension that is not an acceptable file extension', async () => {
+    const event = {
+      "routeKey": "GET /page/foo.badextension",
+      "requestContext": {
+        "http": {
+          "method": "GET"
+        }
+      },
+      "rawPath": "/page/foo.badextension"
+    };
+    let request = new Request(event);
+    expect(request.fileExtension).toBeUndefined();
   });
 
   it('sets API Gateway empty fileExtension to undefined', async () => {
