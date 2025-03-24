@@ -112,7 +112,7 @@ describe('#Request', () => {
     expect(request.apiGatewayRouteKeyNoMethod).toEqual('/user/{userid}');
   });
 
-  it('sets API Gateway Request method correctly', async () => {
+  it('gets API Gateway Request method correctly', async () => {
     const event = {
       "routeKey": "GET /page",
       "requestContext": {
@@ -123,6 +123,50 @@ describe('#Request', () => {
     };
     let request = new Request(event);
     expect(request.method).toEqual('GET');
+  });
+
+  it('gets API Gateway Request stage correctly', async () => {
+    const event = {
+      "routeKey": "GET /page",
+      "requestContext": {
+        "http": {
+          "method": "GET"
+        },
+        "stage": "dev"
+      }
+    };
+    let request = new Request(event);
+    expect(request.stage).toEqual('dev');
+  });
+
+  it('sets API Gateway Request rawPathNoStage correctly', async () => {
+    const event = {
+      "rawPath": "/dev/page",
+      "routeKey": "GET /page",
+      "requestContext": {
+        "http": {
+          "method": "GET"
+        },
+        "stage": "dev"
+      }
+    };
+    let request = new Request(event);
+    expect(request.rawPathNoStage).toEqual('/page');
+  });
+
+  it('sets API Gateway Request rawPathNoStage correctly when using $default', async () => {
+    const event = {
+      "rawPath": "/dev/page",
+      "routeKey": "$default",
+      "requestContext": {
+        "http": {
+          "method": "GET"
+        },
+        "stage": "dev"
+      }
+    };
+    let request = new Request(event);
+    expect(request.rawPathNoStage).toEqual('/page');
   });
 
   it('sets API Gateway Request queryStringParameters correctly', async () => {
