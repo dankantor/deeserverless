@@ -56,15 +56,34 @@ describe('#Request', () => {
 
   it('gets apiGatewayRouteKey correctly from the provided request', async () => {
     const event = {
-      "routeKey": "GET /index",
+      "routeKey": "GET /user/{userid}",
       "requestContext": {
         "http": {
           "method": "GET"
         }
+      },
+      "pathParameters": {
+        "userid": "1"
       }
     };
     let request = new Request(event);
-    expect(request.apiGatewayRouteKey).toEqual('index');
+    expect(request.apiGatewayRouteKey).toEqual('user_userid');
+  });
+
+  it('gets apiGatewayRouteKeyNoMethod correctly from the provided request', async () => {
+    const event = {
+      "routeKey": "GET /user/{userid}",
+      "requestContext": {
+        "http": {
+          "method": "GET"
+        }
+      },
+      "pathParameters": {
+        "userid": "1"
+      }
+    };
+    let request = new Request(event);
+    expect(request.apiGatewayRouteKeyNoMethod).toEqual('/user/{userid}');
   });
 
   it('sets API Gateway Request method correctly', async () => {

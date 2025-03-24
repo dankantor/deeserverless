@@ -519,4 +519,35 @@ describe('#Model', () => {
     expect(model.chunk(input, size)).toEqual(expectedOutput);
   });
 
+  it('should store and retrieve a cached value', function() {
+    let model = new Model();
+    Model.setCache('foo', 'bar');
+    const result = Model.getCache('foo');
+    expect(result).toBe('bar');
+  });
+
+  it('should return null for expired cache', function(done) {
+    let model = new Model();
+    Model.setCache('expiredKey', 'value', 10); // 10ms expiration
+    setTimeout(function() {
+      const result = Model.getCache('expiredKey');
+      expect(result).toBeNull();
+      done();
+    }, 20);
+  });
+
+  it('should return null for non-existent cache key', function() {
+    let model = new Model();
+    const result = Model.getCache('nope');
+    expect(result).toBeNull();
+  });
+
+  it('should overwrite existing cache with new value', function() {
+    let model = new Model();
+    Model.setCache('item', 'first');
+    Model.setCache('item', 'second');
+    const result = Model.getCache('item');
+    expect(result).toBe('second');
+  });
+
 });
