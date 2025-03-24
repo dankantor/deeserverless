@@ -15,6 +15,19 @@ describe('#Request', () => {
     expect(request.type).toEqual('aws:apigateway');
   });
 
+  it('creates a new API Gateway Request for $default', async () => {
+    const event = {
+      "routeKey": "$default",
+      "requestContext": {
+        "http": {
+          "method": "GET"
+        }
+      }
+    };
+    let request = new Request(event);
+    expect(request.type).toEqual('aws:apigateway');
+  });
+
   it('sets API Gateway Request file correctly', async () => {
     const event = {
       "routeKey": "GET /page",
@@ -26,6 +39,19 @@ describe('#Request', () => {
     };
     let request = new Request(event);
     expect(request.file).toEqual('apigateway/page');
+  });
+
+  it('sets API Gateway Request file correctly for $default', async () => {
+    const event = {
+      "routeKey": "$default",
+      "requestContext": {
+        "http": {
+          "method": "GET"
+        }
+      }
+    };
+    let request = new Request(event);
+    expect(request.file).toEqual('$default');
   });
 
   it('sets API Gateway Request file correctly when there is a file extension', async () => {
