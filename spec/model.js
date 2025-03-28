@@ -550,4 +550,125 @@ describe('#Model', () => {
     expect(result).toBe('second');
   });
 
+  describe('Lock', function () {
+
+    it('should acquire and release a lock', async function () {
+      await Model.acquireLock('test');
+      expect(true).toBeTrue(); // just confirm we got here without blocking
+      Model.releaseLock('test');
+    });
+
+    it('should block until the lock is released', async function () {
+      const results = [];
+      await Model.acquireLock('block-test');
+      results.push('first');
+
+      const p2 = (async () => {
+        await Model.acquireLock('block-test');
+        results.push('second');
+        Model.releaseLock('block-test');
+      })();
+
+      // Delay and then release
+      setTimeout(() => Model.releaseLock('block-test'), 50);
+
+      await p2;
+
+      expect(results).toEqual(['first', 'second']);
+    });
+
+    it('should reject if acquire times out', async function () {
+      await Model.acquireLock('timeout-test');
+
+      let errorCaught = false;
+      try {
+        await Model.acquireLock('timeout-test', 30); // Short timeout
+      } catch (e) {
+        errorCaught = true;
+        expect(e.message).toContain('timed out');
+      }
+
+      expect(errorCaught).toBeTrue();
+
+      Model.releaseLock('timeout-test');
+    });
+
+    it('should skip timed-out entries in the queue', async function () {
+      await Model.acquireLock('skip-timeout');
+
+      // First entry will time out
+      const p1 = Model.acquireLock('skip-timeout', 20).catch(e => 'timeout');
+
+      // Second will wait until release
+      const p2 = (async () => {
+        await new Promise(res => setTimeout(res, 30));
+        return Model.acquireLock('skip-timeout');
+      })();
+
+      // Release after 50ms
+      setTimeout(() => Model.releaseLock('skip-timeout'), 50);
+
+      const result1 = await p1;
+      const result2 = await p2;
+
+      expect(result1).toBe('timeout');
+      expect(result2).toBeUndefined(); // Just resolved without error
+
+      Model.releaseLock('skip-timeout');
+    });
+
+    it('should handle multiple independent named locks', async function () {
+      await Model.acquireLock('a');
+      await Model.acquireLock('b');
+
+      let aReleased = false;
+      let bReleased = false;
+
+      setTimeout(() => {
+        Model.releaseLock('a');
+        aReleased = true;
+      }, 20);
+
+      setTimeout(() => {
+        Model.releaseLock('b');
+        bReleased = true;
+      }, 30);
+
+      const p1 = Model.acquireLock('a');
+      const p2 = Model.acquireLock('b');
+
+      await Promise.all([p1, p2]);
+
+      expect(aReleased).toBeTrue();
+      expect(bReleased).toBeTrue();
+
+      Model.releaseLock('a');
+      Model.releaseLock('b');
+    });
+
+    it('tryAcquire should acquire if lock is free', function () {
+      const success = Model.tryAcquireLock('instant');
+      expect(success).toBeTrue();
+      expect(Model.isLocked('instant')).toBeTrue();
+      Model.releaseLock('instant');
+      expect(Model.isLocked('instant')).toBeFalse();
+    });
+
+    it('tryAcquire should fail if lock is already held', async function () {
+      await Model.acquireLock('instant-fail');
+      const success = Model.tryAcquireLock('instant-fail');
+      expect(success).toBeFalse();
+      Model.releaseLock('instant-fail');
+    });
+
+    it('isLocked should return correct status', async function () {
+      expect(Model.isLocked('status-test')).toBeFalse();
+      await Model.acquireLock('status-test');
+      expect(Model.isLocked('status-test')).toBeTrue();
+      Model.releaseLock('status-test');
+      expect(Model.isLocked('status-test')).toBeFalse();
+    });
+
+  });
+
 });
