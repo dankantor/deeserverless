@@ -6,6 +6,7 @@
   "author": "Dan Kantor",
   "license": "MIT",
   "main": "lib/index.js",
+  "browser": "lib/browser.js",
   "type": "module",
   "dependencies": {},
   "devDependencies": {
