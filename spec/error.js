@@ -1,4 +1,4 @@
-import {ValidationError, AuthenticationError, NotFoundError, PermissionError} from './../lib/error.js';
+import {ValidationError, AuthenticationError, NotFoundError, PermissionError, BadgatewayError} from './../lib/error.js';
 
 describe('#Error', () => {
 
@@ -91,6 +91,26 @@ describe('#Error', () => {
     } catch (err) {
       expect(err.message).toEqual("Here is a custom permission error message");
       expect(err.$metadata.httpStatusCode).toEqual(403);
+    }
+  });
+
+  it('returns the correct BadgatewayError output', () => {
+    try {
+      throw new BadgatewayError();
+    } catch (err) {
+      expect(err.message).toEqual("Bad Gateway Error");
+      expect(err.$metadata.httpStatusCode).toEqual(502);
+    }
+  });
+
+  it('returns the correct BadgatewayError output when a custom message is set', () => {
+    try {
+      throw new BadgatewayError({
+        message: "Here is a custom bad gateway error message",
+      });
+    } catch (err) {
+      expect(err.message).toEqual("Here is a custom bad gateway error message");
+      expect(err.$metadata.httpStatusCode).toEqual(502);
     }
   });
 
