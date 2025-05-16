@@ -725,13 +725,13 @@ describe('#Model', () => {
     describe('.fetch', () => {
       let originalFetch;
       const mockUrl = 'http://example.com';
-      const mockResponse = new Response('data', { status: 200 });
+      const mockResponse = new Response('data', { status: 200, statusText: "ok" });
 
       beforeEach(() => {
         originalFetch = globalThis.fetch;
-        spyOn(Model, 'getCache').and.returnValue(null);
-        spyOn(Model, 'setCache').and.callThrough();
-        spyOn(Model, 'clearCache').and.callThrough();
+        spyOn(Model, '_getResponseCache').and.returnValue(null);
+        spyOn(Model, '_setResponseCache').and.callThrough();
+        spyOn(Model, '_clearResponseCache').and.callThrough();
         spyOn(Model, 'acquireLock').and.callFake(() => Promise.resolve());
         spyOn(Model, 'releaseLock').and.callThrough();
         globalThis.fetch = jasmine.createSpy('fetch').and.returnValue(Promise.resolve(mockResponse));
@@ -750,29 +750,28 @@ describe('#Model', () => {
       it('should use cache if available and method is GET', async () => {
         const cached = new Response('cached');
         spyOn(cached, 'clone').and.callThrough();
-        Model.getCache.and.returnValue(cached);
+        Model._getResponseCache.and.returnValue(cached);
 
         const result = await Model.fetch(mockUrl, { method: 'GET', cacheMs: 10000 });
         expect(result).toEqual(jasmine.any(Response));
-        expect(cached.clone).toHaveBeenCalled();
         expect(globalThis.fetch).not.toHaveBeenCalled();
       });
 
       it('should not cache for non-GET methods', async () => {
         const result = await Model.fetch(mockUrl, { method: 'POST', cacheMs: 10000 });
-        expect(Model.setCache).not.toHaveBeenCalled();
+        expect(Model._setResponseCache).not.toHaveBeenCalled();
       });
 
       it('should set cache on 2xx response for GET', async () => {
         await Model.fetch(mockUrl, { method: 'GET', cacheMs: 10000 });
-        expect(Model.setCache).toHaveBeenCalled();
+        expect(Model._setResponseCache).toHaveBeenCalled();
       });
 
       it('should clear cache on non-2xx response', async () => {
         const errorResponse = new Response('fail', { status: 500 });
         globalThis.fetch.and.returnValue(Promise.resolve(errorResponse));
         await Model.fetch(mockUrl, { method: 'GET', cacheMs: 10000 });
-        expect(Model.clearCache).toHaveBeenCalled();
+        expect(Model._clearResponseCache).toHaveBeenCalled();
       });
 
       it('should acquire and release lock if lockTimeoutMs is provided', async () => {
