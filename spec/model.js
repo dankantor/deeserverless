@@ -779,6 +779,32 @@ describe('#Model', () => {
         expect(Model.acquireLock).toHaveBeenCalledWith(mockUrl, 100);
         expect(Model.releaseLock).toHaveBeenCalledWith(mockUrl);
       });
+
+    });
+
+    it('properly cache 204 and 205 responses with body null even when there is body text', async () => {
+      let now = Date.now();
+      let key204 = "key204";
+      Model._responseCache[key204] = {
+        expireTime: now + 1000,
+        bodyText: 'some text',
+        init: { status: 204 }
+      };
+      const response = Model._getResponseCache(key204);
+      expect(response.status).toBe(204);
+      const text = await response.text();
+      expect(text).toBe('');
+
+      let key205 = "key205";
+      Model._responseCache[key205] = {
+        expireTime: now + 1000,
+        bodyText: 'some text',
+        init: { status: 205 }
+      };
+      const response2 = Model._getResponseCache(key205);
+      expect(response2.status).toBe(205);
+      const text2 = await response2.text();
+      expect(text2).toBe('');
     });
 
   });
