@@ -54,6 +54,22 @@ describe('#Request', () => {
     expect(request.file).toEqual('$default');
   });
 
+  it('sets API Gateway Request file correctly for proxy', async () => {
+    const event = {
+      "routeKey": "GET /api/{proxy+}",
+      "requestContext": {
+        "http": {
+          "method": "GET"
+        }
+      },
+      pathParameters: {
+        "proxy": "foo"
+      }
+    };
+    let request = new Request(event);
+    expect(request.file).toEqual('apigateway/api_foo');
+  });
+
   it('sets API Gateway Request file correctly when there is a file extension', async () => {
     const event = {
       "routeKey": "GET /page.json",
