@@ -1,7 +1,7 @@
 # Issue Tracker: `bug-sweep`
 
 Generated At: `2026-08-06T21:44:13Z` (UTC)
-Last Updated At: `2026-08-06T22:15:57Z` (UTC)
+Last Updated At: `2026-08-06T23:03:04Z` (UTC)
 
 Status values: `OPEN`, `IN_PROGRESS`, `BLOCKED`, `DONE`
 
@@ -46,7 +46,7 @@ Status History:
 
 - Status: `DONE`
 - Created At: `2026-08-06T21:44:13Z`
-- Updated At: `2026-08-06T22:15:57Z`
+- Updated At: `2026-08-06T23:03:04Z`
 - Priority: `P1`
 - Source: `bug-sweep`
 
@@ -73,6 +73,7 @@ Status History:
 | 2026-08-06T21:44:13Z | N/A | OPEN | Created |
 | 2026-08-06T22:14:47Z | OPEN | IN_PROGRESS | Starting implementation (P1 scope) |
 | 2026-08-06T22:15:57Z | IN_PROGRESS | DONE | lib/page.js wraps handler invocation in Promise.resolve().then().catch(): logs error, maps $metadata.httpStatusCode (default 500, generic body for unknown errors), resolves response. lib/app.js sync-throw catch also maps $metadata.httpStatusCode. Specs added: ValidationError -> 400 with message; unknown Error -> 500 with generic body. Full suite: 325 specs, 0 failures. |
+| 2026-08-06T23:03:04Z | DONE | DONE | PR feedback: $metadata.httpStatusCode alone treated AWS SDK service exceptions as safe, leaking their raw messages. Added isFrameworkError() to lib/error.js; page.js/app.js now expose status/message only for framework error classes (and subclasses), all others -> generic 500. Specs added for AWS-shaped error and framework-error subclass. Full suite: 327 specs, 0 failures. |
 
 ## ISSUE-003: Cookie Domain attribute emitted without `Domain=` prefix, so browsers silently ignore it
 

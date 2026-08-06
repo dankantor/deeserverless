@@ -90,4 +90,60 @@ describe('#Page', () => {
     expect(console.error).toHaveBeenCalled();
   });
 
+  it('resolves a generic 500 when an async handler throws a non-framework error carrying $metadata', async () => {
+    class TestPage extends Page {
+      async get() {
+        const error = new Error('Requested resource not found: arn:aws:dynamodb:us-east-1:123456789012:table/prod-users');
+        error.$metadata = {httpStatusCode: 400};
+        throw error;
+      }
+    }
+    spyOn(console, 'error');
+    const event = {
+      "routeKey": "GET /page",
+      "requestContext": {
+        "http": {
+          "method": "GET"
+        }
+      }
+    };
+    let request = new Request(event);
+    let promise = await new Promise((resolve, reject) => {
+      let response = new Response(resolve, reject);
+      new TestPage(request, response);
+    });
+    expect(promise.statusCode).toEqual(500);
+    expect(JSON.parse(promise.body)).toEqual({'status': 'Internal Server Error'});
+    expect(console.error).toHaveBeenCalled();
+  });
+
+  it('exposes status and message for subclasses of framework errors', async () => {
+    class TeapotError extends ValidationError {
+      constructor() {
+        super({message: 'I am a teapot', $metadata: {httpStatusCode: 418}});
+      }
+    }
+    class TestPage extends Page {
+      async get() {
+        throw new TeapotError();
+      }
+    }
+    spyOn(console, 'error');
+    const event = {
+      "routeKey": "GET /page",
+      "requestContext": {
+        "http": {
+          "method": "GET"
+        }
+      }
+    };
+    let request = new Request(event);
+    let promise = await new Promise((resolve, reject) => {
+      let response = new Response(resolve, reject);
+      new TestPage(request, response);
+    });
+    expect(promise.statusCode).toEqual(418);
+    expect(JSON.parse(promise.body)).toEqual({'status': 'I am a teapot'});
+  });
+
 });
