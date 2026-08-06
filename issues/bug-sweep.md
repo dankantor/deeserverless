@@ -1,7 +1,7 @@
 # Issue Tracker: `bug-sweep`
 
 Generated At: `2026-08-06T21:44:13Z` (UTC)
-Last Updated At: `2026-08-06T21:44:13Z` (UTC)
+Last Updated At: `2026-08-06T23:03:04Z` (UTC)
 
 Status values: `OPEN`, `IN_PROGRESS`, `BLOCKED`, `DONE`
 
@@ -12,9 +12,9 @@ Update process:
 
 ## ISSUE-001: DynamoDBStream resolves errors as success, dropping stream records without retry
 
-- Status: `OPEN`
+- Status: `DONE`
 - Created At: `2026-08-06T21:44:13Z`
-- Updated At: `2026-08-06T21:44:13Z`
+- Updated At: `2026-08-06T22:15:57Z`
 - Priority: `P1`
 - Source: `bug-sweep`
 
@@ -30,21 +30,23 @@ Scope:
 - `/Users/dankantor/Repos/deeserverless/lib/dynamodb-stream.js`
 
 Acceptance Criteria:
-- [ ] A rejected record handler causes the invocation to fail (reject/throw) so Lambda retries the batch, or returns `batchItemFailures` for partial batch handling.
-- [ ] Handler errors are logged.
-- [ ] Spec added covering a rejecting handler.
+- [x] A rejected record handler causes the invocation to fail (reject/throw) so Lambda retries the batch, or returns `batchItemFailures` for partial batch handling.
+- [x] Handler errors are logged.
+- [x] Spec added covering a rejecting handler.
 
 Status History:
 
 | Timestamp (UTC) | From | To | Note |
 |---|---|---|---|
 | 2026-08-06T21:44:13Z | N/A | OPEN | Created |
+| 2026-08-06T22:14:47Z | OPEN | IN_PROGRESS | Starting implementation (P1 scope) |
+| 2026-08-06T22:15:57Z | IN_PROGRESS | DONE | lib/dynamodb-stream.js now logs and rejects via res.reject on handler failure (Lambda retries batch); resolves with handler results on success. Specs added for rejecting handler and resolved results. Full suite: 325 specs, 0 failures. |
 
 ## ISSUE-002: Errors thrown in async page handlers are never caught or mapped to HTTP responses
 
-- Status: `OPEN`
+- Status: `DONE`
 - Created At: `2026-08-06T21:44:13Z`
-- Updated At: `2026-08-06T21:44:13Z`
+- Updated At: `2026-08-06T23:03:04Z`
 - Priority: `P1`
 - Source: `bug-sweep`
 
@@ -61,14 +63,17 @@ Scope:
 - `/Users/dankantor/Repos/deeserverless/lib/app.js`
 
 Acceptance Criteria:
-- [ ] A rejecting async handler resolves the response (e.g., mapping `$metadata.httpStatusCode` to the status code, defaulting to 500) instead of hanging the invocation.
-- [ ] Spec added: async handler throwing `ValidationError` yields a 400 response.
+- [x] A rejecting async handler resolves the response (e.g., mapping `$metadata.httpStatusCode` to the status code, defaulting to 500) instead of hanging the invocation.
+- [x] Spec added: async handler throwing `ValidationError` yields a 400 response.
 
 Status History:
 
 | Timestamp (UTC) | From | To | Note |
 |---|---|---|---|
 | 2026-08-06T21:44:13Z | N/A | OPEN | Created |
+| 2026-08-06T22:14:47Z | OPEN | IN_PROGRESS | Starting implementation (P1 scope) |
+| 2026-08-06T22:15:57Z | IN_PROGRESS | DONE | lib/page.js wraps handler invocation in Promise.resolve().then().catch(): logs error, maps $metadata.httpStatusCode (default 500, generic body for unknown errors), resolves response. lib/app.js sync-throw catch also maps $metadata.httpStatusCode. Specs added: ValidationError -> 400 with message; unknown Error -> 500 with generic body. Full suite: 325 specs, 0 failures. |
+| 2026-08-06T23:03:04Z | DONE | DONE | PR feedback: $metadata.httpStatusCode alone treated AWS SDK service exceptions as safe, leaking their raw messages. Added isFrameworkError() to lib/error.js; page.js/app.js now expose status/message only for framework error classes (and subclasses), all others -> generic 500. Specs added for AWS-shaped error and framework-error subclass. Full suite: 327 specs, 0 failures. |
 
 ## ISSUE-003: Cookie Domain attribute emitted without `Domain=` prefix, so browsers silently ignore it
 
