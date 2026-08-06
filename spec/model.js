@@ -750,11 +750,12 @@ describe('#Model', () => {
 
     describe('.fetch', () => {
       let originalFetch;
+      let mockResponse;
       const mockUrl = 'http://example.com';
-      const mockResponse = new Response('data', { status: 200, statusText: "ok" });
 
       beforeEach(() => {
         originalFetch = globalThis.fetch;
+        mockResponse = new Response('data', { status: 200, statusText: "ok" });
         spyOn(Model, '_getResponseCache').and.returnValue(null);
         spyOn(Model, '_setResponseCache').and.callThrough();
         spyOn(Model, '_clearResponseCache').and.callThrough();
@@ -804,6 +805,52 @@ describe('#Model', () => {
         await Model.fetch(mockUrl, { lockTimeoutMs: 100 });
         expect(Model.acquireLock).toHaveBeenCalledWith(mockUrl, 100);
         expect(Model.releaseLock).toHaveBeenCalledWith(mockUrl);
+      });
+
+    });
+
+    describe('.fetch response caching round-trip', () => {
+      let originalFetch;
+
+      beforeEach(() => {
+        originalFetch = globalThis.fetch;
+      });
+
+      afterEach(() => {
+        globalThis.fetch = originalFetch;
+        Model._responseCache.clear();
+      });
+
+      it('should consume the upstream body without cloning and return an equivalent Response', async () => {
+        const upstream = new Response('payload', { status: 200, statusText: 'ok', headers: { 'x-test': 'yes' } });
+        globalThis.fetch = jasmine.createSpy('fetch').and.returnValue(Promise.resolve(upstream));
+
+        const first = await Model.fetch('http://example.com/roundtrip', { cacheMs: 10000 });
+        expect(upstream.bodyUsed).toBeTrue();
+        expect(first).not.toBe(upstream);
+        expect(first.status).toBe(200);
+        expect(first.statusText).toBe('ok');
+        expect(first.headers.get('x-test')).toBe('yes');
+        expect(await first.text()).toBe('payload');
+
+        const second = await Model.fetch('http://example.com/roundtrip', { cacheMs: 10000 });
+        expect(second.status).toBe(200);
+        expect(await second.text()).toBe('payload');
+        expect(globalThis.fetch).toHaveBeenCalledTimes(1);
+      });
+
+      it('should cache a 204 on fill and replay it with a null body', async () => {
+        const upstream = new Response(null, { status: 204, statusText: 'no content' });
+        globalThis.fetch = jasmine.createSpy('fetch').and.returnValue(Promise.resolve(upstream));
+
+        const first = await Model.fetch('http://example.com/nocontent', { cacheMs: 10000 });
+        expect(first.status).toBe(204);
+        expect(await first.text()).toBe('');
+
+        const second = await Model.fetch('http://example.com/nocontent', { cacheMs: 10000 });
+        expect(second.status).toBe(204);
+        expect(await second.text()).toBe('');
+        expect(globalThis.fetch).toHaveBeenCalledTimes(1);
       });
 
     });
