@@ -133,4 +133,35 @@ describe('#DynamoDBStream', () => {
     }));
   });
 
+  it('resolves with handler results when all records succeed', async () => {
+    spyOn(DynamoDBStream.prototype, 'insert').and.resolveTo('inserted');
+    spyOn(DynamoDBStream.prototype, 'modify').and.resolveTo('modified');
+    spyOn(DynamoDBStream.prototype, 'remove').and.resolveTo('removed');
+
+    const request = new Request(event);
+    const results = await new Promise((resolve, reject) => {
+      const response = new Response(resolve, reject);
+      new DynamoDBStream(request, response);
+    });
+
+    expect(results).toEqual(['inserted', 'modified', 'removed']);
+  });
+
+  it('rejects and logs the error when a record handler rejects', async () => {
+    const error = new Error('insert failed');
+    spyOn(DynamoDBStream.prototype, 'insert').and.rejectWith(error);
+    spyOn(DynamoDBStream.prototype, 'modify').and.resolveTo();
+    spyOn(DynamoDBStream.prototype, 'remove').and.resolveTo();
+    spyOn(console, 'error');
+
+    const request = new Request(event);
+    const promise = new Promise((resolve, reject) => {
+      const response = new Response(resolve, reject);
+      new DynamoDBStream(request, response);
+    });
+
+    await expectAsync(promise).toBeRejectedWith(error);
+    expect(console.error).toHaveBeenCalledWith(error);
+  });
+
 });
