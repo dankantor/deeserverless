@@ -550,6 +550,25 @@ describe('#Model', () => {
     expect(result).toBe('second');
   });
 
+  it('should delete an expired cache entry when it is read', function(done) {
+    Model.setCache('expiredEvictKey', 'value', 10);
+    setTimeout(function() {
+      expect(Model.getCache('expiredEvictKey')).toBeNull();
+      expect(Model._cache.has('expiredEvictKey')).toBeFalse();
+      done();
+    }, 20);
+  });
+
+  it('should keep the cache bounded across many distinct keys', function() {
+    const max = Model._cacheMaxEntries;
+    for (let i = 0; i < max + 50; i++) {
+      Model.setCache(`bounded-key-${i}`, i);
+    }
+    expect(Model._cache.size).toBeLessThanOrEqual(max);
+    expect(Model._cache.has('bounded-key-0')).toBeFalse();
+    expect(Model.getCache(`bounded-key-${max + 49}`)).toBe(max + 49);
+  });
+
   describe('Lock', function () {
 
     it('should acquire and release a lock', async function () {
@@ -669,6 +688,13 @@ describe('#Model', () => {
       expect(Model.isLocked('status-test')).toBeFalse();
     });
 
+    it('should remove the lock entry when released with no waiters', async function () {
+      await Model.acquireLock('entry-cleanup-test');
+      expect(Model._locks.has('entry-cleanup-test')).toBeTrue();
+      Model.releaseLock('entry-cleanup-test');
+      expect(Model._locks.has('entry-cleanup-test')).toBeFalse();
+    });
+
     describe('._isValidResponse', () => {
       it('should return true for valid Response-like objects', () => {
         const mockResponse = {
@@ -785,26 +811,61 @@ describe('#Model', () => {
     it('properly cache 204 and 205 responses with body null even when there is body text', async () => {
       let now = Date.now();
       let key204 = "key204";
-      Model._responseCache[key204] = {
+      Model._responseCache.set(key204, {
         expireTime: now + 1000,
         bodyText: 'some text',
         init: { status: 204 }
-      };
+      });
       const response = Model._getResponseCache(key204);
       expect(response.status).toBe(204);
       const text = await response.text();
       expect(text).toBe('');
 
       let key205 = "key205";
-      Model._responseCache[key205] = {
+      Model._responseCache.set(key205, {
         expireTime: now + 1000,
         bodyText: 'some text',
         init: { status: 205 }
-      };
+      });
       const response2 = Model._getResponseCache(key205);
       expect(response2.status).toBe(205);
       const text2 = await response2.text();
       expect(text2).toBe('');
+    });
+
+    describe('response cache eviction', () => {
+
+      it('should delete an expired entry when it is read', () => {
+        Model._responseCache.set('expiredResponseKey', {
+          expireTime: Date.now() - 1000,
+          bodyText: 'stale',
+          init: { status: 200 }
+        });
+        expect(Model._getResponseCache('expiredResponseKey')).toBeNull();
+        expect(Model._responseCache.has('expiredResponseKey')).toBeFalse();
+      });
+
+      it('should sweep already-expired entries when inserting', async () => {
+        Model._responseCache.set('deadResponseKey', {
+          expireTime: Date.now() - 1000,
+          bodyText: 'stale',
+          init: { status: 200 }
+        });
+        await Model._setResponseCache('freshResponseKey', new Response('body'), 30000);
+        expect(Model._responseCache.has('deadResponseKey')).toBeFalse();
+        expect(Model._responseCache.has('freshResponseKey')).toBeTrue();
+      });
+
+      it('should keep size bounded by _responseCacheMaxEntries across many distinct urls', async () => {
+        const max = Model._responseCacheMaxEntries;
+        for (let i = 0; i < max + 50; i++) {
+          await Model._setResponseCache(`https://example.test/thing?id=${i}`, new Response('body'), 30000);
+        }
+        expect(Model._responseCache.size).toBeLessThanOrEqual(max);
+        expect(Model._responseCache.has('https://example.test/thing?id=0')).toBeFalse();
+        expect(Model._responseCache.has(`https://example.test/thing?id=${max + 49}`)).toBeTrue();
+      });
+
     });
 
   });
