@@ -1,7 +1,7 @@
 # Issue Tracker: `bug-sweep`
 
 Generated At: `2026-08-06T21:44:13Z` (UTC)
-Last Updated At: `2026-08-07T13:07:09Z` (UTC)
+Last Updated At: `2026-08-07T13:25:34Z` (UTC)
 
 Status values: `OPEN`, `IN_PROGRESS`, `BLOCKED`, `DONE`
 
@@ -586,7 +586,7 @@ Status History:
 
 - Status: `DONE`
 - Created At: `2026-08-06T21:44:13Z`
-- Updated At: `2026-08-07T13:07:09Z`
+- Updated At: `2026-08-07T13:25:34Z`
 - Priority: `P3`
 - Source: `bug-sweep`
 
@@ -610,6 +610,7 @@ Status History:
 | 2026-08-06T21:44:13Z | N/A | OPEN | Created |
 | 2026-08-07T13:02:24Z | OPEN | IN_PROGRESS | Starting implementation (model-collection-base/html batch: 018/019/020/023) |
 | 2026-08-07T13:07:09Z | IN_PROGRESS | DONE | _setResponseCache stores response.arrayBuffer(); _responseFromCacheEntry accepts bodyBuffer with bodyText fallback for legacy-shaped entries; fetch() JSDoc updated. Spec round-trips invalid-UTF-8 bytes through fill and hit. |
+| 2026-08-07T13:25:34Z | DONE | DONE | PR feedback: unconditional arrayBuffer() broke _isValidResponse's clone()+text() contract for duck-typed response-likes. _setResponseCache now falls back to text() when arrayBuffer is absent (entry stores bodyText, already supported by _responseFromCacheEntry). Spec: text-only response-like caches and replays. Suite: 359 specs, 0 failures. |
 
 ## ISSUE-021: validateInstanceOf instantiates the constructor just to build an error message
 

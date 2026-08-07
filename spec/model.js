@@ -887,6 +887,26 @@ describe('#Model', () => {
         expect(globalThis.fetch).toHaveBeenCalledTimes(1);
       });
 
+      it('caches a text-only response-like object that lacks arrayBuffer', async () => {
+        const responseLike = {
+          ok: true,
+          status: 200,
+          statusText: 'ok',
+          headers: new Headers({'x-test': 'yes'}),
+          clone() { return this; },
+          async text() { return 'duck'; }
+        };
+        globalThis.fetch = jasmine.createSpy('fetch').and.returnValue(Promise.resolve(responseLike));
+
+        const first = await Model.fetch('http://example.com/ducktyped', { cacheMs: 10000 });
+        expect(first.status).toBe(200);
+        expect(await first.text()).toBe('duck');
+
+        const second = await Model.fetch('http://example.com/ducktyped', { cacheMs: 10000 });
+        expect(await second.text()).toBe('duck');
+        expect(globalThis.fetch).toHaveBeenCalledTimes(1);
+      });
+
       it('round-trips binary bodies through the response cache without corruption', async () => {
         const bytes = [0xff, 0x00, 0x9c, 0x80, 0xfe];
         const upstream = new Response(new Uint8Array(bytes), { status: 200 });
