@@ -84,7 +84,7 @@ describe('#Request', () => {
     expect(request.file).toEqual('apigateway/page');
   });
 
-  it('sets API Gateway Request file correctly when there is a file extension that is not an acceptable file extension', async () => {
+  it('does not strip a file extension from the route that is not an acceptable file extension', async () => {
     const event = {
       "routeKey": "GET /page.badextension",
       "requestContext": {
@@ -94,7 +94,35 @@ describe('#Request', () => {
       }
     };
     let request = new Request(event);
-    expect(request.file).toEqual('apigateway/page');
+    expect(request.file).toEqual('apigateway/page.badextension');
+  });
+
+  it('does not mangle a dotted route segment that is not a file extension', async () => {
+    const event = {
+      "routeKey": "GET /v1.2/thing",
+      "requestContext": {
+        "http": {
+          "method": "GET"
+        }
+      }
+    };
+    let request = new Request(event);
+    expect(request.apiGatewayRouteKey).toEqual('v1.2_thing');
+    expect(request.file).toEqual('apigateway/v1.2_thing');
+  });
+
+  it('does not throw from the public routeKey getters for $default', async () => {
+    const event = {
+      "routeKey": "$default",
+      "requestContext": {
+        "http": {
+          "method": "GET"
+        }
+      }
+    };
+    let request = new Request(event);
+    expect(request.apiGatewayRouteKey).toEqual('$default');
+    expect(request.apiGatewayRouteKeyNoMethod).toEqual('$default');
   });
 
   it('gets apiGatewayRouteKey correctly from the provided request', async () => {
@@ -184,6 +212,51 @@ describe('#Request', () => {
     };
     let request = new Request(event);
     expect(request.rawPathNoStage).toEqual('/page');
+  });
+
+  it('sets rawPathNoStage to / for the stage root path', async () => {
+    const event = {
+      "rawPath": "/dev",
+      "routeKey": "GET /",
+      "requestContext": {
+        "http": {
+          "method": "GET"
+        },
+        "stage": "dev"
+      }
+    };
+    let request = new Request(event);
+    expect(request.rawPathNoStage).toEqual('/');
+  });
+
+  it('does not rewrite a mid-path segment that matches the stage name', async () => {
+    const event = {
+      "rawPath": "/page/dev/thing",
+      "routeKey": "GET /page/dev/thing",
+      "requestContext": {
+        "http": {
+          "method": "GET"
+        },
+        "stage": "dev"
+      }
+    };
+    let request = new Request(event);
+    expect(request.rawPathNoStage).toEqual('/page/dev/thing');
+  });
+
+  it('only strips the leading stage prefix when the stage repeats later in the path', async () => {
+    const event = {
+      "rawPath": "/dev/page/dev/thing",
+      "routeKey": "GET /page/dev/thing",
+      "requestContext": {
+        "http": {
+          "method": "GET"
+        },
+        "stage": "dev"
+      }
+    };
+    let request = new Request(event);
+    expect(request.rawPathNoStage).toEqual('/page/dev/thing');
   });
 
   it('sets API Gateway Request queryStringParameters correctly', async () => {
@@ -535,6 +608,32 @@ describe('#Request', () => {
     };
     let request = new Request(event);
     expect(request.type).toEqual('aws:cloudwatch:events');
+  });
+
+  it('reads the capitalized EventSource for SNS-shaped records and refuses to route them as API Gateway', async () => {
+    const event = {
+      "Records": [
+        {
+          "EventSource": "aws:sns",
+          "EventVersion": "1.0",
+          "Sns": {
+            "Message": "hello"
+          }
+        }
+      ]
+    };
+    let request = new Request(event);
+    expect(request.type).toEqual('aws:sns');
+    expect(() => request.file).toThrowError(/Unsupported event type aws:sns/);
+  });
+
+  it('classifies an empty Records array as aws:unknown instead of API Gateway', async () => {
+    const event = {
+      "Records": []
+    };
+    let request = new Request(event);
+    expect(request.type).toEqual('aws:unknown');
+    expect(() => request.file).toThrowError(/Unsupported event type aws:unknown/);
   });
 
   it('sets Cloudwatch scheduled event file correctly', async () => {
