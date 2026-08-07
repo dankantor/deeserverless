@@ -1,7 +1,7 @@
 # Issue Tracker: `bug-sweep`
 
 Generated At: `2026-08-06T21:44:13Z` (UTC)
-Last Updated At: `2026-08-07T12:44:29Z` (UTC)
+Last Updated At: `2026-08-07T13:07:09Z` (UTC)
 
 Status values: `OPEN`, `IN_PROGRESS`, `BLOCKED`, `DONE`
 
@@ -347,9 +347,9 @@ Status History:
 
 ## ISSUE-012: Response.endTimer throws TypeError when no timer was ever started
 
-- Status: `OPEN`
+- Status: `DONE`
 - Created At: `2026-08-06T21:44:13Z`
-- Updated At: `2026-08-06T21:44:13Z`
+- Updated At: `2026-08-07T13:07:09Z`
 - Priority: `P3`
 - Source: `bug-sweep`
 
@@ -363,20 +363,22 @@ Scope:
 - `/Users/dankantor/Repos/deeserverless/lib/response.js`
 
 Acceptance Criteria:
-- [ ] `endTimer` is a no-op when `this._timers` is undefined.
-- [ ] Spec covers endTimer-without-startTimer.
+- [x] `endTimer` is a no-op when `this._timers` is undefined.
+- [x] Spec covers endTimer-without-startTimer.
 
 Status History:
 
 | Timestamp (UTC) | From | To | Note |
 |---|---|---|---|
 | 2026-08-06T21:44:13Z | N/A | OPEN | Created |
+| 2026-08-07T13:02:24Z | OPEN | IN_PROGRESS | Starting implementation (response hardening batch: 012/013) |
+| 2026-08-07T13:07:09Z | IN_PROGRESS | DONE | endTimer setter guards this._timers before dereferencing; endTimer-without-startTimer is a no-op. Spec added. Suite: 358 specs, 0 failures. |
 
 ## ISSUE-013: Setting more than 12 cookies produces a header named `undefined`
 
-- Status: `OPEN`
+- Status: `DONE`
 - Created At: `2026-08-06T21:44:13Z`
-- Updated At: `2026-08-06T21:44:13Z`
+- Updated At: `2026-08-07T13:07:09Z`
 - Priority: `P3`
 - Source: `bug-sweep`
 
@@ -391,20 +393,22 @@ Scope:
 - `/Users/dankantor/Repos/deeserverless/lib/response.js`
 
 Acceptance Criteria:
-- [ ] Exceeding the supported cookie count either throws a clear error or uses the HTTP API v2 `cookies` response array (unbounded).
-- [ ] Spec covers setting 13 cookies.
+- [x] Exceeding the supported cookie count either throws a clear error or uses the HTTP API v2 `cookies` response array (unbounded).
+- [x] Spec covers setting 13 cookies.
 
 Status History:
 
 | Timestamp (UTC) | From | To | Note |
 |---|---|---|---|
 | 2026-08-06T21:44:13Z | N/A | OPEN | Created |
+| 2026-08-07T13:02:24Z | OPEN | IN_PROGRESS | Starting implementation (response hardening batch: 012/013) |
+| 2026-08-07T13:07:09Z | IN_PROGRESS | DONE | cookie setter throws a clear Error naming the cookie and the 12-cookie limit when the casing-variant list is exhausted, instead of storing under key "undefined". Spec: 12 cookies fine, 13th throws. |
 
 ## ISSUE-014: Error classes ignore documented `options.$metadata`; NotFoundError captures wrong stack frame
 
-- Status: `OPEN`
+- Status: `DONE`
 - Created At: `2026-08-06T21:44:13Z`
-- Updated At: `2026-08-06T21:44:13Z`
+- Updated At: `2026-08-07T13:07:09Z`
 - Priority: `P3`
 - Source: `bug-sweep`
 
@@ -419,20 +423,22 @@ Scope:
 - `/Users/dankantor/Repos/deeserverless/lib/error.js`
 
 Acceptance Criteria:
-- [ ] All error classes honor `options.$metadata` with their status code as default, matching docs.
-- [ ] `NotFoundError` passes its own constructor to `captureStackTrace`.
+- [x] All error classes honor `options.$metadata` with their status code as default, matching docs.
+- [x] `NotFoundError` passes its own constructor to `captureStackTrace`.
 
 Status History:
 
 | Timestamp (UTC) | From | To | Note |
 |---|---|---|---|
 | 2026-08-06T21:44:13Z | N/A | OPEN | Created |
+| 2026-08-07T13:02:24Z | OPEN | IN_PROGRESS | Starting implementation (error/collection polish batch: 014/015/021) |
+| 2026-08-07T13:07:09Z | IN_PROGRESS | DONE | AuthenticationError/NotFoundError/PermissionError/BadgatewayError honor options.$metadata with their status as default, matching docs; NotFoundError.captureStackTrace now passes NotFoundError. Spec covers custom $metadata on all four classes. |
 
 ## ISSUE-015: Collection.modelIds drops falsy ids (0, empty string)
 
-- Status: `OPEN`
+- Status: `DONE`
 - Created At: `2026-08-06T21:44:13Z`
-- Updated At: `2026-08-06T21:44:13Z`
+- Updated At: `2026-08-07T13:07:09Z`
 - Priority: `P3`
 - Source: `bug-sweep`
 
@@ -446,20 +452,22 @@ Scope:
 - `/Users/dankantor/Repos/deeserverless/lib/collection.js`
 
 Acceptance Criteria:
-- [ ] Filter uses `!== undefined && !== null` (or equivalent) so 0/"" ids are included.
-- [ ] Spec covers a model with `id: 0`.
+- [x] Filter uses `!== undefined && !== null` (or equivalent) so 0/"" ids are included.
+- [x] Spec covers a model with `id: 0`.
 
 Status History:
 
 | Timestamp (UTC) | From | To | Note |
 |---|---|---|---|
 | 2026-08-06T21:44:13Z | N/A | OPEN | Created |
+| 2026-08-07T13:02:24Z | OPEN | IN_PROGRESS | Starting implementation (error/collection polish batch: 014/015/021) |
+| 2026-08-07T13:07:09Z | IN_PROGRESS | DONE | modelIds filter uses !== undefined/null so 0 and "" ids are included (and flow into uniqueModelIds). Spec: ids 0, "", 1. |
 
 ## ISSUE-016: apiGatewayRouteKey strips after the last dot unconditionally and throws on `$default`
 
-- Status: `OPEN`
+- Status: `DONE`
 - Created At: `2026-08-06T21:44:13Z`
-- Updated At: `2026-08-06T21:44:13Z`
+- Updated At: `2026-08-07T13:07:09Z`
 - Priority: `P3`
 - Source: `bug-sweep`
 
@@ -474,21 +482,23 @@ Scope:
 - `/Users/dankantor/Repos/deeserverless/lib/request.js`
 
 Acceptance Criteria:
-- [ ] Dot-stripping only occurs when the trailing segment is in `acceptableFileExtensions`.
-- [ ] `$default` routeKey does not throw from the public getters.
-- [ ] Specs cover a dotted route segment and `$default`.
+- [x] Dot-stripping only occurs when the trailing segment is in `acceptableFileExtensions`.
+- [x] `$default` routeKey does not throw from the public getters.
+- [x] Specs cover a dotted route segment and `$default`.
 
 Status History:
 
 | Timestamp (UTC) | From | To | Note |
 |---|---|---|---|
 | 2026-08-06T21:44:13Z | N/A | OPEN | Created |
+| 2026-08-07T13:02:24Z | OPEN | IN_PROGRESS | Starting implementation (request edge-case batch: 016/017/022) |
+| 2026-08-07T13:07:09Z | IN_PROGRESS | DONE | apiGatewayRouteKey strips only when the final dot-segment is in acceptableFileExtensions; both public getters return "$default" instead of throwing. Accepted behavior change: GET /page.badextension now routes to apigateway/page.badextension (spec updated from the old unconditional-strip assertion). Specs: v1.2 dotted segment, $default getters. |
 
 ## ISSUE-017: rawPathNoStage fails to strip the stage for the root path and replaces the first match anywhere
 
-- Status: `OPEN`
+- Status: `DONE`
 - Created At: `2026-08-06T21:44:13Z`
-- Updated At: `2026-08-06T21:44:13Z`
+- Updated At: `2026-08-07T13:07:09Z`
 - Priority: `P3`
 - Source: `bug-sweep`
 
@@ -502,21 +512,23 @@ Scope:
 - `/Users/dankantor/Repos/deeserverless/lib/request.js`
 
 Acceptance Criteria:
-- [ ] `/dev` (stage root) returns `/`.
-- [ ] Only a leading `/{stage}` prefix is removed.
-- [ ] Specs cover stage root and a path containing the stage name mid-path.
+- [x] `/dev` (stage root) returns `/`.
+- [x] Only a leading `/{stage}` prefix is removed.
+- [x] Specs cover stage root and a path containing the stage name mid-path.
 
 Status History:
 
 | Timestamp (UTC) | From | To | Note |
 |---|---|---|---|
 | 2026-08-06T21:44:13Z | N/A | OPEN | Created |
+| 2026-08-07T13:02:24Z | OPEN | IN_PROGRESS | Starting implementation (request edge-case batch: 016/017/022) |
+| 2026-08-07T13:07:09Z | IN_PROGRESS | DONE | rawPathNoStage anchors to a leading /{stage} prefix only: stage root returns "/", mid-path stage-named segments untouched, no-stage events return rawPath unchanged. Specs: root, mid-path, and repeated-stage paths. |
 
 ## ISSUE-018: _pruneCache loops forever when maxEntries is 0
 
-- Status: `OPEN`
+- Status: `DONE`
 - Created At: `2026-08-06T21:44:13Z`
-- Updated At: `2026-08-06T21:44:13Z`
+- Updated At: `2026-08-07T13:07:09Z`
 - Priority: `P3`
 - Source: `bug-sweep`
 
@@ -530,20 +542,22 @@ Scope:
 - `/Users/dankantor/Repos/deeserverless/lib/model-collection-base.js`
 
 Acceptance Criteria:
-- [ ] `maxEntries <= 0` either disables caching cleanly or is clamped; no infinite loop.
-- [ ] Spec covers `_cacheMaxEntries = 0`.
+- [x] `maxEntries <= 0` either disables caching cleanly or is clamped; no infinite loop.
+- [x] Spec covers `_cacheMaxEntries = 0`.
 
 Status History:
 
 | Timestamp (UTC) | From | To | Note |
 |---|---|---|---|
 | 2026-08-06T21:44:13Z | N/A | OPEN | Created |
+| 2026-08-07T13:02:24Z | OPEN | IN_PROGRESS | Starting implementation (model-collection-base/html batch: 018/019/020/023) |
+| 2026-08-07T13:07:09Z | IN_PROGRESS | DONE | _pruneCache clamps maxEntries <= 0 to 1 (single-entry cache) so the eviction loop terminates. Specs: direct _pruneCache(map, 0) and subclass with _cacheMaxEntries = 0 via setCache. |
 
 ## ISSUE-019: _fetchWithAbort overwrites a caller-supplied AbortSignal
 
-- Status: `OPEN`
+- Status: `DONE`
 - Created At: `2026-08-06T21:44:13Z`
-- Updated At: `2026-08-06T21:44:13Z`
+- Updated At: `2026-08-07T13:07:09Z`
 - Priority: `P3`
 - Source: `bug-sweep`
 
@@ -557,20 +571,22 @@ Scope:
 - `/Users/dankantor/Repos/deeserverless/lib/model-collection-base.js`
 
 Acceptance Criteria:
-- [ ] A caller-supplied signal still aborts the request when `abortTimeoutMs` is also set (e.g., via `AbortSignal.any`).
-- [ ] Spec covers caller signal + timeout combination.
+- [x] A caller-supplied signal still aborts the request when `abortTimeoutMs` is also set (e.g., via `AbortSignal.any`).
+- [x] Spec covers caller signal + timeout combination.
 
 Status History:
 
 | Timestamp (UTC) | From | To | Note |
 |---|---|---|---|
 | 2026-08-06T21:44:13Z | N/A | OPEN | Created |
+| 2026-08-07T13:02:24Z | OPEN | IN_PROGRESS | Starting implementation (model-collection-base/html batch: 018/019/020/023) |
+| 2026-08-07T13:07:09Z | IN_PROGRESS | DONE | _fetchWithAbort wires a caller-supplied signal to its internal controller (addEventListener/abort propagation — works on Node 18, no AbortSignal.any needed) and removes the listener in finally; caller-initiated aborts rethrow the original AbortError instead of the misleading timeout message. Specs: live abort and pre-aborted signal. |
 
 ## ISSUE-020: Response cache buffers bodies as text, corrupting binary GET responses
 
-- Status: `OPEN`
+- Status: `DONE`
 - Created At: `2026-08-06T21:44:13Z`
-- Updated At: `2026-08-06T21:44:13Z`
+- Updated At: `2026-08-07T13:07:09Z`
 - Priority: `P3`
 - Source: `bug-sweep`
 
@@ -584,20 +600,22 @@ Scope:
 - `/Users/dankantor/Repos/deeserverless/lib/model-collection-base.js`
 
 Acceptance Criteria:
-- [ ] Cached bodies round-trip binary content (e.g., store `arrayBuffer()`), or binary/caching combination is explicitly rejected and documented.
-- [ ] Spec covers caching a response with non-UTF-8 bytes.
+- [x] Cached bodies round-trip binary content (e.g., store `arrayBuffer()`), or binary/caching combination is explicitly rejected and documented.
+- [x] Spec covers caching a response with non-UTF-8 bytes.
 
 Status History:
 
 | Timestamp (UTC) | From | To | Note |
 |---|---|---|---|
 | 2026-08-06T21:44:13Z | N/A | OPEN | Created |
+| 2026-08-07T13:02:24Z | OPEN | IN_PROGRESS | Starting implementation (model-collection-base/html batch: 018/019/020/023) |
+| 2026-08-07T13:07:09Z | IN_PROGRESS | DONE | _setResponseCache stores response.arrayBuffer(); _responseFromCacheEntry accepts bodyBuffer with bodyText fallback for legacy-shaped entries; fetch() JSDoc updated. Spec round-trips invalid-UTF-8 bytes through fill and hit. |
 
 ## ISSUE-021: validateInstanceOf instantiates the constructor just to build an error message
 
-- Status: `OPEN`
+- Status: `DONE`
 - Created At: `2026-08-06T21:44:13Z`
-- Updated At: `2026-08-06T21:44:13Z`
+- Updated At: `2026-08-07T13:07:09Z`
 - Priority: `P3`
 - Source: `bug-sweep`
 
@@ -612,20 +630,22 @@ Scope:
 - `/Users/dankantor/Repos/deeserverless/lib/validation.js`
 
 Acceptance Criteria:
-- [ ] Error message uses `constructor.name` with no instantiation.
-- [ ] Spec asserts no constructor invocation on failure (e.g., constructor that throws/records calls).
+- [x] Error message uses `constructor.name` with no instantiation.
+- [x] Spec asserts no constructor invocation on failure (e.g., constructor that throws/records calls).
 
 Status History:
 
 | Timestamp (UTC) | From | To | Note |
 |---|---|---|---|
 | 2026-08-06T21:44:13Z | N/A | OPEN | Created |
+| 2026-08-07T13:02:24Z | OPEN | IN_PROGRESS | Starting implementation (error/collection polish batch: 014/015/021) |
+| 2026-08-07T13:07:09Z | IN_PROGRESS | DONE | validateInstanceOf uses constructor.name in both failure messages; the new-constructor()-for-messaging workaround and the constructor.constructor.name fallback are gone. Spec asserts the constructor is never invoked on failure. |
 
 ## ISSUE-022: Record-based events without lowercase `eventSource` (e.g., SNS) are misrouted as API Gateway and crash
 
-- Status: `OPEN`
+- Status: `DONE`
 - Created At: `2026-08-06T21:44:13Z`
-- Updated At: `2026-08-06T21:44:13Z`
+- Updated At: `2026-08-07T13:07:09Z`
 - Priority: `P3`
 - Source: `bug-sweep`
 
@@ -640,20 +660,22 @@ Scope:
 - `/Users/dankantor/Repos/deeserverless/lib/request.js`
 
 Acceptance Criteria:
-- [ ] Record-based events lacking a recognized source produce a defined type or explicit error, not an accidental API Gateway classification.
-- [ ] Spec covers an SNS-shaped event and an empty `Records` array.
+- [x] Record-based events lacking a recognized source produce a defined type or explicit error, not an accidental API Gateway classification.
+- [x] Spec covers an SNS-shaped event and an empty `Records` array.
 
 Status History:
 
 | Timestamp (UTC) | From | To | Note |
 |---|---|---|---|
 | 2026-08-06T21:44:13Z | N/A | OPEN | Created |
+| 2026-08-07T13:02:24Z | OPEN | IN_PROGRESS | Starting implementation (request edge-case batch: 016/017/022) |
+| 2026-08-07T13:07:09Z | IN_PROGRESS | DONE | type reads eventSource || EventSource for records and returns aws:unknown for empty/unsourced Records instead of defaulting to API Gateway; file getter throws a clear "Unsupported event type" Error when no routeKey exists to route. Specs: SNS-shaped event and empty Records. |
 
 ## ISSUE-023: Html renders the literal string "undefined" for unset members
 
-- Status: `OPEN`
+- Status: `DONE`
 - Created At: `2026-08-06T21:44:13Z`
-- Updated At: `2026-08-06T21:44:13Z`
+- Updated At: `2026-08-07T13:07:09Z`
 - Priority: `P3`
 - Source: `bug-sweep`
 
@@ -668,11 +690,13 @@ Scope:
 - `/Users/dankantor/Repos/deeserverless/lib/html.js`
 
 Acceptance Criteria:
-- [ ] Unset members render as empty strings or their tags are omitted.
-- [ ] Spec renders a bare `Html` page and asserts "undefined" does not appear.
+- [x] Unset members render as empty strings or their tags are omitted.
+- [x] Spec renders a bare `Html` page and asserts "undefined" does not appear.
 
 Status History:
 
 | Timestamp (UTC) | From | To | Note |
 |---|---|---|---|
 | 2026-08-06T21:44:13Z | N/A | OPEN | Created |
+| 2026-08-07T13:02:24Z | OPEN | IN_PROGRESS | Starting implementation (model-collection-base/html batch: 018/019/020/023) |
+| 2026-08-07T13:07:09Z | IN_PROGRESS | DONE | document renders body ?? ""; head members already render "" when unset via ISSUE-010 escaping. Spec renders a bare Html page and asserts no literal "undefined". |
