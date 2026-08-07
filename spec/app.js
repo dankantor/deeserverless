@@ -62,6 +62,21 @@ describe('#App', () => {
     });
   });
 
+  it('returns a 500 and logs when a route file exists but its own import is missing', async () => {
+    spyOn(console, 'error');
+    const event = {
+      "routeKey": "GET /brokenimport",
+      "requestContext": {
+        "http": {
+          "method": "GET"
+        }
+      }
+    };
+    let app = await new App(event, context);
+    expect(app.statusCode).toEqual(500);
+    expect(console.error).toHaveBeenCalled();
+  });
+
   it('returns a status code of 200 for a POST request', async () => {
     const event = {
       "routeKey": "POST /page",
