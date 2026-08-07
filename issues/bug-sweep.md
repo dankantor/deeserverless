@@ -1,7 +1,7 @@
 # Issue Tracker: `bug-sweep`
 
 Generated At: `2026-08-06T21:44:13Z` (UTC)
-Last Updated At: `2026-08-06T23:03:04Z` (UTC)
+Last Updated At: `2026-08-07T11:22:32Z` (UTC)
 
 Status values: `OPEN`, `IN_PROGRESS`, `BLOCKED`, `DONE`
 
@@ -134,9 +134,9 @@ Status History:
 
 ## ISSUE-005: Request.body only JSON-parses on exact `application/json` match; charset suffix returns raw string
 
-- Status: `OPEN`
+- Status: `DONE`
 - Created At: `2026-08-06T21:44:13Z`
-- Updated At: `2026-08-06T21:44:13Z`
+- Updated At: `2026-08-07T11:22:32Z`
 - Priority: `P2`
 - Source: `bug-sweep`
 
@@ -151,21 +151,23 @@ Scope:
 - `/Users/dankantor/Repos/deeserverless/lib/request.js`
 
 Acceptance Criteria:
-- [ ] Content type is matched on the media type (e.g., `startsWith('application/json')` or parsed), ignoring parameters.
-- [ ] Malformed JSON in the body produces a defined outcome (e.g., ValidationError/400) rather than an uncaught exception.
-- [ ] Specs cover `application/json; charset=utf-8` and malformed JSON.
+- [x] Content type is matched on the media type (e.g., `startsWith('application/json')` or parsed), ignoring parameters.
+- [x] Malformed JSON in the body produces a defined outcome (e.g., ValidationError/400) rather than an uncaught exception.
+- [x] Specs cover `application/json; charset=utf-8` and malformed JSON.
 
 Status History:
 
 | Timestamp (UTC) | From | To | Note |
 |---|---|---|---|
 | 2026-08-06T21:44:13Z | N/A | OPEN | Created |
+| 2026-08-07T11:21:23Z | OPEN | IN_PROGRESS | Starting implementation (request-parsing batch: 005/006/007) |
+| 2026-08-07T11:22:32Z | IN_PROGRESS | DONE | body getter matches media type (split on ';', trim, lowercase) so charset params and casing are ignored; malformed JSON throws ValidationError('Malformed JSON body') which Page maps to 400. Specs: charset param, uppercase casing, malformed JSON. Suite: 333 specs, 0 failures. |
 
 ## ISSUE-006: Request.cookies truncates cookie values containing `=`
 
-- Status: `OPEN`
+- Status: `DONE`
 - Created At: `2026-08-06T21:44:13Z`
-- Updated At: `2026-08-06T21:44:13Z`
+- Updated At: `2026-08-07T11:22:32Z`
 - Priority: `P2`
 - Source: `bug-sweep`
 
@@ -179,20 +181,22 @@ Scope:
 - `/Users/dankantor/Repos/deeserverless/lib/request.js`
 
 Acceptance Criteria:
-- [ ] Values with embedded `=` are preserved (split on the first `=` only).
-- [ ] Spec added for a cookie value like `abc==` or a JWT-shaped value.
+- [x] Values with embedded `=` are preserved (split on the first `=` only).
+- [x] Spec added for a cookie value like `abc==` or a JWT-shaped value.
 
 Status History:
 
 | Timestamp (UTC) | From | To | Note |
 |---|---|---|---|
 | 2026-08-06T21:44:13Z | N/A | OPEN | Created |
+| 2026-08-07T11:21:23Z | OPEN | IN_PROGRESS | Starting implementation (request-parsing batch: 005/006/007) |
+| 2026-08-07T11:22:32Z | IN_PROGRESS | DONE | cookies getter splits on first '=' via indexOf/substring, preserving embedded '=' in values; no-'=' cookie behavior unchanged (undefined value). Spec: base64-padded and JWT-shaped values. Suite: 333 specs, 0 failures. |
 
 ## ISSUE-007: Request.pathParameters extension-stripping checks the second dot-segment instead of the last
 
-- Status: `OPEN`
+- Status: `DONE`
 - Created At: `2026-08-06T21:44:13Z`
-- Updated At: `2026-08-06T21:44:13Z`
+- Updated At: `2026-08-07T11:22:32Z`
 - Priority: `P2`
 - Source: `bug-sweep`
 
@@ -208,14 +212,16 @@ Scope:
 - `/Users/dankantor/Repos/deeserverless/lib/request.js`
 
 Acceptance Criteria:
-- [ ] Extension detection uses the final dot-segment; only that segment is removed.
-- [ ] Specs cover multi-dot parameter values (`my.file.json`, `archive.tar.gz`).
+- [x] Extension detection uses the final dot-segment; only that segment is removed.
+- [x] Specs cover multi-dot parameter values (`my.file.json`, `archive.tar.gz`).
 
 Status History:
 
 | Timestamp (UTC) | From | To | Note |
 |---|---|---|---|
 | 2026-08-06T21:44:13Z | N/A | OPEN | Created |
+| 2026-08-07T11:21:23Z | OPEN | IN_PROGRESS | Starting implementation (request-parsing batch: 005/006/007) |
+| 2026-08-07T11:22:32Z | IN_PROGRESS | DONE | pathParameters now tests the final dot-segment against acceptableFileExtensions and removes only that segment (my.file.json -> my.file, archive.tar.gz -> archive.tar), matching fileExtension's convention. Specs added for both multi-dot cases. Suite: 333 specs, 0 failures. |
 
 ## ISSUE-008: Validation.validateNumber accepts NaN
 

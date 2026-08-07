@@ -1,4 +1,5 @@
 import {Request} from './../lib/request.js';
+import {ValidationError} from './../lib/error.js';
 
 describe('#Request', () => {
 
@@ -281,6 +282,38 @@ describe('#Request', () => {
     expect(request.pathParameters).toEqual({ foo: 'bar.badextension' });
   });
 
+  it('strips only the final extension from a multi-dot path parameter', async () => {
+    const event = {
+      "routeKey": "GET /page/{foo}",
+      "requestContext": {
+        "http": {
+          "method": "GET"
+        }
+      },
+      "pathParameters": {
+        "foo": "my.file.json"
+      }
+    };
+    let request = new Request(event);
+    expect(request.pathParameters).toEqual({ foo: 'my.file' });
+  });
+
+  it('strips only the final extension from an archive-style path parameter', async () => {
+    const event = {
+      "routeKey": "GET /page/{foo}",
+      "requestContext": {
+        "http": {
+          "method": "GET"
+        }
+      },
+      "pathParameters": {
+        "foo": "archive.tar.gz"
+      }
+    };
+    let request = new Request(event);
+    expect(request.pathParameters).toEqual({ foo: 'archive.tar' });
+  });
+
   it('sets API Gateway Request cookies correctly', async () => {
     const event = {
       "routeKey": "GET /page",
@@ -295,6 +328,26 @@ describe('#Request', () => {
     };
     let request = new Request(event);
     expect(request.cookies).toEqual({ foo: 'bar' });
+  });
+
+  it('sets API Gateway Request cookies correctly when values contain =', async () => {
+    const event = {
+      "routeKey": "GET /page",
+      "requestContext": {
+        "http": {
+          "method": "GET"
+        }
+      },
+      "cookies": [
+        "session=abc==",
+        "jwt=header.payload.signature=="
+      ]
+    };
+    let request = new Request(event);
+    expect(request.cookies).toEqual({
+      session: 'abc==',
+      jwt: 'header.payload.signature=='
+    });
   });
 
   it('sets API Gateway Request headers correctly', async () => {
@@ -380,6 +433,57 @@ describe('#Request', () => {
     };
     let request = new Request(event);
     expect(request.body).toEqual({ foo: 'bar' });
+  });
+
+  it('sets API Gateway Request body application/json correctly when content type has a charset parameter', async () => {
+    const event = {
+      "routeKey": "GET /page",
+      "requestContext": {
+        "http": {
+          "method": "GET"
+        }
+      },
+      "headers": {
+        "Content-Type": "application/json; charset=utf-8"
+      },
+      "body": '{"foo": "bar"}'
+    };
+    let request = new Request(event);
+    expect(request.body).toEqual({ foo: 'bar' });
+  });
+
+  it('sets API Gateway Request body application/json correctly when content type casing differs', async () => {
+    const event = {
+      "routeKey": "GET /page",
+      "requestContext": {
+        "http": {
+          "method": "GET"
+        }
+      },
+      "headers": {
+        "Content-Type": "Application/JSON"
+      },
+      "body": '{"foo": "bar"}'
+    };
+    let request = new Request(event);
+    expect(request.body).toEqual({ foo: 'bar' });
+  });
+
+  it('throws a ValidationError when application/json body is malformed', async () => {
+    const event = {
+      "routeKey": "GET /page",
+      "requestContext": {
+        "http": {
+          "method": "GET"
+        }
+      },
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": '{"foo": "bar"'
+    };
+    let request = new Request(event);
+    expect(() => request.body).toThrowError(ValidationError, 'Malformed JSON body');
   });
 
   it('sets API Gateway fileExtension properly', async () => {
