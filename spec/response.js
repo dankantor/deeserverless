@@ -215,6 +215,31 @@ describe('#Request', () => {
     }
   });
 
+  it('does not throw when endTimer is set without any startTimer', async () => {
+    let promise = await new Promise((resolve, reject) => {
+      let response = new Response(resolve);
+      expect(() => {
+        response.endTimer = "never-started";
+      }).not.toThrow();
+      response.done();
+    });
+    expect(promise.headers['server-timing']).toBeUndefined();
+  });
+
+  it('supports setting 12 cookies and throws a clear error on the 13th', () => {
+    let response = new Response(() => {});
+    for (let i = 0; i < 12; i++) {
+      expect(() => {
+        response.cookie = {'key': `cookie${i}`, 'value': `${i}`};
+      }).not.toThrow();
+    }
+    expect(Object.keys(response.cookies).length).toEqual(12);
+    expect(() => {
+      response.cookie = {'key': 'cookie12', 'value': '12'};
+    }).toThrowError(/maximum of 12 cookies/);
+    expect(response.cookies['undefined']).toBeUndefined();
+  });
+
   it('sets and returns the server-timing header correctly with startTimer and endTimer', async () => {
     let promise = await new Promise((resolve, reject) => {
       let response = new Response(resolve);

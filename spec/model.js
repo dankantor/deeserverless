@@ -559,6 +559,23 @@ describe('#Model', () => {
     }, 20);
   });
 
+  it('does not loop forever when pruning with maxEntries of 0', function() {
+    const zeroCache = new Map();
+    zeroCache.set('a', {expireTime: Date.now() + 10000, value: 1});
+    zeroCache.set('b', {expireTime: Date.now() + 10000, value: 2});
+    Model._pruneCache(zeroCache, 0);
+    expect(zeroCache.size).toBe(0);
+  });
+
+  it('clamps a subclass _cacheMaxEntries of 0 to a single-entry cache without hanging', function() {
+    class ZeroCacheModel extends Model {}
+    ZeroCacheModel._cache = new Map();
+    ZeroCacheModel._cacheMaxEntries = 0;
+    ZeroCacheModel.setCache('k1', 'v1');
+    ZeroCacheModel.setCache('k2', 'v2');
+    expect(ZeroCacheModel._cache.size).toBeLessThanOrEqual(1);
+  });
+
   it('should keep the cache bounded across many distinct keys', function() {
     const max = Model._cacheMaxEntries;
     for (let i = 0; i < max + 50; i++) {
@@ -746,6 +763,37 @@ describe('#Model', () => {
           Model._fetchWithAbort('http://example.com', {}, 10)
         ).toBeRejectedWithError(/aborted after 10ms/);
       });
+
+      it('still honors a caller-supplied AbortSignal when a timeout is also set', async () => {
+        globalThis.fetch = jasmine.createSpy('fetch').and.callFake((url, options) => {
+          return new Promise((resolve, reject) => {
+            options.signal.addEventListener('abort', () => {
+              reject(new DOMException('Aborted', 'AbortError'));
+            });
+          });
+        });
+
+        const callerController = new AbortController();
+        const promise = Model._fetchWithAbort('http://example.com', { signal: callerController.signal }, 5000);
+        callerController.abort();
+        await expectAsync(promise).toBeRejectedWith(jasmine.any(DOMException));
+      });
+
+      it('rejects immediately when the caller-supplied signal is already aborted', async () => {
+        globalThis.fetch = jasmine.createSpy('fetch').and.callFake((url, options) => {
+          return new Promise((resolve, reject) => {
+            if (options.signal.aborted) {
+              reject(new DOMException('Aborted', 'AbortError'));
+            }
+          });
+        });
+
+        const callerController = new AbortController();
+        callerController.abort();
+        await expectAsync(
+          Model._fetchWithAbort('http://example.com', { signal: callerController.signal }, 5000)
+        ).toBeRejectedWith(jasmine.any(DOMException));
+      });
     });
 
     describe('.fetch', () => {
@@ -836,6 +884,39 @@ describe('#Model', () => {
         const second = await Model.fetch('http://example.com/roundtrip', { cacheMs: 10000 });
         expect(second.status).toBe(200);
         expect(await second.text()).toBe('payload');
+        expect(globalThis.fetch).toHaveBeenCalledTimes(1);
+      });
+
+      it('caches a text-only response-like object that lacks arrayBuffer', async () => {
+        const responseLike = {
+          ok: true,
+          status: 200,
+          statusText: 'ok',
+          headers: new Headers({'x-test': 'yes'}),
+          clone() { return this; },
+          async text() { return 'duck'; }
+        };
+        globalThis.fetch = jasmine.createSpy('fetch').and.returnValue(Promise.resolve(responseLike));
+
+        const first = await Model.fetch('http://example.com/ducktyped', { cacheMs: 10000 });
+        expect(first.status).toBe(200);
+        expect(await first.text()).toBe('duck');
+
+        const second = await Model.fetch('http://example.com/ducktyped', { cacheMs: 10000 });
+        expect(await second.text()).toBe('duck');
+        expect(globalThis.fetch).toHaveBeenCalledTimes(1);
+      });
+
+      it('round-trips binary bodies through the response cache without corruption', async () => {
+        const bytes = [0xff, 0x00, 0x9c, 0x80, 0xfe];
+        const upstream = new Response(new Uint8Array(bytes), { status: 200 });
+        globalThis.fetch = jasmine.createSpy('fetch').and.returnValue(Promise.resolve(upstream));
+
+        const first = await Model.fetch('http://example.com/binary', { cacheMs: 10000 });
+        expect(Array.from(new Uint8Array(await first.arrayBuffer()))).toEqual(bytes);
+
+        const second = await Model.fetch('http://example.com/binary', { cacheMs: 10000 });
+        expect(Array.from(new Uint8Array(await second.arrayBuffer()))).toEqual(bytes);
         expect(globalThis.fetch).toHaveBeenCalledTimes(1);
       });
 

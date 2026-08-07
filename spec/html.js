@@ -285,6 +285,22 @@ describe('#Html', () => {
     expect(promise.body).toContain(`localStorage.setItem('csrf', "`);
   });
 
+  it('renders a bare Html page without the literal string "undefined"', async () => {
+    class TestHtml extends Html {
+      get() {
+        this.res.statusCode = 200;
+        this.res.body = this.document;
+        this.res.done();
+      }
+    }
+    let request = new Request(directEvent);
+    let promise = await new Promise((resolve, reject) => {
+      let response = new Response(resolve, reject);
+      new TestHtml(request, response);
+    });
+    expect(promise.body).not.toContain('undefined');
+  });
+
   it('generates a UUID csrf token from a CSPRNG when csrf is set to true', async () => {
     let page;
     class TestHtml extends Html {
