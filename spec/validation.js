@@ -127,6 +127,24 @@ describe('#Validation', () => {
     }
   });
 
+  it('Throws an error when validateNumber is given NaN', () => {
+    expect(() => {
+      Validation.validateNumber(NaN);
+    }).toThrowError('validateNumber variable must be a number.');
+  });
+
+  it('Throws an error when validateNumber is given NaN with minValue and maxValue set', () => {
+    expect(() => {
+      Validation.validateNumber(NaN, {minValue: 0, maxValue: 10});
+    }).toThrowError('validateNumber variable must be a number.');
+  });
+
+  it('Throws an error when validateNumber is given Infinity', () => {
+    expect(() => {
+      Validation.validateNumber(Infinity);
+    }).toThrowError(`validateNumber variable must not be greater than ${Number.MAX_SAFE_INTEGER}.`);
+  });
+
   it('Throws an error when validateNumber is given a number that is less than default minValue', () => {
     try {
       Validation.validateNumber(Number.MIN_SAFE_INTEGER - 1);
