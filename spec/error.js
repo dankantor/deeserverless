@@ -54,6 +54,13 @@ describe('#Error', () => {
     }
   });
 
+  it('honors custom $metadata for AuthenticationError, NotFoundError, PermissionError, and BadgatewayError', () => {
+    expect(new AuthenticationError({$metadata: {httpStatusCode: 407}}).$metadata.httpStatusCode).toEqual(407);
+    expect(new NotFoundError({$metadata: {httpStatusCode: 410}}).$metadata.httpStatusCode).toEqual(410);
+    expect(new PermissionError({$metadata: {httpStatusCode: 451}}).$metadata.httpStatusCode).toEqual(451);
+    expect(new BadgatewayError({$metadata: {httpStatusCode: 504}}).$metadata.httpStatusCode).toEqual(504);
+  });
+
   it('returns the correct NotFoundError output', () => {
     try {
       throw new NotFoundError();

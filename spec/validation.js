@@ -433,6 +433,21 @@ describe('#Validation', () => {
     }
   });
 
+  it('Does not instantiate the constructor when validateInstanceOf fails', () => {
+    class Model{}
+    class SideEffectModel {
+      static instantiated = false;
+      constructor() {
+        SideEffectModel.instantiated = true;
+      }
+    }
+    let model = new Model();
+    expect(() => {
+      Validation.validateInstanceOf(model, SideEffectModel, {name: "Model"});
+    }).toThrowError("validateInstanceOf Model must be an instanceof SideEffectModel.");
+    expect(SideEffectModel.instantiated).toBeFalse();
+  });
+
   it('Does not throw an error when validateInstanceOf is given a null input but is not required', () => {
     class Model{}
     let model = new Model();

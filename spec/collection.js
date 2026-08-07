@@ -210,6 +210,28 @@ describe('#Collection', () => {
     expect(userCollection.modelIds.length).toEqual(0);
   });
 
+  it('Includes falsy but valid ids (0, empty string) in modelIds', () => {
+    class UserCollection extends Collection {}
+    class Model {
+      #id
+      constructor(data) {
+        this.id = data.id;
+      }
+      get id() {
+        return this.#id;
+      }
+      set id(string) {
+        this.#id = string;
+      }
+    }
+    let model1 = new Model({id: 0});
+    let model2 = new Model({id: ""});
+    let model3 = new Model({id: 1});
+    let userCollection = new UserCollection({models: [model1, model2, model3], model: Model});
+    userCollection.setVarsFromData();
+    expect(userCollection.modelIds).toEqual([0, "", 1]);
+  });
+
   it('Returns the correct list of uniqueModelIds', () => {
     class UserCollection extends Collection {}
     class Model {
