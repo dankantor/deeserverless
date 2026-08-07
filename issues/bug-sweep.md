@@ -1,7 +1,7 @@
 # Issue Tracker: `bug-sweep`
 
 Generated At: `2026-08-06T21:44:13Z` (UTC)
-Last Updated At: `2026-08-07T12:13:15Z` (UTC)
+Last Updated At: `2026-08-07T12:44:29Z` (UTC)
 
 Status values: `OPEN`, `IN_PROGRESS`, `BLOCKED`, `DONE`
 
@@ -229,9 +229,9 @@ Status History:
 
 ## ISSUE-008: Validation.validateNumber accepts NaN
 
-- Status: `OPEN`
+- Status: `DONE`
 - Created At: `2026-08-06T21:44:13Z`
-- Updated At: `2026-08-06T21:44:13Z`
+- Updated At: `2026-08-07T12:44:29Z`
 - Priority: `P2`
 - Source: `bug-sweep`
 
@@ -246,14 +246,16 @@ Scope:
 - `/Users/dankantor/Repos/deeserverless/lib/validation.js`
 
 Acceptance Criteria:
-- [ ] `validateNumber(NaN)` throws a ValidationError (e.g., via `Number.isFinite` check).
-- [ ] Spec added for NaN (and ideally Infinity with explicit maxValue).
+- [x] `validateNumber(NaN)` throws a ValidationError (e.g., via `Number.isFinite` check).
+- [x] Spec added for NaN (and ideally Infinity with explicit maxValue).
 
 Status History:
 
 | Timestamp (UTC) | From | To | Note |
 |---|---|---|---|
 | 2026-08-06T21:44:13Z | N/A | OPEN | Created |
+| 2026-08-07T12:42:23Z | OPEN | IN_PROGRESS | Starting implementation (security batch: 008/010/011) |
+| 2026-08-07T12:44:29Z | IN_PROGRESS | DONE | Both validateNumber type checks now also reject Number.isNaN with the "must be a number" message; Infinity already rejected by default MIN/MAX_SAFE_INTEGER range checks (spec codifies it). Specs: NaN, NaN with min/max, Infinity. Suite: 340 specs, 0 failures. |
 
 ## ISSUE-009: App maps every ERR_MODULE_NOT_FOUND to 404, masking missing dependencies of existing route files
 
@@ -286,9 +288,9 @@ Status History:
 
 ## ISSUE-010: Html interpolates unescaped values into markup and inline script (XSS risk)
 
-- Status: `OPEN`
+- Status: `DONE`
 - Created At: `2026-08-06T21:44:13Z`
-- Updated At: `2026-08-06T21:44:13Z`
+- Updated At: `2026-08-07T12:44:29Z`
 - Priority: `P2`
 - Source: `bug-sweep`
 
@@ -303,20 +305,22 @@ Scope:
 - `/Users/dankantor/Repos/deeserverless/lib/html.js`
 
 Acceptance Criteria:
-- [ ] Interpolated values are HTML-escaped (attribute and element context) and the csrf value is JS-string-escaped or restricted to a safe charset.
-- [ ] Specs assert escaping of `"` `<` `>` `'` in title/description/metaTag content and csrf.
+- [x] Interpolated values are HTML-escaped (attribute and element context) and the csrf value is JS-string-escaped or restricted to a safe charset.
+- [x] Specs assert escaping of `"` `<` `>` `'` in title/description/metaTag content and csrf.
 
 Status History:
 
 | Timestamp (UTC) | From | To | Note |
 |---|---|---|---|
 | 2026-08-06T21:44:13Z | N/A | OPEN | Created |
+| 2026-08-07T12:42:23Z | OPEN | IN_PROGRESS | Starting implementation (security batch: 008/010/011) |
+| 2026-08-07T12:44:29Z | IN_PROGRESS | DONE | html.js #escapeHtml() applied to all head interpolations (description, favIcon, title, css, themeColor, webAppTitle, appleTouchIcons, canonicalUrl, metaTags) and script srcs; csrf inline script uses JSON.stringify + < escaping. body/headBottom/bodyBottom stay raw by design. Side effect: escaped members render '' when unset (partial ISSUE-023 overlap). Specs: title/description/metaTag escaping, csrf script breakout. Suite: 340 specs, 0 failures. |
 
 ## ISSUE-011: Auto-generated CSRF token uses Math.random()
 
-- Status: `OPEN`
+- Status: `DONE`
 - Created At: `2026-08-06T21:44:13Z`
-- Updated At: `2026-08-06T21:44:13Z`
+- Updated At: `2026-08-07T12:44:29Z`
 - Priority: `P2`
 - Source: `bug-sweep`
 
@@ -330,14 +334,16 @@ Scope:
 - `/Users/dankantor/Repos/deeserverless/lib/html.js`
 
 Acceptance Criteria:
-- [ ] Token generated via `crypto.randomUUID()` or `crypto.randomBytes` with fixed adequate length.
-- [ ] Spec asserts token shape/length.
+- [x] Token generated via `crypto.randomUUID()` or `crypto.randomBytes` with fixed adequate length.
+- [x] Spec asserts token shape/length.
 
 Status History:
 
 | Timestamp (UTC) | From | To | Note |
 |---|---|---|---|
 | 2026-08-06T21:44:13Z | N/A | OPEN | Created |
+| 2026-08-07T12:42:23Z | OPEN | IN_PROGRESS | Starting implementation (security batch: 008/010/011) |
+| 2026-08-07T12:44:29Z | IN_PROGRESS | DONE | csrf=true now generates via node:crypto randomUUID() (122 bits CSPRNG, fixed 36-char shape) instead of Math.random().toString(36). Spec asserts UUID v4 regex and matching Set-Cookie value. Suite: 340 specs, 0 failures. |
 
 ## ISSUE-012: Response.endTimer throws TypeError when no timer was ever started
 
