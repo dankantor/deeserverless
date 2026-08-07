@@ -38,6 +38,8 @@ describe('#Page', () => {
       let page = new Page(request, response);
     });
     expect(promise.statusCode).toEqual(404);
+    expect(typeof promise.body).toEqual('string');
+    expect(JSON.parse(promise.body)).toEqual({'status': 'Page not found'});
   });
 
   it('resolves a 400 response when an async handler throws a ValidationError', async () => {

@@ -128,10 +128,10 @@ describe('#Request', () => {
     let promise = await new Promise((resolve, reject) => {
       let response = new Response(resolve);
       response.cookie = {'key': 'foo', 'value': 'bar', 'domain': 'foo.com'};
-      expect(response.cookies['Set-Cookie']).toEqual('foo=bar;Secure;foo.com;HttpOnly;Max-Age=604800;SameSite=lax;Path=/;');
+      expect(response.cookies['Set-Cookie']).toEqual('foo=bar;Secure;Domain=foo.com;HttpOnly;Max-Age=604800;SameSite=lax;Path=/;');
       response.done();
     });
-    expect(promise.headers['Set-Cookie']).toEqual('foo=bar;Secure;foo.com;HttpOnly;Max-Age=604800;SameSite=lax;Path=/;');
+    expect(promise.headers['Set-Cookie']).toEqual('foo=bar;Secure;Domain=foo.com;HttpOnly;Max-Age=604800;SameSite=lax;Path=/;');
   });
 
   it('sets and returns the Response cookie to foo=bar with custom SameSite', async () => {

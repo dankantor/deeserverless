@@ -1,7 +1,7 @@
 # Issue Tracker: `bug-sweep`
 
 Generated At: `2026-08-06T21:44:13Z` (UTC)
-Last Updated At: `2026-08-07T11:22:32Z` (UTC)
+Last Updated At: `2026-08-07T12:13:15Z` (UTC)
 
 Status values: `OPEN`, `IN_PROGRESS`, `BLOCKED`, `DONE`
 
@@ -77,9 +77,9 @@ Status History:
 
 ## ISSUE-003: Cookie Domain attribute emitted without `Domain=` prefix, so browsers silently ignore it
 
-- Status: `OPEN`
+- Status: `DONE`
 - Created At: `2026-08-06T21:44:13Z`
-- Updated At: `2026-08-06T21:44:13Z`
+- Updated At: `2026-08-07T12:13:15Z`
 - Priority: `P2`
 - Source: `bug-sweep`
 
@@ -95,20 +95,22 @@ Scope:
 - `/Users/dankantor/Repos/deeserverless/spec/response.js`
 
 Acceptance Criteria:
-- [ ] Cookie string contains `Domain=<value>;` when `obj.domain` is set.
-- [ ] Spec updated to assert the corrected attribute.
+- [x] Cookie string contains `Domain=<value>;` when `obj.domain` is set.
+- [x] Spec updated to assert the corrected attribute.
 
 Status History:
 
 | Timestamp (UTC) | From | To | Note |
 |---|---|---|---|
 | 2026-08-06T21:44:13Z | N/A | OPEN | Created |
+| 2026-08-07T12:10:48Z | OPEN | IN_PROGRESS | Starting implementation (response/routing batch: 003/004/009) |
+| 2026-08-07T12:13:15Z | IN_PROGRESS | DONE | response.js cookie setter emits Domain=<value>; spec updated from the malformed assertion. Suite: 334 specs, 0 failures. |
 
 ## ISSUE-004: Page 404 fallback sets response body to an object, producing a malformed Lambda proxy response
 
-- Status: `OPEN`
+- Status: `DONE`
 - Created At: `2026-08-06T21:44:13Z`
-- Updated At: `2026-08-06T21:44:13Z`
+- Updated At: `2026-08-07T12:13:15Z`
 - Priority: `P2`
 - Source: `bug-sweep`
 
@@ -123,14 +125,16 @@ Scope:
 - `/Users/dankantor/Repos/deeserverless/lib/page.js`
 
 Acceptance Criteria:
-- [ ] The 404 fallback produces a string body (e.g., via `res.json = {...}`).
-- [ ] Spec asserts `typeof body === 'string'` for the method-not-found path.
+- [x] The 404 fallback produces a string body (e.g., via `res.json = {...}`).
+- [x] Spec asserts `typeof body === 'string'` for the method-not-found path.
 
 Status History:
 
 | Timestamp (UTC) | From | To | Note |
 |---|---|---|---|
 | 2026-08-06T21:44:13Z | N/A | OPEN | Created |
+| 2026-08-07T12:10:48Z | OPEN | IN_PROGRESS | Starting implementation (response/routing batch: 003/004/009) |
+| 2026-08-07T12:13:15Z | IN_PROGRESS | DONE | page.js 404 fallback uses res.json setter; spec asserts string body and parsed content. Suite: 334 specs, 0 failures. |
 
 ## ISSUE-005: Request.body only JSON-parses on exact `application/json` match; charset suffix returns raw string
 
@@ -253,9 +257,9 @@ Status History:
 
 ## ISSUE-009: App maps every ERR_MODULE_NOT_FOUND to 404, masking missing dependencies of existing route files
 
-- Status: `OPEN`
+- Status: `DONE`
 - Created At: `2026-08-06T21:44:13Z`
-- Updated At: `2026-08-06T21:44:13Z`
+- Updated At: `2026-08-07T12:13:15Z`
 - Priority: `P2`
 - Source: `bug-sweep`
 
@@ -269,14 +273,16 @@ Scope:
 - `/Users/dankantor/Repos/deeserverless/lib/app.js`
 
 Acceptance Criteria:
-- [ ] 404 is returned only when the missing module is the routed file itself (e.g., check `err.message`/`err.url` against the resolved route path); other module-resolution failures return 500 and are logged.
-- [ ] Spec added for a route file whose own import is missing.
+- [x] 404 is returned only when the missing module is the routed file itself (e.g., check `err.message`/`err.url` against the resolved route path); other module-resolution failures return 500 and are logged.
+- [x] Spec added for a route file whose own import is missing.
 
 Status History:
 
 | Timestamp (UTC) | From | To | Note |
 |---|---|---|---|
 | 2026-08-06T21:44:13Z | N/A | OPEN | Created |
+| 2026-08-07T12:10:48Z | OPEN | IN_PROGRESS | Starting implementation (response/routing batch: 003/004/009) |
+| 2026-08-07T12:13:15Z | IN_PROGRESS | DONE | app.js 404 only when the quoted missing-module path in err.message (or err.url) is the routed file; transitive ERR_MODULE_NOT_FOUND logs and returns 500. Fixture apigateway/brokenimport.js + spec added. Note: transitive errors name the route file after "imported from", so bare includes() would misclassify — quoted-path match required. Suite: 334 specs, 0 failures. |
 
 ## ISSUE-010: Html interpolates unescaped values into markup and inline script (XSS risk)
 
